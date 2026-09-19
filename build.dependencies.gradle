@@ -21,5 +21,10 @@ dependencies {
 
     // Ivy (Pedro Pathing's command framework, recommended for autonomous)
     implementation 'com.pedropathing.ivy:pedro:1.1.1'
+
+    //nextftc (command based library, needs Ivy
+    implementation 'dev.nextftc.v2:control:0.2.1'
+    implementation 'dev.nextftc.v2:hardware:0.2.1'
+    implementation 'dev.nextftc.v2:robot:0.2.1'
 }
 
