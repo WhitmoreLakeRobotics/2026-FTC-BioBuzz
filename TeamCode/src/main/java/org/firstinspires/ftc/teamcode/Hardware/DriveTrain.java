@@ -7,6 +7,11 @@ import com.pedropathing.math.Pose;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.teamcode.Common.CommonLogic;
+
+
 import org.firstinspires.ftc.teamcode.pedro.Constants;
 
 
@@ -43,10 +48,14 @@ public class DriveTrain extends BaseHardware {
     @Override
     public void start() {
 
+
+
     }
 
     @Override
     public void loop() {
+
+        follower.update();
 
     }
 
@@ -55,4 +64,22 @@ public class DriveTrain extends BaseHardware {
      public void stop() {
 
     }
+
+    public void cmdTeleOp(double Left_Y, double Left_X, double Right_X, double Current_Speed){
+
+        DrivePowers powers = ManualDrive.fieldCentric(
+                Left_Y,
+                Left_X,
+                Right_X,
+                follower.pose().heading()
+        );
+        follower.manual(powers);
+
+    }
+
+
+    public void cmdOpmodestartPose (){
+        
+    }
+
 }
