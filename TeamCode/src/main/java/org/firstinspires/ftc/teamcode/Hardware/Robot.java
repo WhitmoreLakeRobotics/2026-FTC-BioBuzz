@@ -1,6 +1,9 @@
 package org.firstinspires.ftc.teamcode.Hardware;
 
+
+
 import com.qualcomm.robotcore.hardware.HardwareMap;
+
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
@@ -11,11 +14,16 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 public  class Robot extends BaseHardware{
 
 
+        public DriveTrain driveTrain = new DriveTrain();
+
     /**
      * The {@link #telemetry} field contains an object in which a user may accumulate data which
      * is to be transmitted to the driver station. This data is automatically transmitted to the
      * driver station on a regular, periodic basis.
      */
+
+
+
     public Telemetry telemetry = null;
 
     /**
@@ -41,8 +49,13 @@ public  class Robot extends BaseHardware{
      */
      public void init(){
 
+         // drivetrain
+         driveTrain.hardwareMap = this.hardwareMap;
+         driveTrain.telemetry = this.telemetry;
+         driveTrain.init();
 
-        };
+
+     };
 
     /**
      * User defined init_loop method
@@ -51,6 +64,9 @@ public  class Robot extends BaseHardware{
      * This method is optional. By default this method takes no action.
      */
      public void init_loop() {
+
+         driveTrain.init_loop();
+
 
 
      };
@@ -64,6 +80,8 @@ public  class Robot extends BaseHardware{
      */
      public void start() {
 
+         driveTrain.start();
+
 
      };
 
@@ -73,6 +91,8 @@ public  class Robot extends BaseHardware{
      * This method will be called repeatedly in a loop while this op mode is running
      */
      public void loop() {
+
+         driveTrain.loop();
 
 
      };
@@ -85,6 +105,8 @@ public  class Robot extends BaseHardware{
      * The stop method is optional. By default this method takes no action.
      */
      void stop() {
+
+         driveTrain.stop();
 
 
      };

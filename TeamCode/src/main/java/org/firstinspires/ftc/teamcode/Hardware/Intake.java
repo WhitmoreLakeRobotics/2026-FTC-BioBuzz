@@ -17,6 +17,13 @@ import org.firstinspires.ftc.teamcode.Common.CommonLogic;
 
 public class Intake extends BaseHardware {
 
+    private DcMotor NTKM;
+
+
+
+    private static final double NTKspeed = 0.55;
+     //private static final double
+
     @Override
     public void init(){
 
@@ -52,7 +59,10 @@ public class Intake extends BaseHardware {
 
     }
 
-
+    public cmdForward (){
+        CurrentMode = Mode.NTKforward;
+        NTKM.setPower (NTKspeed);
+    }
 
 
 

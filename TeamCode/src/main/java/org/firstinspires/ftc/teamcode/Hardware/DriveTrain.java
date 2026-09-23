@@ -78,8 +78,9 @@ public class DriveTrain extends BaseHardware {
     }
 
 
-    public void cmdOpmodestartPose (){
-        
+    public void cmdOpmodestartPose (Pose op_start){
+        follower.setPose(op_start);
+
     }
 
 }
