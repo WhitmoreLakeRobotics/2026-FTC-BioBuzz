@@ -15,6 +15,8 @@ public  class Robot extends BaseHardware{
 
 
         public DriveTrain driveTrain = new DriveTrain();
+        public Intake intake = new Intake();
+        public Launcher launcher = new Launcher();
 
     /**
      * The {@link #telemetry} field contains an object in which a user may accumulate data which
@@ -54,6 +56,16 @@ public  class Robot extends BaseHardware{
          driveTrain.telemetry = this.telemetry;
          driveTrain.init();
 
+         // Intake
+         intake.hardwareMap = this.hardwareMap;
+         intake.telemetry = this.telemetry;
+         intake.init();
+
+         //Launcher
+         launcher.hardwareMap = this.hardwareMap;
+         launcher.telemetry = this.telemetry;
+         launcher.init();
+
 
      };
 
@@ -66,6 +78,8 @@ public  class Robot extends BaseHardware{
      public void init_loop() {
 
          driveTrain.init_loop();
+         intake.init_loop();
+         launcher.init_loop();
 
 
 
@@ -81,6 +95,8 @@ public  class Robot extends BaseHardware{
      public void start() {
 
          driveTrain.start();
+         intake.start();
+         launcher.start();
 
 
      };
@@ -93,6 +109,8 @@ public  class Robot extends BaseHardware{
      public void loop() {
 
          driveTrain.loop();
+         intake.loop();
+         launcher.loop();
 
 
      };
@@ -107,6 +125,8 @@ public  class Robot extends BaseHardware{
      void stop() {
 
          driveTrain.stop();
+         intake.stop();
+         launcher.stop();
 
 
      };
