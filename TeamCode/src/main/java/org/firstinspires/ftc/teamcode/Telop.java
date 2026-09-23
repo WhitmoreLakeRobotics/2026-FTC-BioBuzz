@@ -70,7 +70,7 @@ public class Telop extends OpMode {
 
     @Override
     public void init() {
-
+    robot.driveTrain.cmdOpmodestartPose(op_pose);
 
     }
     @Override
@@ -85,9 +85,54 @@ public class Telop extends OpMode {
     @Override
     public void loop(){
 
+        if (bAutoTurn) {
+        if (gamepad1.right_bumper) {
+            robot.driveTrain.cmdTeleOp(CommonLogic.joyStickMath(gamepad1.left_stick_y * -1),
+                    CommonLogic.joyStickMath(gamepad1.left_stick_x),
+                    robot.driveTrain.autoTurn(tHeading), robot.driveTrain.DTrain_FASTSPEED);
+        } else if (gamepad1.left_bumper) {
+            robot.driveTrain.cmdTeleOp(CommonLogic.joyStickMath(gamepad1.left_stick_y * -1),
+                    CommonLogic.joyStickMath(gamepad1.left_stick_x),
+                    robot.driveTrain.autoTurn(tHeading), robot.driveTrain.DTrain_SLOWSPEED);
+
+
+        } else {
+
+            robot.driveTrain.cmdTeleOp(CommonLogic.joyStickMath(gamepad1.left_stick_y * -1),
+                    CommonLogic.joyStickMath(gamepad1.left_stick_x),
+                    robot.driveTrain.autoTurn(tHeading), robot.driveTrain.);
+        }
+    } else {
+        if (gamepad1.right_bumper) {
+            robot.driveTrain.cmdTeleOp(CommonLogic.joyStickMath(gamepad1.left_stick_y * -1),
+                    CommonLogic.joyStickMath(gamepad1.left_stick_x),
+                    CommonLogic.joyStickMath(gamepad1.right_stick_x), robot.driveTrain.DTrain_FASTSPEED);
+        } else if (gamepad1.left_bumper) {
+            robot.driveTrain.cmdTeleOp(CommonLogic.joyStickMath(gamepad1.left_stick_y * -1),
+                    CommonLogic.joyStickMath(gamepad1.left_stick_x),
+                    CommonLogic.joyStickMath(gamepad1.right_stick_x), robot.driveTrain.DTrain_SLOWSPEED);
+
+
+        } else {
+
+            robot.driveTrain.cmdTeleOp(CommonLogic.joyStickMath(gamepad1.left_stick_y * -1),
+                    CommonLogic.joyStickMath(gamepad1.left_stick_x),
+                    CommonLogic.joyStickMath(gamepad1.right_stick_x), robot.driveTrain.DTrain_NORMALSPEED);
+        }
+
+    }
+
+        if (Math.abs(gamepad1.right_stick_y) > Settings.JOYSTICK_DEADBAND_STICK) {
 
 
     }
+
+    }
+
+
+
+
+
     @Override
     public void stop(){
 
