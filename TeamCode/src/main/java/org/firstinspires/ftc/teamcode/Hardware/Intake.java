@@ -18,11 +18,14 @@ import org.firstinspires.ftc.teamcode.Common.CommonLogic;
 public class Intake extends BaseHardware {
 
     private DcMotor NTKM;
+    public Mode CurrentMode;
 
-
+    public final double minPower = -1.0;
+    public final double maxPower = 1.0;
 
     private static final double NTKspeed = 0.55;
-     //private static final double
+    private static final double Hummingspeed = 0.45;
+    private static final double Donespeed = 0;
 
     @Override
     public void init(){
@@ -59,9 +62,29 @@ public class Intake extends BaseHardware {
 
     }
 
-    public cmdForward (){
+    public void cmdForward (){
         CurrentMode = Mode.NTKforward;
         NTKM.setPower (NTKspeed);
+    }
+
+    public void cmdReverse(){
+        CurrentMode = Mode.NTKbackward;
+        NTKM.setPower (Hummingspeed);
+
+
+    }
+
+    public void cmdStop(){
+        CurrentMode = Mode.NTKstop;
+        NTKM.setPower (Donespeed);
+
+    }
+
+
+    public enum Mode {
+        NTKstop,
+        NTKforward,
+        NTKbackward
     }
 
 
