@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.Common.CommonLogic;
 //import org.firstinspires.ftc.teamcode.Common.Settings;
 
+import org.firstinspires.ftc.teamcode.Common.Settings;
 import org.firstinspires.ftc.teamcode.Hardware.DriveTrain;
 import org.firstinspires.ftc.teamcode.Hardware.Intake;
 import org.firstinspires.ftc.teamcode.Hardware.Launcher;
@@ -70,7 +71,7 @@ public class Telop extends OpMode {
 
     @Override
     public void init() {
-    robot.driveTrain.cmdOpmodestartPose(op_pose);
+    OpModeStorage.startPose = OpModeStorage.autonomousEndPose;
 
     }
     @Override
@@ -86,6 +87,7 @@ public class Telop extends OpMode {
     public void loop(){
 
         if (bAutoTurn) {
+            /*
         if (gamepad1.right_bumper) {
             robot.driveTrain.cmdTeleOp(CommonLogic.joyStickMath(gamepad1.left_stick_y * -1),
                     CommonLogic.joyStickMath(gamepad1.left_stick_x),
@@ -112,15 +114,19 @@ public class Telop extends OpMode {
                     CommonLogic.joyStickMath(gamepad1.left_stick_x),
                     CommonLogic.joyStickMath(gamepad1.right_stick_x), robot.driveTrain.DTrain_SLOWSPEED);
 
+ */
 
+            //naj the above is commented out until we get the corresponding buttons programed
         } else {
+
+
 
             robot.driveTrain.cmdTeleOp(CommonLogic.joyStickMath(gamepad1.left_stick_y * -1),
                     CommonLogic.joyStickMath(gamepad1.left_stick_x),
-                    CommonLogic.joyStickMath(gamepad1.right_stick_x), robot.driveTrain.DTrain_NORMALSPEED);
+                    CommonLogic.joyStickMath(gamepad1.right_stick_x), robot.driveTrain.NORMALSPEED);
         }
 
-    }
+
 
         if (Math.abs(gamepad1.right_stick_y) > Settings.JOYSTICK_DEADBAND_STICK) {
 

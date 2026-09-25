@@ -12,6 +12,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.Common.CommonLogic;
 
 
+import org.firstinspires.ftc.teamcode.OpModeStorage;
 import org.firstinspires.ftc.teamcode.pedro.Constants;
 
 
@@ -19,21 +20,26 @@ public class DriveTrain extends BaseHardware {
 
  private Follower follower;
 
- public final double Maxpower = 1.0;
- public final double Minpower = -1.0;
+ public final double MAXPOWER = 1.0;
+ public final double MINPOWER = -1.0;
 
- public static final double MorningSpeed = 0.25;
- public static final double Normalspeed = 0.5;
- public static final double Fastspeed = 0.85;
+ public final double MORNINGSPEED = 0.25;
+ public final double NORMALSPEED = 0.5;
+ public final double FASTSPEED = 0.85;
 
 
-
+ //* for accepting joystick values from teleop and using them elsewhere
+ private double RightJoystick_x;
+ private double LeftJoystick_x;
+ private double LeftJoystick_y;
+ 
 
 
     @Override
     public void init() {
 
         follower = Constants.create (hardwareMap);
+        follower.setPose(OpModeStorage.startPose);
 
 
 
@@ -62,15 +68,25 @@ public class DriveTrain extends BaseHardware {
 
     @Override
      public void stop() {
+        OpModeStorage.autonomousEndPose = follower.pose();
+    }
+
+    public void cmdTeleOp(double Left_Y, double Left_X, double Right_X, double Current_Speed) {
+//Current_Speed is  to make adjustments to the speed if button pushed for slow or fast.
+        LeftJoystick_x = Left_X * Current_Speed;
+        LeftJoystick_y = Left_Y * Current_Speed;
+        RightJoystick_x = Right_X * Current_Speed;
+
 
     }
 
-    public void cmdTeleOp(double Left_Y, double Left_X, double Right_X, double Current_Speed){
+    private void doTeleop(){
+
 
         DrivePowers powers = ManualDrive.fieldCentric(
-                Left_Y,
-                Left_X,
-                Right_X,
+                LeftJoystick_y,
+                LeftJoystick_x,
+                RightJoystick_x,
                 follower.pose().heading()
         );
         follower.manual(powers);
