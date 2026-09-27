@@ -99,4 +99,11 @@ public class DriveTrain extends BaseHardware {
 
     }
 
+    // use this to test for the path being done in auton's
+    public boolean cmdPathIsDone(){
+        boolean isdone;
+        isdone = follower.isBusy();
+        return isdone;
+    }
+
 }

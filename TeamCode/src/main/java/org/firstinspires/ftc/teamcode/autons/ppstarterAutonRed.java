@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.autons;
 
+import com.pedropathing.api.PoseFactory;
 import com.pedropathing.math.Pose;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
@@ -11,9 +12,12 @@ public class ppstarterAutonRed extends OpMode {
 
     private stage currentStage = stage._00_unknown;
 
+    //in pp v.3.x we use the pose factory were we can specify that all heading values are in
+    //  degrees so no need to do a math to convert from degrees to radians that we did last year.
+    public static final PoseFactory P = PoseFactory.degrees();
 
-    public static Pose Bstartpose = new Pose(85,130, 270);
-    public static Pose Park = new Pose (12,91,23 );
+    public static Pose Bstartpose = P.of(85, 130, 270);
+    public static Pose Park       = P.of(12, 91, 23);
 
 
     @Override
