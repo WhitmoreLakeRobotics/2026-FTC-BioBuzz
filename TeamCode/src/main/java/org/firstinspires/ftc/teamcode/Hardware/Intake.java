@@ -24,7 +24,7 @@ public class Intake extends BaseHardware {
     public final double maxPower = 1.0;
 
     private static final double NTKspeed = 0.55;
-    private static final double Hummingspeed = 0.45;
+    private static final double Hummingspeed = -0.45;
     private static final double Donespeed = 0;
 
     @Override
