@@ -77,6 +77,7 @@ public class DriveTrain extends BaseHardware {
         LeftJoystick_y = Left_Y * Current_Speed;
         RightJoystick_x = Right_X * Current_Speed;
 
+        doTeleop();
 
     }
 

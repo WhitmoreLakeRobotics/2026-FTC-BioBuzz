@@ -71,9 +71,13 @@ public class Telop extends OpMode {
 
     @Override
     public void init() {
-    OpModeStorage.startPose = OpModeStorage.autonomousEndPose;
+        robot.hardwareMap = hardwareMap;
+        robot.telemetry = telemetry;
+        robot.init();
 
-    }
+        OpModeStorage.startPose = OpModeStorage.autonomousEndPose;
+
+}
     @Override
     public void init_loop(){
 
@@ -123,7 +127,8 @@ public class Telop extends OpMode {
 
             robot.driveTrain.cmdTeleOp(CommonLogic.joyStickMath(gamepad1.left_stick_y * -1),
                     CommonLogic.joyStickMath(gamepad1.left_stick_x),
-                    CommonLogic.joyStickMath(gamepad1.right_stick_x), robot.driveTrain.NORMALSPEED);
+                    CommonLogic.joyStickMath(gamepad1.right_stick_x),
+                    robot.driveTrain.NORMALSPEED);
         }
 
 
