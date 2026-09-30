@@ -138,6 +138,26 @@ public class Telop extends OpMode {
 
     }
 
+
+
+        //gamepad2 controls
+
+        if ((gamepad1.b == true)){
+
+            robot.intake.cmdForward();
+
+        }
+
+        if ((gamepad1.a == true)){
+
+            robot.intake.cmdStop();
+        }
+
+        if ((gamepad1.y == true)){
+
+            robot.intake.cmdReverse();
+        }
+
     }
 
 

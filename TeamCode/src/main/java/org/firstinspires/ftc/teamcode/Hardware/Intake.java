@@ -27,6 +27,10 @@ public class Intake extends BaseHardware {
     private static final double Hummingspeed = 0.45;
     private static final double Donespeed = 0;
 
+    private ElapsedTime runtime = new ElapsedTime();
+    private ElapsedTime timerun = new ElapsedTime();
+
+
     @Override
     public void init(){
 
@@ -77,7 +81,7 @@ public class Intake extends BaseHardware {
     public void cmdStop(){
         CurrentMode = Mode.NTKstop;
         NTKM.setPower (Donespeed);
-
+        runtime.reset();
     }
 
 
