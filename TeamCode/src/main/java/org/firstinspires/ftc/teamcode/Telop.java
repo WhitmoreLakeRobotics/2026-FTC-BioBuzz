@@ -2,41 +2,21 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.Gamepad;
-import com.qualcomm.robotcore.util.ElapsedTime;
-
 
 import org.firstinspires.ftc.teamcode.Common.CommonLogic;
-//import org.firstinspires.ftc.teamcode.Common.Settings;
-
 import org.firstinspires.ftc.teamcode.Common.Settings;
-import org.firstinspires.ftc.teamcode.Hardware.DriveTrain;
-import org.firstinspires.ftc.teamcode.Hardware.Intake;
-import org.firstinspires.ftc.teamcode.Hardware.Launcher;
-import org.firstinspires.ftc.teamcode.Hardware.TansitionR;
 import org.firstinspires.ftc.teamcode.Hardware.Robot;
 
-
-
-/*
-import com.pedropathing.drivetrain.DrivePowers;
-import com.pedropathing.follower.Follower;
-import com.pedropathing.follower.ManualDrive;
-
- */
 import com.pedropathing.math.Pose;
 
 
-import org.firstinspires.ftc.teamcode.Hardware.Robot;
-
-@TeleOp (name = "TeleOp")
+@TeleOp(name = "TeleOp")
 public class Telop extends OpMode {
 
     private static final String TAGTeleop = "8492-Teleop";
-    //RobotTest robot = new RobotTest();
     Robot robot = new Robot();
-    private boolean debug = true;  //insert if bebug then show telemetry stmt with values you're interested in
-    //    // Declare OpMode members.
+    private boolean debug = true;  // if debug, show telemetry with values you're interested in
+
     private boolean gp1_prev_a = false;
     private boolean gp1_prev_b = false;
     private boolean gp1_prev_x = false;
@@ -64,7 +44,6 @@ public class Telop extends OpMode {
     private boolean gp2_prev_start = false;
     private double LeftMotorPower = 0;
     private double RightMotorPower = 0;
-    private boolean gp2_prev_start = false;
     private int tHeading = 0;
     private boolean bAutoTurn = false;
 
@@ -79,13 +58,11 @@ public class Telop extends OpMode {
         // CHANGED: removed "OpModeStorage.startPose = ..." — DriveTrain.start() handles it now.
     }
 
-}
     @Override
     public void init_loop() {
         robot.init_loop();
     }
 
- }
     @Override
     public void start() {
         // ADDED: without this, DriveTrain.start() never runs.
@@ -107,34 +84,31 @@ public class Telop extends OpMode {
                     robot.driveTrain.NORMALSPEED);
         }
 
-
-
         if (Math.abs(gamepad1.right_stick_y) > Settings.JOYSTICK_DEADBAND_STICK) {
 
+        }
 
-    }
+        //gamepad2
 
-
-
-        //gamepad2 controls
-
-        if ((gamepad1.b == true)){
-
+        if ((gamepad1.b == true)) {
             robot.intake.cmdForward();
 
         }
 
-        if ((gamepad1.a == true)){
-
+        if ((gamepad1.a == true)) {
             robot.intake.cmdStop();
+
         }
 
         if ((gamepad1.y == true)){
-
             robot.intake.cmdReverse();
+
         }
 
-    }
+        // ADDED — STEP 2: THIS IS THE LINE THAT MAKES THE ROBOT MOVE.
+        // robot.loop() -> driveTrain.loop() -> follower.update(), which sends
+        // the power to the motors. Must come AFTER cmdTeleOp.
+        robot.loop();
 
         // ADDED: debug telemetry so you can see what's happening.
         if (debug) {
@@ -149,8 +123,9 @@ public class Telop extends OpMode {
     }
 
     @Override
-    public void stop(){
-
+    public void stop() {
+        // ADDED: without this, DriveTrain.stop() never saves the pose.
+        robot.stop();
     }
 
 }
