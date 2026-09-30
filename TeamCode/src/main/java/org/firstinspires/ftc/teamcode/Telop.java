@@ -105,6 +105,15 @@ public class Telop extends OpMode {
 
         }
 
+
+        if ((gamepad1.right_bumper == true)){
+            robot.launcher.cmdForward();
+        }
+
+        if ((gamepad1.x == true)){
+            robot.launcher.cmdStop();
+        }
+
         // ADDED — STEP 2: THIS IS THE LINE THAT MAKES THE ROBOT MOVE.
         // robot.loop() -> driveTrain.loop() -> follower.update(), which sends
         // the power to the motors. Must come AFTER cmdTeleOp.
