@@ -1,23 +1,13 @@
 package org.firstinspires.ftc.teamcode.Hardware;
 
-import android.transition.Transition;
-
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-import org.firstinspires.ftc.teamcode.Common.CommonLogic;
 
+public class TransitionR extends BaseHardware{
 
-
-public class TansitionR extends BaseHardware{
-
-    private DcMotor TRM;
-    public Servo TansS;
+   // private DcMotor TRM;
+    public CRServo TransS;
 
     public Mode CurrentMode;
 
@@ -65,19 +55,19 @@ public class TansitionR extends BaseHardware{
 
     public void cmdSpinng(){
         CurrentMode = Mode.SquidSpeed;
-        TRM.setPower(SquidSpeed);
+        TransS.setPower(SquidSpeed);
 
     }
 
 
     public void cmdTumble(){
         CurrentMode = Mode.BackSpeed;
-        TRM.setPower(BackSpeed);
+        TransS.setPower(BackSpeed);
     }
 
     public void cmdStop(){
         CurrentMode = Mode.EndSpeed;
-        TRM.setPower(EndSpeed);
+        TransS.setPower(EndSpeed);
         runtime.reset();
     }
 

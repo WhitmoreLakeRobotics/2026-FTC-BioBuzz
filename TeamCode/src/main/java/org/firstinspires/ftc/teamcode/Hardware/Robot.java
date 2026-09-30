@@ -15,6 +15,7 @@ public class Robot extends BaseHardware {
     public DriveTrain driveTrain = new DriveTrain();
     public Intake intake = new Intake();
     public Launcher launcher = new Launcher();
+    public TransitionR transitionR = new TransitionR();
 
 
     /**
@@ -37,6 +38,11 @@ public class Robot extends BaseHardware {
         launcher.hardwareMap = this.hardwareMap;
         launcher.telemetry = this.telemetry;
         launcher.init();
+
+        //Transition Roller
+        transitionR.hardwareMap = this.hardwareMap;
+        transitionR.telemetry = this.telemetry;
+        transitionR.init();
     }
 
     /**
@@ -47,6 +53,7 @@ public class Robot extends BaseHardware {
         driveTrain.init_loop();
         intake.init_loop();
         launcher.init_loop();
+        transitionR.init_loop();
     }
 
     /**
@@ -57,6 +64,7 @@ public class Robot extends BaseHardware {
         driveTrain.start();
         intake.start();
         launcher.start();
+        transitionR.start();
     }
 
     /**
@@ -67,6 +75,7 @@ public class Robot extends BaseHardware {
         driveTrain.loop();
         intake.loop();
         launcher.loop();
+        transitionR.loop();
     }
 
     /**
@@ -78,5 +87,6 @@ public class Robot extends BaseHardware {
         driveTrain.stop();
         intake.stop();
         launcher.stop();
+        transitionR.stop();
     }
 }
