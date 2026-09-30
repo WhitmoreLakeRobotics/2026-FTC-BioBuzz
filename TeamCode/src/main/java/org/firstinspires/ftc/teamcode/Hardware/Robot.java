@@ -1,134 +1,82 @@
 package org.firstinspires.ftc.teamcode.Hardware;
 
 
-
-import com.qualcomm.robotcore.hardware.HardwareMap;
-
-
-import org.firstinspires.ftc.robotcore.external.Telemetry;
-
-
 /**
- * Base class for FTC Team 8492 defined hardware
+ * Holds all of Team 8492's hardware and passes each OpMode step
+ * (init, init_loop, start, loop, stop) down to every part.
+ *
+ * CHANGED: removed the duplicate "telemetry" and "hardwareMap" fields.
+ * Robot extends BaseHardware, which already has both, so declaring them
+ * again here created a second, confusing copy. Telop's
+ * "robot.hardwareMap = hardwareMap;" still works exactly the same.
  */
-public  class Robot extends BaseHardware{
+public class Robot extends BaseHardware {
 
-
-        public DriveTrain driveTrain = new DriveTrain();
-        public Intake intake = new Intake();
-        public Launcher launcher = new Launcher();
-
-    /**
-     * The {@link #telemetry} field contains an object in which a user may accumulate data which
-     * is to be transmitted to the driver station. This data is automatically transmitted to the
-     * driver station on a regular, periodic basis.
-     */
-
-
-
-    public Telemetry telemetry = null;
-
-    /**
-     * Hardware Mappings
-     */
-    public HardwareMap hardwareMap = null; // will be set in Child class
+    public DriveTrain driveTrain = new DriveTrain();
+    public Intake intake = new Intake();
+    public Launcher launcher = new Launcher();
 
 
     /**
-     * BaseHardware constructor
-     * <p>
-     * The op mode name should be unique. It will be the name displayed on the driver station. If
-     * multiple op modes have the same name, only one will be available.
+     * Called once when the INIT button is pressed.
      */
+    @Override
+    public void init() {
 
+        // drivetrain
+        driveTrain.hardwareMap = this.hardwareMap;
+        driveTrain.telemetry = this.telemetry;
+        driveTrain.init();
 
+        // Intake
+        intake.hardwareMap = this.hardwareMap;
+        intake.telemetry = this.telemetry;
+        intake.init();
 
+        //Launcher
+        launcher.hardwareMap = this.hardwareMap;
+        launcher.telemetry = this.telemetry;
+        launcher.init();
+    }
 
     /**
-     * User defined init method
-     * <p>
-     * This method will be called once when the INIT button is pressed.
+     * Called repeatedly after INIT is pressed, until PLAY.
      */
-     public void init(){
-
-         // drivetrain
-         driveTrain.hardwareMap = this.hardwareMap;
-         driveTrain.telemetry = this.telemetry;
-         driveTrain.init();
-
-         // Intake
-         intake.hardwareMap = this.hardwareMap;
-         intake.telemetry = this.telemetry;
-         intake.init();
-
-         //Launcher
-         launcher.hardwareMap = this.hardwareMap;
-         launcher.telemetry = this.telemetry;
-         launcher.init();
-
-
-     };
+    @Override
+    public void init_loop() {
+        driveTrain.init_loop();
+        intake.init_loop();
+        launcher.init_loop();
+    }
 
     /**
-     * User defined init_loop method
-     * <p>
-     * This method will be called repeatedly when the INIT button is pressed.
-     * This method is optional. By default this method takes no action.
+     * Called once when the PLAY button is pressed.
      */
-     public void init_loop() {
-
-         driveTrain.init_loop();
-         intake.init_loop();
-         launcher.init_loop();
-
-
-
-     };
+    @Override
+    public void start() {
+        driveTrain.start();
+        intake.start();
+        launcher.start();
+    }
 
     /**
-     * User defined start method.
-     * <p>
-     * This method will be called once when the PLAY button is first pressed.
-     * This method is optional. By default this method takes not action.
-     * Example usage: Starting another thread.
+     * Called repeatedly while the OpMode is running.
      */
-     public void start() {
-
-         driveTrain.start();
-         intake.start();
-         launcher.start();
-
-
-     };
+    @Override
+    public void loop() {
+        driveTrain.loop();
+        intake.loop();
+        launcher.loop();
+    }
 
     /**
-     * User defined loop method
-     * <p>
-     * This method will be called repeatedly in a loop while this op mode is running
+     * Called once when STOP is pressed.
+     * CHANGED: added "public" (was just "void stop()").
      */
-     public void loop() {
-
-         driveTrain.loop();
-         intake.loop();
-         launcher.loop();
-
-
-     };
-
-    /**
-     * User defined stop method
-     * <p>
-     * This method will be called when this op mode is first disabled
-     * <p>
-     * The stop method is optional. By default this method takes no action.
-     */
-     void stop() {
-
-         driveTrain.stop();
-         intake.stop();
-         launcher.stop();
-
-
-     };
+    @Override
+    public void stop() {
+        driveTrain.stop();
+        intake.stop();
+        launcher.stop();
+    }
 }
-

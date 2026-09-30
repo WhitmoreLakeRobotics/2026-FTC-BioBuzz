@@ -61,71 +61,47 @@ public class Telop extends OpMode {
     private boolean gp2_prev_dpad_left = false;
     private boolean gp2_prev_dpad_right = false;
     private boolean gp2_prev_back = false;
+    private boolean gp2_prev_start = false;
     private double LeftMotorPower = 0;
     private double RightMotorPower = 0;
     private boolean gp2_prev_start = false;
     private int tHeading = 0;
     private boolean bAutoTurn = false;
 
-    private Pose op_pose = new Pose(90,00, 80);
+    // CHANGED: Pedro headings are in RADIANS.
+    private Pose op_pose = new Pose(90, 0, Math.toRadians(80));
 
     @Override
     public void init() {
         robot.hardwareMap = hardwareMap;
         robot.telemetry = telemetry;
         robot.init();
-
-        OpModeStorage.startPose = OpModeStorage.autonomousEndPose;
+        // CHANGED: removed "OpModeStorage.startPose = ..." — DriveTrain.start() handles it now.
+    }
 
 }
     @Override
-    public void init_loop(){
-
+    public void init_loop() {
+        robot.init_loop();
+    }
 
  }
     @Override
-    public void start(){
+    public void start() {
+        // ADDED: without this, DriveTrain.start() never runs.
+        robot.start();
+    }
 
-}
     @Override
-    public void loop(){
+    public void loop() {
 
         if (bAutoTurn) {
-            /*
-        if (gamepad1.right_bumper) {
-            robot.driveTrain.cmdTeleOp(CommonLogic.joyStickMath(gamepad1.left_stick_y * -1),
-                    CommonLogic.joyStickMath(gamepad1.left_stick_x),
-                    robot.driveTrain.autoTurn(tHeading), robot.driveTrain.DTrain_FASTSPEED);
-        } else if (gamepad1.left_bumper) {
-            robot.driveTrain.cmdTeleOp(CommonLogic.joyStickMath(gamepad1.left_stick_y * -1),
-                    CommonLogic.joyStickMath(gamepad1.left_stick_x),
-                    robot.driveTrain.autoTurn(tHeading), robot.driveTrain.DTrain_SLOWSPEED);
-
-
+            // auto-turn code goes here later (use FASTSPEED / MORNINGSPEED,
+            // DTrain_FASTSPEED and DTrain_SLOWSPEED don't exist).
         } else {
-
-            robot.driveTrain.cmdTeleOp(CommonLogic.joyStickMath(gamepad1.left_stick_y * -1),
-                    CommonLogic.joyStickMath(gamepad1.left_stick_x),
-                    robot.driveTrain.autoTurn(tHeading), robot.driveTrain.);
-        }
-    } else {
-        if (gamepad1.right_bumper) {
-            robot.driveTrain.cmdTeleOp(CommonLogic.joyStickMath(gamepad1.left_stick_y * -1),
-                    CommonLogic.joyStickMath(gamepad1.left_stick_x),
-                    CommonLogic.joyStickMath(gamepad1.right_stick_x), robot.driveTrain.DTrain_FASTSPEED);
-        } else if (gamepad1.left_bumper) {
-            robot.driveTrain.cmdTeleOp(CommonLogic.joyStickMath(gamepad1.left_stick_y * -1),
-                    CommonLogic.joyStickMath(gamepad1.left_stick_x),
-                    CommonLogic.joyStickMath(gamepad1.right_stick_x), robot.driveTrain.DTrain_SLOWSPEED);
-
- */
-
-            //naj the above is commented out until we get the corresponding buttons programed
-        } else {
-
-
-
-            robot.driveTrain.cmdTeleOp(CommonLogic.joyStickMath(gamepad1.left_stick_y * -1),
+            // STEP 1: tell the drivetrain what the driver wants.
+            robot.driveTrain.cmdTeleOp(
+                    CommonLogic.joyStickMath(gamepad1.left_stick_y * -1),
                     CommonLogic.joyStickMath(gamepad1.left_stick_x),
                     CommonLogic.joyStickMath(gamepad1.right_stick_x),
                     robot.driveTrain.NORMALSPEED);
@@ -160,9 +136,17 @@ public class Telop extends OpMode {
 
     }
 
-
-
-
+        // ADDED: debug telemetry so you can see what's happening.
+        if (debug) {
+            Pose p = robot.driveTrain.getPose();
+            telemetry.addData("Stick fwd/strafe/turn", "%.2f / %.2f / %.2f",
+                    -gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x);
+            telemetry.addData("Robot X (in)", "%.1f", p.x());
+            telemetry.addData("Robot Y (in)", "%.1f", p.y());
+            telemetry.addData("Heading (deg)", "%.1f", Math.toDegrees(p.heading()));
+            telemetry.update();
+        }
+    }
 
     @Override
     public void stop(){
