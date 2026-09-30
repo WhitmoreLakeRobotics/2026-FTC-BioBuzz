@@ -92,16 +92,19 @@ public class Telop extends OpMode {
 
         if ((gamepad1.b == true)) {
             robot.intake.cmdForward();
+            robot.transitionR.cmdSpinng();
 
         }
 
         if ((gamepad1.a == true)) {
             robot.intake.cmdStop();
+            robot.transitionR.cmdStop();
 
         }
 
         if ((gamepad1.y == true)){
             robot.intake.cmdReverse();
+            robot.transitionR.cmdTumble();
 
         }
 
@@ -113,6 +116,7 @@ public class Telop extends OpMode {
         if ((gamepad1.x == true)){
             robot.launcher.cmdStop();
         }
+
 
         // ADDED — STEP 2: THIS IS THE LINE THAT MAKES THE ROBOT MOVE.
         // robot.loop() -> driveTrain.loop() -> follower.update(), which sends

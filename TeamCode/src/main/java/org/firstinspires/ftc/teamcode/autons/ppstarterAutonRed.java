@@ -26,14 +26,10 @@ public class ppstarterAutonRed extends OpMode {
 
     private Path startPath, parkPath;
 
-    public void BuildPaths(){
 
 
+       
 
-
-
-
-    }
 
     @Override
     public void init() {
