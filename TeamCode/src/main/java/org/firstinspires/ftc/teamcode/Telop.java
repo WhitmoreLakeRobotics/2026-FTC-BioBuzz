@@ -65,7 +65,6 @@ public class Telop extends OpMode {
 
     @Override
     public void start() {
-        // ADDED: without this, DriveTrain.start() never runs.
         robot.start();
     }
 
@@ -76,7 +75,6 @@ public class Telop extends OpMode {
             // auto-turn code goes here later (use FASTSPEED / MORNINGSPEED,
             // DTrain_FASTSPEED and DTrain_SLOWSPEED don't exist).
         } else {
-            // STEP 1: tell the drivetrain what the driver wants.
             robot.driveTrain.cmdTeleOp(
                     CommonLogic.joyStickMath(gamepad1.left_stick_y * -1),
                     CommonLogic.joyStickMath(gamepad1.left_stick_x),
@@ -88,7 +86,7 @@ public class Telop extends OpMode {
 
         }
 
-        //gamepad2
+        //gamepad1
 
         if ((gamepad1.b == true)) {
             robot.intake.cmdForward();
@@ -117,8 +115,6 @@ public class Telop extends OpMode {
             robot.launcher.cmdStop();
         }
 
-
-        // ADDED — STEP 2: THIS IS THE LINE THAT MAKES THE ROBOT MOVE.
         // robot.loop() -> driveTrain.loop() -> follower.update(), which sends
         // the power to the motors. Must come AFTER cmdTeleOp.
         robot.loop();
