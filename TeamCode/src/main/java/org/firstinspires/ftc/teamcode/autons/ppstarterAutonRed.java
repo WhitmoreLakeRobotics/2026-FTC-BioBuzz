@@ -6,6 +6,9 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.teamcode.Hardware.Robot;
 
+import java.nio.file.Path;
+
+
 public class ppstarterAutonRed extends OpMode {
 
     Robot robot = new Robot();
@@ -16,14 +19,29 @@ public class ppstarterAutonRed extends OpMode {
     //  degrees so no need to do a math to convert from degrees to radians that we did last year.
     public static final PoseFactory P = PoseFactory.degrees();
 
-    public static Pose Bstartpose = P.of(85, 130, 270);
-    public static Pose Park       = P.of(12, 91, 23);
+    public static Pose Rstartpose = P.of(85, 130, 270);
+    public static Pose CP1 = P.of(12,38, 150);
+    public static Pose RscorePose = P.of(55,11, 90);
+    public static Pose Park  = P.of(12, 91, 75);
 
+    private Path startPath, parkPath;
+
+    public void BuildPaths(){
+
+
+
+
+
+
+    }
 
     @Override
     public void init() {
         robot.init();
-        robot.driveTrain.cmdOpmodestartPose(Bstartpose);
+        robot.driveTrain.cmdOpmodestartPose(Rstartpose);
+
+
+
 
 
     }
