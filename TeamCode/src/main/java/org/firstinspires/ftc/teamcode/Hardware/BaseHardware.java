@@ -26,9 +26,6 @@ public abstract class BaseHardware {
 
     /**
      * BaseHardware constructor
-     * <p>
-     * The op mode name should be unique. It will be the name displayed on the driver station. If
-     * multiple op modes have the same name, only one will be available.
      */
     public BaseHardware() {
 
@@ -45,7 +42,6 @@ public abstract class BaseHardware {
      * User defined init_loop method
      * <p>
      * This method will be called repeatedly when the INIT button is pressed.
-     * This method is optional. By default this method takes no action.
      */
     abstract public void init_loop();
 
@@ -53,8 +49,6 @@ public abstract class BaseHardware {
      * User defined start method.
      * <p>
      * This method will be called once when the PLAY button is first pressed.
-     * This method is optional. By default this method takes not action.
-     * Example usage: Starting another thread.
      */
     abstract public void start();
 
@@ -70,7 +64,9 @@ public abstract class BaseHardware {
      * <p>
      * This method will be called when this op mode is first disabled
      * <p>
-     * The stop method is optional. By default this method takes no action.
+     * CHANGED: added "public" so Telop (in a different package) can call robot.stop().
+     * Every class that extends BaseHardware (Robot, DriveTrain, Intake, Launcher)
+     * must now write its stop() as "public void stop()".
      */
-    abstract void stop();
+    abstract public void stop();
 }

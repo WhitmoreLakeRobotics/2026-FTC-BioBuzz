@@ -2,41 +2,21 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.Gamepad;
-import com.qualcomm.robotcore.util.ElapsedTime;
-
 
 import org.firstinspires.ftc.teamcode.Common.CommonLogic;
-//import org.firstinspires.ftc.teamcode.Common.Settings;
-
 import org.firstinspires.ftc.teamcode.Common.Settings;
-import org.firstinspires.ftc.teamcode.Hardware.DriveTrain;
-import org.firstinspires.ftc.teamcode.Hardware.Intake;
-import org.firstinspires.ftc.teamcode.Hardware.Launcher;
-import org.firstinspires.ftc.teamcode.Hardware.TansitionR;
 import org.firstinspires.ftc.teamcode.Hardware.Robot;
 
-
-
-/*
-import com.pedropathing.drivetrain.DrivePowers;
-import com.pedropathing.follower.Follower;
-import com.pedropathing.follower.ManualDrive;
-
- */
 import com.pedropathing.math.Pose;
 
 
-import org.firstinspires.ftc.teamcode.Hardware.Robot;
-
-@TeleOp (name = "TeleOp")
+@TeleOp(name = "TeleOp")
 public class Telop extends OpMode {
 
     private static final String TAGTeleop = "8492-Teleop";
-    //RobotTest robot = new RobotTest();
     Robot robot = new Robot();
-    private boolean debug = true;  //insert if bebug then show telemetry stmt with values you're interested in
-    //    // Declare OpMode members.
+    private boolean debug = true;  // if debug, show telemetry with values you're interested in
+
     private boolean gp1_prev_a = false;
     private boolean gp1_prev_b = false;
     private boolean gp1_prev_x = false;
@@ -61,92 +41,74 @@ public class Telop extends OpMode {
     private boolean gp2_prev_dpad_left = false;
     private boolean gp2_prev_dpad_right = false;
     private boolean gp2_prev_back = false;
+    private boolean gp2_prev_start = false;
     private double LeftMotorPower = 0;
     private double RightMotorPower = 0;
-    private boolean gp2_prev_start = false;
     private int tHeading = 0;
     private boolean bAutoTurn = false;
 
-    private Pose op_pose = new Pose(90,00, 80);
+    // CHANGED: Pedro headings are in RADIANS.
+    private Pose op_pose = new Pose(90, 0, Math.toRadians(80));
 
     @Override
     public void init() {
         robot.hardwareMap = hardwareMap;
         robot.telemetry = telemetry;
         robot.init();
+        // CHANGED: removed "OpModeStorage.startPose = ..." — DriveTrain.start() handles it now.
+    }
 
-        OpModeStorage.startPose = OpModeStorage.autonomousEndPose;
-
-}
     @Override
-    public void init_loop(){
+    public void init_loop() {
+        robot.init_loop();
+    }
 
-
- }
     @Override
-    public void start(){
+    public void start() {
+        // ADDED: without this, DriveTrain.start() never runs.
+        robot.start();
+    }
 
-}
     @Override
-    public void loop(){
+    public void loop() {
 
         if (bAutoTurn) {
-            /*
-        if (gamepad1.right_bumper) {
-            robot.driveTrain.cmdTeleOp(CommonLogic.joyStickMath(gamepad1.left_stick_y * -1),
-                    CommonLogic.joyStickMath(gamepad1.left_stick_x),
-                    robot.driveTrain.autoTurn(tHeading), robot.driveTrain.DTrain_FASTSPEED);
-        } else if (gamepad1.left_bumper) {
-            robot.driveTrain.cmdTeleOp(CommonLogic.joyStickMath(gamepad1.left_stick_y * -1),
-                    CommonLogic.joyStickMath(gamepad1.left_stick_x),
-                    robot.driveTrain.autoTurn(tHeading), robot.driveTrain.DTrain_SLOWSPEED);
-
-
+            // auto-turn code goes here later (use FASTSPEED / MORNINGSPEED,
+            // DTrain_FASTSPEED and DTrain_SLOWSPEED don't exist).
         } else {
-
-            robot.driveTrain.cmdTeleOp(CommonLogic.joyStickMath(gamepad1.left_stick_y * -1),
-                    CommonLogic.joyStickMath(gamepad1.left_stick_x),
-                    robot.driveTrain.autoTurn(tHeading), robot.driveTrain.);
-        }
-    } else {
-        if (gamepad1.right_bumper) {
-            robot.driveTrain.cmdTeleOp(CommonLogic.joyStickMath(gamepad1.left_stick_y * -1),
-                    CommonLogic.joyStickMath(gamepad1.left_stick_x),
-                    CommonLogic.joyStickMath(gamepad1.right_stick_x), robot.driveTrain.DTrain_FASTSPEED);
-        } else if (gamepad1.left_bumper) {
-            robot.driveTrain.cmdTeleOp(CommonLogic.joyStickMath(gamepad1.left_stick_y * -1),
-                    CommonLogic.joyStickMath(gamepad1.left_stick_x),
-                    CommonLogic.joyStickMath(gamepad1.right_stick_x), robot.driveTrain.DTrain_SLOWSPEED);
-
- */
-
-            //naj the above is commented out until we get the corresponding buttons programed
-        } else {
-
-
-
-            robot.driveTrain.cmdTeleOp(CommonLogic.joyStickMath(gamepad1.left_stick_y * -1),
+            // STEP 1: tell the drivetrain what the driver wants.
+            robot.driveTrain.cmdTeleOp(
+                    CommonLogic.joyStickMath(gamepad1.left_stick_y * -1),
                     CommonLogic.joyStickMath(gamepad1.left_stick_x),
                     CommonLogic.joyStickMath(gamepad1.right_stick_x),
                     robot.driveTrain.NORMALSPEED);
         }
 
-
-
         if (Math.abs(gamepad1.right_stick_y) > Settings.JOYSTICK_DEADBAND_STICK) {
 
+        }
 
+        // ADDED — STEP 2: THIS IS THE LINE THAT MAKES THE ROBOT MOVE.
+        // robot.loop() -> driveTrain.loop() -> follower.update(), which sends
+        // the power to the motors. Must come AFTER cmdTeleOp.
+        robot.loop();
+
+        // ADDED: debug telemetry so you can see what's happening.
+        if (debug) {
+            Pose p = robot.driveTrain.getPose();
+            telemetry.addData("Stick fwd/strafe/turn", "%.2f / %.2f / %.2f",
+                    -gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x);
+            telemetry.addData("Robot X (in)", "%.1f", p.x());
+            telemetry.addData("Robot Y (in)", "%.1f", p.y());
+            telemetry.addData("Heading (deg)", "%.1f", Math.toDegrees(p.heading()));
+            telemetry.update();
+        }
     }
-
-    }
-
-
-
-
 
     @Override
-    public void stop(){
-
+    public void stop() {
+        // ADDED: without this, DriveTrain.stop() never saves the pose.
+        robot.stop();
     }
 
 }
