@@ -16,6 +16,16 @@ public class Launcher extends BaseHardware{
 
     private DcMotor LM1;
 
+    public Mode CurrentMode;
+
+    public final double minPower = -1.0;
+    public final double maxPower = 1.0;
+
+
+    private static final double Pollenating  = 0.5;
+
+    private static final double LaurenStop = 0.0;
+
 
 
     @Override
@@ -44,5 +54,17 @@ public class Launcher extends BaseHardware{
     public void stop(){
 
 
+    }
+    public void cmdForward (){
+        CurrentMode = Mode.Pollenating;
+        LM1.setPower (Pollenating);
+    }
+    public void cmdStop(){
+        CurrentMode = Mode.LaurenStop;
+        LM1.setPower (LaurenStop);
+    }
+    public enum Mode {
+        LaurenStop,
+        Pollenating
     }
 }
