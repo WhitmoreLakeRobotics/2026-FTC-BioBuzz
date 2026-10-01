@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.Hardware;
 
 import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
@@ -22,6 +23,7 @@ public class TransitionR extends BaseHardware{
 
     @Override
     public void init(){
+        TransS = hardwareMap.get(CRServo.class, "TransS");
 
     }
 

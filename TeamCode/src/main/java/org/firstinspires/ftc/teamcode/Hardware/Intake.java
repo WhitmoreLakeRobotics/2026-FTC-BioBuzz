@@ -23,8 +23,8 @@ public class Intake extends BaseHardware {
     public final double minPower = -1.0;
     public final double maxPower = 1.0;
 
-    private static final double NTKspeed = 0.55;
-    private static final double Hummingspeed = -0.45;
+    private static final double NTKspeed = -0.75;
+    private static final double Hummingspeed = 0.45;
     private static final double Donespeed = 0;
 
     private ElapsedTime runtime = new ElapsedTime();
@@ -33,6 +33,8 @@ public class Intake extends BaseHardware {
 
     @Override
     public void init(){
+        NTKM = hardwareMap.get(DcMotor.class, "NTKM");
+
 
 
     }

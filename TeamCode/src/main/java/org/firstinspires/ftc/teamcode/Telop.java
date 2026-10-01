@@ -115,6 +115,36 @@ public class Telop extends OpMode {
             robot.launcher.cmdStop();
         }
 
+
+        //gamepad2
+
+        if ((gamepad2.b == true)) {
+            robot.intake.cmdForward();
+            robot.transitionR.cmdSpinng();
+
+        }
+
+        if ((gamepad2.a == true)) {
+            robot.intake.cmdStop();
+            robot.transitionR.cmdStop();
+
+        }
+
+        if ((gamepad2.y == true)){
+            robot.intake.cmdReverse();
+            robot.transitionR.cmdTumble();
+
+        }
+
+
+        if ((gamepad2.right_bumper == true)){
+            robot.launcher.cmdForward();
+        }
+
+        if ((gamepad2.x == true)){
+            robot.launcher.cmdStop();
+        }
+
         // robot.loop() -> driveTrain.loop() -> follower.update(), which sends
         // the power to the motors. Must come AFTER cmdTeleOp.
         robot.loop();
