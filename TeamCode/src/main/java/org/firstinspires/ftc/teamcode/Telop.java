@@ -88,60 +88,60 @@ public class Telop extends OpMode {
 
         //gamepad1
 
-        if ((gamepad1.b == true)) {
+        if ((gamepad1.b)) {
             robot.intake.cmdForward();
             robot.transitionR.cmdSpinng();
 
         }
 
-        if ((gamepad1.a == true)) {
+        if ((gamepad1.a)) {
             robot.intake.cmdStop();
             robot.transitionR.cmdStop();
 
         }
 
-        if ((gamepad1.y == true)){
+        if ((gamepad1.y)){
             robot.intake.cmdReverse();
             robot.transitionR.cmdTumble();
 
         }
 
 
-        if ((gamepad1.right_bumper == true)){
+        if ((gamepad1.right_bumper)){
             robot.launcher.cmdForward();
         }
 
-        if ((gamepad1.x == true)){
+        if ((gamepad1.x)){
             robot.launcher.cmdStop();
         }
 
 
         //gamepad2
 
-        if ((gamepad2.b == true)) {
+        if ((gamepad2.b)) {
             robot.intake.cmdForward();
             robot.transitionR.cmdSpinng();
 
         }
 
-        if ((gamepad2.a == true)) {
+        if ((gamepad2.a )) {
             robot.intake.cmdStop();
             robot.transitionR.cmdStop();
 
         }
 
-        if ((gamepad2.y == true)){
+        if ((gamepad2.y)){
             robot.intake.cmdReverse();
             robot.transitionR.cmdTumble();
 
         }
 
 
-        if ((gamepad2.right_bumper == true)){
+        if ((gamepad2.right_bumper)){
             robot.launcher.cmdForward();
         }
 
-        if ((gamepad2.x == true)){
+        if ((gamepad2.x)){
             robot.launcher.cmdStop();
         }
 
