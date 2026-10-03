@@ -23,7 +23,7 @@ public class Launcher extends BaseHardware{
     public final double maxPower = 1.0;
 
     //launching speeds
-    private static final double Pollenating  = 0.8;
+    private static final double Pollenating  = 1.0;
     private static final double LaurenStop = 0.0;
 
     //Transition speeds
