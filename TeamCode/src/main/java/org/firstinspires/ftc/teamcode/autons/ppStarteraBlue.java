@@ -6,14 +6,14 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 //import com.pedropathing.path gen.Path;
 import org.firstinspires.ftc.teamcode.Hardware.Robot;
 
-//import java.nio.file.Path;
+import java.nio.file.Path;
 
 
 
 public class ppStarteraBlue extends OpMode{
     Robot robot = new Robot();
 
-    private ppStarteraBlue.stage currentStage = stage._00_unknown;
+    private ppStarteraBlue.Stage currentStage = Stage._00_unknown;
 
     //in pp v.3.x we use the pose factory were we can specify that all heading values are in
     //  degrees so no need to do a math to convert from degrees to radians that we did last year.
@@ -58,18 +58,16 @@ public void loop() {
 
 
     }
+public void stop(){
 
 }
 
-
-public void stop() {
-
+public enum Stage{
+    _00_unknown, _00_UNKNOWN
+}
 }
 
-public enum stage {
 
 
-}
 
-}
 

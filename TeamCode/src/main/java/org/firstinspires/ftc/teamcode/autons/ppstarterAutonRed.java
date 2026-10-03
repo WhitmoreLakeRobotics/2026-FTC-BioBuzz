@@ -27,7 +27,7 @@ public class ppstarterAutonRed extends OpMode {
     public static Pose RscorePose = P.of(14, 117, 180);
     public static Pose Park  = P.of(14, 117, 180);
 
-    private Path startPath, parkPath;
+    //private Path startPath, parkPath;
 
     public Path getstartPath() {
         return line(Rstartpose,CP1).linear(Rstartpose, CP1);
