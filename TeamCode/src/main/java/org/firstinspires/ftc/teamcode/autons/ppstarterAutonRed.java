@@ -2,11 +2,14 @@ package org.firstinspires.ftc.teamcode.autons;
 
 import com.pedropathing.api.PoseFactory;
 import com.pedropathing.math.Pose;
+import com.pedropathing.follower.Follower;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.teamcode.Hardware.Robot;
+import static com.pedropathing.api.Paths.*;
+import com.pedropathing.paths.Path;
 
-import java.nio.file.Path;
+//import java.nio.file.Path;
 
 
 public class ppstarterAutonRed extends OpMode {
@@ -26,6 +29,14 @@ public class ppstarterAutonRed extends OpMode {
 
     private Path startPath, parkPath;
 
+    public Path getstartPath() {
+        return line(Rstartpose,CP1).linear(Rstartpose, CP1);
+
+    }
+
+    public Path getparkPath() {
+        return line (CP1,Park).linear(CP1,Park);
+    }
 
 
        
@@ -61,6 +72,8 @@ public class ppstarterAutonRed extends OpMode {
         switch (currentStage) {
             case _00_unknown:
                 currentStage = stage._10_Prestart;
+               // follower.followPath(getstartPath(), true);
+
                 break;
 
                 case _10_Prestart:
