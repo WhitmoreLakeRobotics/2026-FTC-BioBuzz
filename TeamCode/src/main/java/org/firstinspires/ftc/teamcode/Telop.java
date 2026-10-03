@@ -107,7 +107,7 @@ public class Telop extends OpMode {
         }
 
 
-        if ((gamepad1.right_bumper)){
+        if ((gamepad1.right_trigger_pressed)){
             robot.launcher.cmdForward();
         }
 
@@ -137,7 +137,7 @@ public class Telop extends OpMode {
         }
 
 
-        if ((gamepad2.right_bumper)){
+        if ((gamepad2.right_trigger_pressed)){
             robot.launcher.cmdForward();
         }
 

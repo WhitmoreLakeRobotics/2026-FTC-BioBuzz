@@ -13,8 +13,8 @@ public class TransitionR extends BaseHardware{
     public Mode CurrentMode;
 
 
-    public static final double SquidSpeed = 0.35;
-    public static final double BackSpeed = -0.4;
+    public static final double SquidSpeed = -0.9;
+    public static final double BackSpeed = 0.4;
     public static final double EndSpeed = 0.0;
 
     private ElapsedTime runtime = new ElapsedTime();

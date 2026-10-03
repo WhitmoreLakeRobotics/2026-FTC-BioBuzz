@@ -19,10 +19,10 @@ public class ppstarterAutonRed extends OpMode {
     //  degrees so no need to do a math to convert from degrees to radians that we did last year.
     public static final PoseFactory P = PoseFactory.degrees();
 
-    public static Pose Rstartpose = P.of(85, 130, 270);
-    public static Pose CP1 = P.of(12,38, 150);
-    public static Pose RscorePose = P.of(55,11, 90);
-    public static Pose Park  = P.of(12, 91, 75);
+    public static Pose Rstartpose = P.of(60, 131, 90);
+    public static Pose CP1 = P.of(22,120, 135);
+    public static Pose RscorePose = P.of(14, 117, 180);
+    public static Pose Park  = P.of(14, 117, 180);
 
     private Path startPath, parkPath;
 
