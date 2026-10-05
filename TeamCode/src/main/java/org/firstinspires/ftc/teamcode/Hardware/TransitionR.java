@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.Hardware;
 
 import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
@@ -12,8 +13,8 @@ public class TransitionR extends BaseHardware{
     public Mode CurrentMode;
 
 
-    public static final double SquidSpeed = 0.35;
-    public static final double BackSpeed = -0.4;
+    public static final double SquidSpeed = -0.9;
+    public static final double BackSpeed = 0.4;
     public static final double EndSpeed = 0.0;
 
     private ElapsedTime runtime = new ElapsedTime();
@@ -22,6 +23,7 @@ public class TransitionR extends BaseHardware{
 
     @Override
     public void init(){
+        TransS = hardwareMap.get(CRServo.class, "TransS");
 
     }
 

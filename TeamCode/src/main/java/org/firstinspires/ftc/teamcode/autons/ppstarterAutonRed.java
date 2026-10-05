@@ -2,11 +2,14 @@ package org.firstinspires.ftc.teamcode.autons;
 
 import com.pedropathing.api.PoseFactory;
 import com.pedropathing.math.Pose;
+import com.pedropathing.follower.Follower;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.teamcode.Hardware.Robot;
+import static com.pedropathing.api.Paths.*;
+import com.pedropathing.paths.Path;
 
-import java.nio.file.Path;
+//import java.nio.file.Path;
 
 
 public class ppstarterAutonRed extends OpMode {
@@ -19,13 +22,21 @@ public class ppstarterAutonRed extends OpMode {
     //  degrees so no need to do a math to convert from degrees to radians that we did last year.
     public static final PoseFactory P = PoseFactory.degrees();
 
-    public static Pose Rstartpose = P.of(85, 130, 270);
-    public static Pose CP1 = P.of(12,38, 150);
-    public static Pose RscorePose = P.of(55,11, 90);
-    public static Pose Park  = P.of(12, 91, 75);
+    public static Pose Rstartpose = P.of(60, 131, 90);
+    public static Pose CP1 = P.of(22,120, 135);
+    public static Pose RscorePose = P.of(14, 117, 180);
+    public static Pose Park  = P.of(14, 117, 180);
 
-    private Path startPath, parkPath;
+    //private Path startPath, parkPath;
 
+    public Path getstartPath() {
+        return line(Rstartpose,CP1).linear(Rstartpose, CP1);
+
+    }
+
+    public Path getparkPath() {
+        return line (CP1,Park).linear(CP1,Park);
+    }
 
 
        
@@ -61,6 +72,8 @@ public class ppstarterAutonRed extends OpMode {
         switch (currentStage) {
             case _00_unknown:
                 currentStage = stage._10_Prestart;
+               // follower.followPath(getstartPath(), true);
+
                 break;
 
                 case _10_Prestart:
