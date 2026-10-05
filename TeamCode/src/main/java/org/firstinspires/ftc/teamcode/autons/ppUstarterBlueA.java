@@ -4,6 +4,7 @@ package org.firstinspires.ftc.teamcode.autons;
 import com.pedropathing.api.PoseFactory;
 import com.pedropathing.math.Pose;
 import com.pedropathing.follower.Follower;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.teamcode.Hardware.Robot;
@@ -12,6 +13,7 @@ import static org.firstinspires.ftc.teamcode.autons.ppUstarterBlueA.stage._00_un
 
 import com.pedropathing.paths.Path;
 
+@Autonomous(name = "ppUstarterB", group = "PP")
 public class ppUstarterBlueA extends OpMode {
 
     Robot robot = new Robot();
