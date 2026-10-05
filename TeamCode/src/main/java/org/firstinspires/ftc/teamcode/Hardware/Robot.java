@@ -4,7 +4,7 @@ package org.firstinspires.ftc.teamcode.Hardware;
 /**
  * Holds all of Team 8492's hardware and passes each OpMode step
  * (init, init_loop, start, loop, stop) down to every part.
- *
+ * <p>
  * CHANGED: removed the duplicate "telemetry" and "hardwareMap" fields.
  * Robot extends BaseHardware, which already has both, so declaring them
  * again here created a second, confusing copy. Telop's

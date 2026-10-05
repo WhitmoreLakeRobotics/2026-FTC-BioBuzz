@@ -100,18 +100,18 @@ public class Telop extends OpMode {
 
         }
 
-        if ((gamepad1.y)){
+        if ((gamepad1.y)) {
             robot.intake.cmdReverse();
             robot.transitionR.cmdTumble();
 
         }
 
 
-        if ((gamepad1.right_trigger_pressed)){
+        if ((gamepad1.right_trigger_pressed)) {
             robot.launcher.cmdForward();
         }
 
-        if ((gamepad1.x)){
+        if ((gamepad1.x)) {
             robot.launcher.cmdStop();
         }
 
@@ -124,24 +124,24 @@ public class Telop extends OpMode {
 
         }
 
-        if ((gamepad2.a )) {
+        if ((gamepad2.a)) {
             robot.intake.cmdStop();
             robot.transitionR.cmdStop();
 
         }
 
-        if ((gamepad2.y)){
+        if ((gamepad2.y)) {
             robot.intake.cmdReverse();
             robot.transitionR.cmdTumble();
 
         }
 
 
-        if ((gamepad2.right_trigger_pressed)){
+        if ((gamepad2.right_trigger_pressed)) {
             robot.launcher.cmdForward();
         }
 
-        if ((gamepad2.x)){
+        if ((gamepad2.x)) {
             robot.launcher.cmdStop();
         }
 
@@ -157,6 +157,10 @@ public class Telop extends OpMode {
             telemetry.addData("Robot X (in)", "%.1f", p.x());
             telemetry.addData("Robot Y (in)", "%.1f", p.y());
             telemetry.addData("Heading (deg)", "%.1f", Math.toDegrees(p.heading()));
+            telemetry.addData("Launcher Velocity",
+                    robot.launcher.getLauncherVelocity());
+            telemetry.addData("Transfer Velocity",
+                    robot.launcher.getTransferVelocity());
             telemetry.update();
         }
     }
