@@ -103,16 +103,30 @@ public class Telop extends OpMode {
         if ((gamepad1.y)) {
             robot.intake.cmdReverse();
             robot.transitionR.cmdTumble();
-
         }
 
+        if (gamepad1.right_bumper) {
+            robot.launcher.cmdLauncherForward();
+        }
 
-        if ((gamepad1.right_trigger_pressed)) {
-            robot.launcher.cmdForward();
+        if (gamepad1.left_bumper) {
+            robot.launcher.cmdTransferForward();
+        }
+
+        if (gamepad1.dpad_left) {
+            robot.launcher.cmdLauncherStop();
+        }
+
+        if (gamepad1.dpad_right) {
+            robot.launcher.cmdTransferStop();
         }
 
         if ((gamepad1.x)) {
-            robot.launcher.cmdStop();
+            robot.launcher.cmdLauncherStop();
+        }
+
+        if ((gamepad1.x)) {
+            robot.launcher.cmdLauncherStop();
         }
 
 
@@ -137,12 +151,28 @@ public class Telop extends OpMode {
         }
 
 
-        if ((gamepad2.right_trigger_pressed)) {
-            robot.launcher.cmdForward();
+        if (gamepad2.right_bumper) {
+            robot.launcher.cmdLauncherForward();
+        }
+
+        if (gamepad2.left_bumper) {
+            robot.launcher.cmdTransferForward();
+        }
+
+        if (gamepad2.dpad_left) {
+            robot.launcher.cmdLauncherStop();
+        }
+
+        if (gamepad2.dpad_right) {
+            robot.launcher.cmdTransferStop();
         }
 
         if ((gamepad2.x)) {
-            robot.launcher.cmdStop();
+            robot.launcher.cmdLauncherStop();
+        }
+
+        if ((gamepad2.x)) {
+            robot.launcher.cmdLauncherStop();
         }
 
         // robot.loop() -> driveTrain.loop() -> follower.update(), which sends
@@ -157,11 +187,11 @@ public class Telop extends OpMode {
             telemetry.addData("Robot X (in)", "%.1f", p.x());
             telemetry.addData("Robot Y (in)", "%.1f", p.y());
             telemetry.addData("Heading (deg)", "%.1f", Math.toDegrees(p.heading()));
-            telemetry.addData("Launcher Velocity",
-                    robot.launcher.getLauncherVelocity());
-            telemetry.addData("Transfer Velocity",
-                    robot.launcher.getTransferVelocity());
+            telemetry.addData("Launcher Velocity",robot.launcher.getLauncherVelocity());
+            telemetry.addData("Transfer Velocity",robot.launcher.getTransferVelocity());
+            telemetry.addData("Battery Voltage","%.2f", robot.launcher.getBatteryVoltage());
             telemetry.update();
+
         }
     }
 
