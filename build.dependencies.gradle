@@ -21,6 +21,9 @@ dependencies {
 
     // Ivy (Pedro Pathing's command framework, recommended for autonomous)
     implementation 'com.pedropathing.ivy:pedro:1.1.1'
+    // pedropathing is now using Sloth for panels instead of bylazer
+        implementation("dev.frozenmilk.sinister:Sloth:0.3.2")
+
 
 
 }

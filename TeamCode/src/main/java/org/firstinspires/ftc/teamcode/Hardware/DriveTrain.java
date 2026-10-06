@@ -17,7 +17,7 @@ public class DriveTrain extends BaseHardware {
     public final double MINPOWER = -1.0;
 
     public final double MORNINGSPEED = 0.25;
-    public final double NORMALSPEED = 0.8;
+    public final double NORMALSPEED = 0.95;
     public final double FASTSPEED = 0.85;
 
     private double RightJoystick_x;
@@ -76,15 +76,14 @@ public class DriveTrain extends BaseHardware {
     private void doTeleop() {
         // Field-centric: "stick forward" always means "away from the driver",
         // no matter which way the robot is facing. Uses the Pinpoint heading.
-       /* DrivePowers powers = ManualDrive.fieldCentric(
+        DrivePowers powers = ManualDrive.fieldCentric(
                 LeftJoystick_y,
                 LeftJoystick_x,
                 RightJoystick_x,
                 follower.pose().heading()
         );
-        follower.manual(powers);*/
-        follower.manual(LeftJoystick_y, LeftJoystick_x, RightJoystick_x);
-
+        follower.manual(powers);
+        // follower.manual(LeftJoystick_y, LeftJoystick_x, RightJoystick_x);
         // TESTING TIP: if field-centric acts strange, comment out the lines
         // above and use robot-centric instead (forward = robot's front):
         // follower.manual(LeftJoystick_y, LeftJoystick_x, RightJoystick_x);

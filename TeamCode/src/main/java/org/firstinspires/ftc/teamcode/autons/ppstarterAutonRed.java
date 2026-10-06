@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.autons;
 import com.pedropathing.api.PoseFactory;
 import com.pedropathing.math.Pose;
 import com.pedropathing.follower.Follower;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.teamcode.Hardware.Robot;
@@ -11,7 +12,7 @@ import com.pedropathing.paths.Path;
 
 //import java.nio.file.Path;
 
-
+@Autonomous(name = "ppstarterAred", group = "PP")
 public class ppstarterAutonRed extends OpMode {
 
     Robot robot = new Robot();

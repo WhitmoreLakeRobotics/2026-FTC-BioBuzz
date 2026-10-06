@@ -5,9 +5,9 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
-public class TransitionR extends BaseHardware{
+public class TransitionR extends BaseHardware {
 
-   // private DcMotor TRM;
+    // private DcMotor TRM;
     public CRServo TransS;
 
     public Mode CurrentMode;
@@ -22,64 +22,53 @@ public class TransitionR extends BaseHardware{
 
 
     @Override
-    public void init(){
+    public void init() {
         TransS = hardwareMap.get(CRServo.class, "TransS");
 
     }
 
-
     @Override
-    public void init_loop(){
-
+    public void init_loop() {
 
     }
 
-
     @Override
-    public void start (){
-
+    public void start() {
 
     }
 
-
     @Override
-    public void loop(){
-
+    public void loop() {
 
     }
 
-
     @Override
-    public void stop(){
-
+    public void stop() {
 
     }
 
-    public void cmdSpinng(){
+    public void cmdSpinng() {
         CurrentMode = Mode.SquidSpeed;
         TransS.setPower(SquidSpeed);
 
     }
 
-
-    public void cmdTumble(){
+    public void cmdTumble() {
         CurrentMode = Mode.BackSpeed;
         TransS.setPower(BackSpeed);
     }
 
-    public void cmdStop(){
+    public void cmdStop() {
         CurrentMode = Mode.EndSpeed;
         TransS.setPower(EndSpeed);
         runtime.reset();
     }
 
-
-    public enum Mode{
+    public enum Mode {
 
         SquidSpeed,
         BackSpeed,
         EndSpeed;
-
 
 
     }
