@@ -27,7 +27,7 @@ public class Launcher extends BaseHardware{
     private static final double LaurenStop = 0.0;
 
     //Transition speeds
-    private static final double Pushingspeed = 0.55;
+    private static final double Pushingspeed = 0.80;
     private static final double naughtspeed = 0.0;
 
 
