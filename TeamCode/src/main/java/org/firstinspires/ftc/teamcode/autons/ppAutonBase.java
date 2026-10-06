@@ -10,11 +10,11 @@ import org.firstinspires.ftc.teamcode.Hardware.Robot;
 import static com.pedropathing.api.Paths.*;
 import com.pedropathing.paths.Path;
 
-/*import com.bylazar.configurables.PanelsConfigurables;
+import com.bylazar.configurables.PanelsConfigurables;
 import com.bylazar.telemetry.PanelsTelemetry;
 import com.bylazar.telemetry.TelemetryManager;
 
- */
+
 import com.pedropathing.follower.Follower;
 import com.pedropathing.math.Pose;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;

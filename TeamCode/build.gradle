@@ -1,5 +1,20 @@
-apply plugin: 'com.android.application'
+//this is part of the Sloth install
+buildscript {
+    repositories {
+        mavenCentral()
+        google()
+        maven {
+            url "https://repo.dairy.foundation/releases"
+        }
+    }
+    dependencies {
+        classpath "dev.frozenmilk:Load:0.3.2"
+    }
+}
 
+apply plugin: 'com.android.application'
+// there should be 2 or 3 more lines that start with 'apply plugin:' here
+apply plugin: 'dev.frozenmilk.sinister.sloth.load'
 //
 // build.gradle in TeamCode
 //
@@ -23,7 +38,12 @@ android {
         jniLibs.useLegacyPackaging true
     }
 }
-
+repositories {
+    maven {
+        url = "https://repo.dairy.foundation/releases"
+    }
+}
 dependencies {
     implementation project(':FtcRobotController')
+    implementation("com.bylazar.sloth:fullpanels:0.3.2+1.0.13")
 }
