@@ -66,8 +66,8 @@ public class DriveTrain extends BaseHardware {
 
     public void cmdTeleOp(double Left_Y, double Left_X, double Right_X, double Current_Speed) {
         //Current_Speed is to make adjustments to the speed if button pushed for slow or fast.
-        LeftJoystick_x = Left_X * Current_Speed;
-        LeftJoystick_y = - Left_Y * Current_Speed;
+        LeftJoystick_x = -Left_X * Current_Speed;
+        LeftJoystick_y = Left_Y * Current_Speed;
         RightJoystick_x = Right_X * Current_Speed;
 
         doTeleop();
@@ -83,7 +83,7 @@ public class DriveTrain extends BaseHardware {
                 follower.pose().heading()
         );
         follower.manual(powers);
-       // follower.manual(LeftJoystick_y, LeftJoystick_x, RightJoystick_x);
+        // follower.manual(LeftJoystick_y, LeftJoystick_x, RightJoystick_x);
         // TESTING TIP: if field-centric acts strange, comment out the lines
         // above and use robot-centric instead (forward = robot's front):
         // follower.manual(LeftJoystick_y, LeftJoystick_x, RightJoystick_x);

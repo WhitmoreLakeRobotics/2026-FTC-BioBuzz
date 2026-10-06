@@ -17,11 +17,14 @@ import org.firstinspires.ftc.teamcode.Common.CommonLogic;
 
 public class Intake extends BaseHardware {
 
-    private DcMotor NTKM;
+    private DcMotorEx NTKM;
+
     public Mode CurrentMode;
 
     public final double minPower = -1.0;
     public final double maxPower = 1.0;
+
+    private static final double NTK_VELOCITY = 4000;
 
     private static final double NTKspeed = -0.75;
     private static final double Hummingspeed = 0.45;
@@ -32,57 +35,60 @@ public class Intake extends BaseHardware {
 
 
     @Override
-    public void init(){
-        NTKM = hardwareMap.get(DcMotor.class, "NTKM");
+    public void init() {
+        // NTKM = hardwareMap.get(DcMotor.class, "NTKM");
+        NTKM = hardwareMap.get(DcMotorEx.class, "LM1");
 
+        NTKM.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-
-    }
-
-    @Override
-    public void init_loop(){
-
-
-    }
-
-    @Override
-    public void start(){
-
+        NTKM.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
 
     }
 
     @Override
-    public void loop(){
-
-
+    public void init_loop() {
 
 
     }
 
     @Override
-    public void stop (){
-
-
+    public void start() {
 
 
     }
 
-    public void cmdForward (){
+    @Override
+    public void loop() {
+
+
+    }
+
+    @Override
+    public void stop() {
+        NTKM.setVelocity(0);
+
+    }
+
+    public void cmdForward() {
+        NTKM.setPower(NTKspeed);
         CurrentMode = Mode.NTKforward;
-        NTKM.setPower (NTKspeed);
+
+
+    NTKM.setVelocity(NTK_VELOCITY);
+
     }
 
-    public void cmdReverse(){
+    public void cmdReverse() {
         CurrentMode = Mode.NTKbackward;
-        NTKM.setPower (Hummingspeed);
+        NTKM.setPower(Hummingspeed);
 
 
     }
 
-    public void cmdStop(){
+    public void cmdStop() {
         CurrentMode = Mode.NTKstop;
-        NTKM.setPower (Donespeed);
+        NTKM.setPower(Donespeed);
         runtime.reset();
     }
 
@@ -92,9 +98,6 @@ public class Intake extends BaseHardware {
         NTKforward,
         NTKbackward
     }
-
-
-
 
 
 }
