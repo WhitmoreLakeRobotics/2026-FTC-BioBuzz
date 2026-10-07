@@ -3,107 +3,108 @@ package org.firstinspires.ftc.teamcode.autons;
 import com.pedropathing.api.Paths;
 import com.pedropathing.ivy.Command;
 import com.pedropathing.ivy.Scheduler;
+
 import static com.pedropathing.ivy.Scheduler.schedule;
 import static com.pedropathing.ivy.groups.Groups.sequential;
-import static com.pedropathing.ivy.pedro.PedroCommands.follow;
 
 import com.pedropathing.api.PoseFactory;
 import com.pedropathing.math.Pose;
-import com.pedropathing.follower.Follower;
+import com.bylazar.telemetry.PanelsTelemetry;
+import com.bylazar.telemetry.TelemetryManager;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.teamcode.Hardware.Robot;
-import org.firstinspires.ftc.teamcode.OpModeStorage;
-
-import static com.pedropathing.api.Paths.*;
-
-import android.telecom.TelecomManager;
 
 import com.pedropathing.paths.Path;
 
-import kotlin.PublishedApi;
-import kotlin.contracts.Returns;
 @Autonomous(name = "IvyTest1", group = "Ivy")
-public class IvyTest1 extends OpMode{
+public class IvyTest1 extends OpMode {
 
 
     Robot robot = new Robot();
-    private TelecomManager telemetryM;
+    private TelemetryManager telemetryM;
 
-    public Follower follower;
-
-    private stage Currentstage = stage ._00_unknown;
+    private stage Currentstage = stage._00_unknown;
 
     public static final PoseFactory pf = PoseFactory.degrees();
 
 
-    public static Pose startpose = pf.of (40,8,90);
-    public static Pose endscore = pf.of (93,25, 90);
-    public static Pose parkpose = pf.of (8,96,90);
-    public static Pose CPparkpath = pf.of (24,39,90);
+    public static Pose startpose = pf.of(40, 8, 90);
+    public static Pose endscore = pf.of(93, 25, 90);
+    public static Pose parkpose = pf.of(8, 96, 90);
+    public static Pose CPparkpath = pf.of(24, 39, 90);
 
-    public Path pthScore() {
-        return Paths.line(startpose,endscore).constant(startpose);
+    public Path pth1Score() {
+        return Paths.line(startpose, endscore).constant(startpose);
     }
+
     public Path pthPark() {
-        return Paths.curve(endscore,CPparkpath,parkpose).constant(startpose);
+        return Paths.curve(endscore, CPparkpath, parkpose).constant(parkpose);
     }
-protected Command startToScore() {
+
+    protected Command startToScore() {
         return sequential(
-                robot.driveTrain.cmdAtFollow(pthScore()),
+                robot.driveTrain.cmdAtFollow(pth1Score()),
                 robot.driveTrain.cmdAtFollow(pthPark())
         );
 
     }
 
-/*
-    public Path basicpath(){
-        return line(startpose,endscore).
+    private Command auto;
 
-    }
-    
- */
+
 
     @Override
-    public void init(){
+    public void init() {
+        telemetryM = PanelsTelemetry.INSTANCE.getTelemetry();
         robot.hardwareMap = hardwareMap;
+        robot.telemetry = telemetry;
         robot.init();
-        OpModeStorage.startPose = startpose;
-Scheduler.reset();
+        Scheduler.reset();
 
     }
 
 
     @Override
-    public void init_loop(){
-robot.init_loop();
+    public void init_loop() {
+        robot.init_loop();
 
     }
 
 
     @Override
-    public void start(){
+    public void start() {
         robot.start();
-schedule(startToScore());
+        robot.driveTrain.cmdOpmodestartPose(startpose);
+        auto = startToScore();
+        schedule(auto);
+
 
     }
 
     @Override
-    public void loop(){
-robot.loop();
-Scheduler.execute();
+    public void loop() {
+        robot.loop();
+        Scheduler.execute();
+        telemetryM.addData("pose", robot.driveTrain.getPose());
+        telemetryM.addData("auto running", auto.isScheduled());
+        telemetryM.update();   // sends to Panels only
+
+        // Driver Station: only the few things the drive team needs
+        telemetry.addData("auto running", auto.isScheduled());
+        telemetry.update();
     }
 
 
     @Override
-    public void stop(){
-robot.stop();
+    public void stop() {
+        robot.stop();
 
 
     }
 
-    public enum stage{
+    public enum stage {
         _00_unknown,
 
     }

@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.bylazar.telemetry.PanelsTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -66,6 +67,7 @@ public class Telop extends OpMode {
     @Override
     public void start() {
         robot.start();
+        robot.driveTrain.cmdOpmodestartPose(OpModeStorage.autonomousEndPose);
     }
 
     @Override
@@ -178,7 +180,7 @@ public class Telop extends OpMode {
         // robot.loop() -> driveTrain.loop() -> follower.update(), which sends
         // the power to the motors. Must come AFTER cmdTeleOp.
         robot.loop();
-
+        PanelsTelemetry.INSTANCE.getTelemetry().update();
         // ADDED: debug telemetry so you can see what's happening.
         if (debug) {
             Pose p = robot.driveTrain.getPose();
@@ -190,9 +192,10 @@ public class Telop extends OpMode {
             telemetry.addData("Launcher Velocity",robot.launcher.getLauncherVelocity());
             telemetry.addData("Transfer Velocity",robot.launcher.getTransferVelocity());
             telemetry.addData("Battery Voltage","%.2f", robot.launcher.getBatteryVoltage());
-            telemetry.update();
+
 
         }
+        telemetry.update();
     }
 
     @Override

@@ -7,6 +7,8 @@ import com.pedropathing.ivy.pedro.PedroCommands;
 import com.pedropathing.ivy.Command;
 import com.pedropathing.math.Pose;
 import com.pedropathing.paths.Path;
+import com.bylazar.telemetry.PanelsTelemetry;
+import com.bylazar.telemetry.TelemetryManager;
 
 import org.firstinspires.ftc.teamcode.OpModeStorage;
 import org.firstinspires.ftc.teamcode.pedro.Constants;
@@ -26,6 +28,7 @@ public class DriveTrain extends BaseHardware {
     private double RightJoystick_x;
     private double LeftJoystick_x;
     private double LeftJoystick_y;
+    private final TelemetryManager panels = PanelsTelemetry.INSTANCE.getTelemetry();
 
 
     @Override
@@ -43,14 +46,8 @@ public class DriveTrain extends BaseHardware {
 
     @Override
     public void start() {
-        // CHANGED: set the starting position here, when the driver presses PLAY.
-        // By now the autonomous has definitely finished and saved its pose.
-        // If there is no saved pose (auto never ran), start at (0, 0, 0)
-        Pose savedPose = OpModeStorage.autonomousEndPose;
-        if (savedPose == null) {
-            savedPose = new Pose(0, 0, 0);
-        }
-        follower.setPose(savedPose);
+      
+
         follower.update();
     }
 
@@ -59,6 +56,11 @@ public class DriveTrain extends BaseHardware {
         // update() reads the Pinpoint (where are we?) and sends the latest
         // powers to the motors. It MUST run every single loop.
         follower.update();
+        panels.addData("DT mode", follower.mode());
+        panels.addData("DT pathIndex", follower.pathIndex());
+        panels.addData("DT pose", follower.pose());
+
+
     }
 
 
@@ -109,8 +111,6 @@ public class DriveTrain extends BaseHardware {
     public Command cmdAtFollow(Path atPath) {
         return PedroCommands.follow(follower, atPath).requiring(this);
     }
-private void doFollow(Path PathIn) {
-        follower.follow(PathIn);
-    }
+
 
 }
