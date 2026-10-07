@@ -70,7 +70,7 @@ public class Intake extends BaseHardware {
 
     }
 
-    public void cmdForward() {
+    public void cmdIntakeForward() {
         NTKM.setPower(NTKspeed);
         CurrentMode = Mode.NTKforward;
 
