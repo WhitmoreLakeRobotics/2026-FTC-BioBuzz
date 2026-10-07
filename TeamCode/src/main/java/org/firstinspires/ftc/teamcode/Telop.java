@@ -76,7 +76,7 @@ public class Telop extends OpMode {
             // DTrain_FASTSPEED and DTrain_SLOWSPEED don't exist).
         } else {
             robot.driveTrain.cmdTeleOp(
-                    CommonLogic.joyStickMath(gamepad1.left_stick_y ),
+                    CommonLogic.joyStickMath(gamepad1.left_stick_y * -1),
                     CommonLogic.joyStickMath(gamepad1.left_stick_x),
                     CommonLogic.joyStickMath(gamepad1.right_stick_x),
                     robot.driveTrain.NORMALSPEED);
