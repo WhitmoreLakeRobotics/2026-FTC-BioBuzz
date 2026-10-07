@@ -89,7 +89,7 @@ public class Telop extends OpMode {
         //gamepad1
 
         if ((gamepad1.b)) {
-            robot.intake.cmdForward();
+            robot.intake.cmdIntakeForward();
             robot.transitionR.cmdSpinng();
 
         }
@@ -105,11 +105,11 @@ public class Telop extends OpMode {
             robot.transitionR.cmdTumble();
         }
 
-        if (gamepad1.right_bumper) {
+        if (gamepad1.right_trigger_pressed) {
             robot.launcher.cmdLauncherForward();
         }
 
-        if (gamepad1.left_bumper) {
+        if (gamepad1.left_trigger_pressed) {
             robot.launcher.cmdTransferForward();
         }
 
@@ -133,7 +133,7 @@ public class Telop extends OpMode {
         //gamepad2
 
         if ((gamepad2.b)) {
-            robot.intake.cmdForward();
+            robot.intake.cmdIntakeForward();
             robot.transitionR.cmdSpinng();
 
         }
