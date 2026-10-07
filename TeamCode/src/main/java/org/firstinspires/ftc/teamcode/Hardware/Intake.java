@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.hardware.ColorRangeSensor;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.LED;
@@ -39,6 +40,7 @@ public class Intake extends BaseHardware {
         // NTKM = hardwareMap.get(DcMotor.class, "NTKM");
         NTKM = hardwareMap.get(DcMotorEx.class, "NTKM");
 
+        NTKM.setDirection(DcMotorSimple.Direction.REVERSE);
         NTKM.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         NTKM.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
