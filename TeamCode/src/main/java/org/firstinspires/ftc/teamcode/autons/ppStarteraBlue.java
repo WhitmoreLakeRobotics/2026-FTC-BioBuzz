@@ -88,7 +88,7 @@ public class ppStarteraBlue extends OpMode{
 
     }
 
-    public enum stage{
+    private enum stage{
         _00_unkown,
         _10_Prestart,
         _30_Park,

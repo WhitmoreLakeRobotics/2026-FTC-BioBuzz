@@ -97,7 +97,7 @@ public class ppstarterAutonRed extends OpMode {
 
     }
 
-    public enum stage {
+    private enum stage {
 
         _00_unknown,
         _10_Prestart,
