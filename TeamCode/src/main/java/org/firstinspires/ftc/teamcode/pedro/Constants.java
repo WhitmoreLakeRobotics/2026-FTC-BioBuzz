@@ -64,7 +64,31 @@ public class Constants {
         c.offsetUnits.set(DistanceUnit.INCH);
     });
 
+    public static ForesightConfig foresightConfig = new ForesightConfig(
+            c -> {
+                Controller primaryTranslationalForward = Controller.proportional(0.2923861835744072);
+                Controller secondaryTranslationalForward = Controller.proportional(0.10802888212802975);
+                Controller primaryTranslationalLateral = Controller.proportional(0.4251986125628129);
+                Controller secondaryTranslationalLateral = Controller.proportional(0.15709952582578363);
 
+                c.forwardTranslational.set(Controller.piecewise(secondaryTranslationalForward).put(2.5, primaryTranslationalForward));
+                c.strafeTranslational.set(Controller.piecewise(secondaryTranslationalLateral).put(2.5, primaryTranslationalLateral));
+
+                c.coast.set(Controller.proportionalFeedforward(0.017085781672349126));
+                c.brake.set(Controller.proportionalFeedforward(0.014522914421496756));
+
+                c.headingFeedback.set(Controller.proportional(4.034894483494385));
+                c.headingBrakeCoefficients.set(Vector2D.cartesian(0.03985431209838468, 0.010157355922336402));
+
+                c.linearBrakeCoefficients.set(Matrix.diag(0.05228174036486682, 0.07076329848876768));
+                c.quadraticBrakeCoefficients.set(Matrix.diag(0.0026383482784554163, 0.002016981811521824));
+
+                c.maxAchievableForwardVelocity.set(60.21423789282585);
+                c.maxAchievableStrafeVelocity.set(47.58803077759725);
+                c.naturalForwardDeceleration.set(31.39264520693605);
+                c.naturalStrafeDeceleration.set(59.99618987040094);
+            }
+    );
     // ---------------------------------------------------------------
     // ADDED: FORESIGHT is Pedro's path-following "brain". The Follower
     // cannot be built without it, even if you only drive manually.
@@ -74,7 +98,7 @@ public class Constants {
     // code runs for TeleOp testing. Run the Foresight AutoTuner and paste
     // your own values here before you use Pedro for autonomous paths.
     // ---------------------------------------------------------------
-    public static ForesightConfig foresightConfig = new ForesightConfig(c -> {
+ /*   public static ForesightConfig foresightConfig = new ForesightConfig(c -> {
         Controller primaryTranslationalForward = Controller.proportional(0.3);
         Controller secondaryTranslationalForward = Controller.proportional(0.1);
         Controller primaryTranslationalLateral = Controller.proportional(0.3);
@@ -96,7 +120,7 @@ public class Constants {
         c.maxAchievableStrafeVelocity.set(52.34323936525474);
         c.naturalForwardDeceleration.set(85.01144677379789);
         c.naturalStrafeDeceleration.set(104.49787535782846);
-    });
+    });*/
 
     // ---------------------------------------------------------------
     // CHANGED: this used to "return null", which crashed the robot.
