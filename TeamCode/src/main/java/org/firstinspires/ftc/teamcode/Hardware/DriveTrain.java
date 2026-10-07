@@ -69,7 +69,7 @@ public class DriveTrain extends BaseHardware {
 
     public void cmdTeleOp(double Left_Y, double Left_X, double Right_X, double Current_Speed) {
         //Current_Speed is to make adjustments to the speed if button pushed for slow or fast.
-        LeftJoystick_x = -Left_X * Current_Speed;
+        LeftJoystick_x = Left_X * Current_Speed;
         LeftJoystick_y = Left_Y * Current_Speed;
         RightJoystick_x = Right_X * Current_Speed;
 
