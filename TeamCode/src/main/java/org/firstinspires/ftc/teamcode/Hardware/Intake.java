@@ -37,7 +37,7 @@ public class Intake extends BaseHardware {
     @Override
     public void init() {
         // NTKM = hardwareMap.get(DcMotor.class, "NTKM");
-        NTKM = hardwareMap.get(DcMotorEx.class, "LM1");
+        NTKM = hardwareMap.get(DcMotorEx.class, "NTKM");
 
         NTKM.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
@@ -70,7 +70,7 @@ public class Intake extends BaseHardware {
 
     }
 
-    public void cmdForward() {
+    public void cmdIntakeForward() {
         NTKM.setPower(NTKspeed);
         CurrentMode = Mode.NTKforward;
 

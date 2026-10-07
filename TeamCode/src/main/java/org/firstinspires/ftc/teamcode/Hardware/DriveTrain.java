@@ -3,7 +3,10 @@ package org.firstinspires.ftc.teamcode.Hardware;
 import com.pedropathing.drivetrain.DrivePowers;
 import com.pedropathing.follower.Follower;
 import com.pedropathing.follower.ManualDrive;
+import com.pedropathing.ivy.pedro.PedroCommands;
+import com.pedropathing.ivy.Command;
 import com.pedropathing.math.Pose;
+import com.pedropathing.paths.Path;
 
 import org.firstinspires.ftc.teamcode.OpModeStorage;
 import org.firstinspires.ftc.teamcode.pedro.Constants;
@@ -101,6 +104,13 @@ public class DriveTrain extends BaseHardware {
     // CHANGED: isBusy() is TRUE while still driving, so "done" is NOT busy.
     public boolean cmdPathIsDone() {
         return !follower.isBusy();
+    }
+
+    public Command cmdAtFollow(Path atPath) {
+        return PedroCommands.follow(follower, atPath).requiring(this);
+    }
+private void doFollow(Path PathIn) {
+        follower.follow(PathIn);
     }
 
 }
