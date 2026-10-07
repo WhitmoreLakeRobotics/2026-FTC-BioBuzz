@@ -83,7 +83,7 @@ public class ppRedparka extends OpMode {
 
     }
 
-    public enum stage {
+    private enum stage {
 
         _00_unkown,
         _10_prestart,

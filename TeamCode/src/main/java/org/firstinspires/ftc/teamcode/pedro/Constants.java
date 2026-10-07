@@ -42,11 +42,22 @@ public class Constants {
     // exactly in the center of the robot. If that's not true, re-run the
     // Pinpoint AutoTuner. Wrong offsets make field-centric drive feel wrong.
     // ---------------------------------------------------------------
+  /*  public static PinpointConfig localizerConfig = new PinpointConfig(c -> {
+        c.name.set("pinpoint");
+        c.podType.set(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD);
+        c.xPodOffset.set(0.09681786139180343);
+        c.yPodOffset.set(0.9472080290786863);
+        c.xPodDirection.set(GoBildaPinpointDriver.EncoderDirection.FORWARD);
+        c.yPodDirection.set(GoBildaPinpointDriver.EncoderDirection.FORWARD);
+        c.globalDistanceUnit.set(DistanceUnit.INCH);
+        c.offsetUnits.set(DistanceUnit.INCH);
+    });
+*/
     public static PinpointConfig localizerConfig = new PinpointConfig(c -> {
         c.name.set("pinpoint");
         c.podType.set(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD);
-        c.xPodOffset.set(0.1858413125586322);
-        c.yPodOffset.set(0.49830155109796);
+        c.xPodOffset.set(0.1630282026576245);
+        c.yPodOffset.set(1.352237190787248);
         c.xPodDirection.set(GoBildaPinpointDriver.EncoderDirection.FORWARD);
         c.yPodDirection.set(GoBildaPinpointDriver.EncoderDirection.FORWARD);
         c.globalDistanceUnit.set(DistanceUnit.INCH);
@@ -64,9 +75,9 @@ public class Constants {
     // your own values here before you use Pedro for autonomous paths.
     // ---------------------------------------------------------------
     public static ForesightConfig foresightConfig = new ForesightConfig(c -> {
-        Controller primaryTranslationalForward   = Controller.proportional(0.3);
+        Controller primaryTranslationalForward = Controller.proportional(0.3);
         Controller secondaryTranslationalForward = Controller.proportional(0.1);
-        Controller primaryTranslationalLateral   = Controller.proportional(0.3);
+        Controller primaryTranslationalLateral = Controller.proportional(0.3);
         Controller secondaryTranslationalLateral = Controller.proportional(0.1);
 
         c.forwardTranslational.set(Controller.piecewise(secondaryTranslationalForward).put(2.5, primaryTranslationalForward));

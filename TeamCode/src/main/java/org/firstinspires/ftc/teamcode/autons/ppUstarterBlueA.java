@@ -9,7 +9,6 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.teamcode.Hardware.Robot;
 import static com.pedropathing.api.Paths.*;
-import static org.firstinspires.ftc.teamcode.autons.ppUstarterBlueA.stage._00_unknown;
 
 import com.pedropathing.paths.Path;
 
@@ -18,7 +17,7 @@ public class ppUstarterBlueA extends OpMode {
 
     Robot robot = new Robot();
 
-    private stage currentStage = _00_unknown;
+   private stage currentStage = stage._00_unknown;
 
     public Follower follower;
     //in pp v.3.x we use the pose factory were we can specify that all heading values are in
@@ -67,7 +66,7 @@ public class ppUstarterBlueA extends OpMode {
 
     }
 
-    public enum stage {
+    private enum stage {
         _00_unknown,
         _10_Prestart,
         _20_MoveAway,
