@@ -77,7 +77,7 @@ public class Telop extends OpMode {
         } else {
             robot.driveTrain.cmdTeleOp(
                     CommonLogic.joyStickMath(gamepad1.left_stick_y * -1),
-                    CommonLogic.joyStickMath(gamepad1.left_stick_x),
+                    CommonLogic.joyStickMath(gamepad1.left_stick_x * -1),
                     CommonLogic.joyStickMath(gamepad1.right_stick_x),
                     robot.driveTrain.NORMALSPEED);
         }
