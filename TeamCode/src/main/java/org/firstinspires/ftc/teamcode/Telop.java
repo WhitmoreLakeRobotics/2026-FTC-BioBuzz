@@ -56,18 +56,20 @@ public class Telop extends OpMode {
         robot.hardwareMap = hardwareMap;
         robot.telemetry = telemetry;
         robot.init();
-        // CHANGED: removed "OpModeStorage.startPose = ..." — DriveTrain.start() handles it now.
+        robot.driveTrain.cmdOpmodestartPose(OpModeStorage.autonomousEndPose);
     }
 
     @Override
     public void init_loop() {
         robot.init_loop();
+        PanelsTelemetry.INSTANCE.getTelemetry().update();
+        telemetry.update();
     }
 
     @Override
     public void start() {
         robot.start();
-        robot.driveTrain.cmdOpmodestartPose(OpModeStorage.autonomousEndPose);
+
     }
 
     @Override

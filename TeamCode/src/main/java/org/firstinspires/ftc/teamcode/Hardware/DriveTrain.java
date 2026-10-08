@@ -41,7 +41,8 @@ public class DriveTrain extends BaseHardware {
 
     @Override
     public void init_loop() {
-
+follower.update();
+        panels.addData("DT pose", follower.pose());
     }
 
     @Override

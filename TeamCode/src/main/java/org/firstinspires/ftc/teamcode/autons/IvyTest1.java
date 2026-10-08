@@ -30,10 +30,10 @@ public class IvyTest1 extends OpMode {
     public static final PoseFactory pf = PoseFactory.degrees();
 
 
-    public static Pose startpose = pf.of(40, 8, 90);
-    public static Pose endscore = pf.of(93, 25, 90);
-    public static Pose parkpose = pf.of(8, 96, 90);
-    public static Pose CPparkpath = pf.of(24, 39, 90);
+    public static Pose startpose = pf.of(56, 8, 90);
+    public static Pose endscore = pf.of(56, 25, 90);
+    public static Pose parkpose = pf.of(10, 90, 90);
+    public static Pose CPparkpath = pf.of(24, 39, 0);
 
     public Path pth1Score() {
         return Paths.line(startpose, endscore).constant(startpose);
@@ -62,6 +62,7 @@ public class IvyTest1 extends OpMode {
         robot.telemetry = telemetry;
         robot.init();
         Scheduler.reset();
+        robot.driveTrain.cmdOpmodestartPose(startpose);
 
     }
 
@@ -76,7 +77,6 @@ public class IvyTest1 extends OpMode {
     @Override
     public void start() {
         robot.start();
-        robot.driveTrain.cmdOpmodestartPose(startpose);
         auto = startToScore();
         schedule(auto);
 
