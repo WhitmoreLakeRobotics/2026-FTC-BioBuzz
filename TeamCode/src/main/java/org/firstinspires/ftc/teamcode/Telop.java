@@ -133,6 +133,11 @@ public class Telop extends OpMode {
             robot.launcher.cmdLauncherStop();
         }
 
+        if ((gamepad1.back)){
+            robot.driveTrain.resetDriveHeading();
+
+        }
+
 
         //gamepad2
 

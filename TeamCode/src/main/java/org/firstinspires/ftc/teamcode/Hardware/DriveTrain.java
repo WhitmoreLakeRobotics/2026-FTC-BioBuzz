@@ -43,6 +43,9 @@ public class DriveTrain extends BaseHardware {
     private static final int    TRAIL_MAX     = 600;   // oldest points dropped after this
     private static final double ROBOT_RADIUS  = 9.0;   // inches, ~18" robot
 
+    private double headingOffset = 0;
+
+
     @Override
     public void init() {
         // Build the Follower. This connects to the motors and the Pinpoint.
@@ -103,7 +106,7 @@ follower.update();
                 LeftJoystick_y,
                 LeftJoystick_x,
                 RightJoystick_x,
-                follower.pose().heading()
+                follower.pose().heading() - headingOffset
         );
         follower.manual(powers);
         // follower.manual(LeftJoystick_y, LeftJoystick_x, RightJoystick_x);
@@ -129,6 +132,8 @@ follower.update();
     public Command cmdAtFollow(Path atPath) {
         return PedroCommands.follow(follower, atPath).requiring(this);
     }
+
+
 //****************************************************************************
 //these are needed to draw the path on the field in Panels.
     private void recordTrail() {
@@ -137,6 +142,12 @@ follower.update();
             trail.add(p);
             if (trail.size() > TRAIL_MAX) trail.remove(0);
         }
+    }
+
+    public void resetDriveHeading(){
+        headingOffset = follower.pose().heading();
+
+
     }
 
     private void drawField() {
