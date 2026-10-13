@@ -105,7 +105,7 @@ public class IvyTest1 extends OpMode {
     }
 
     public enum stage {
-        _00_unknown,
+       _00_unknown,
 
     }
 }
