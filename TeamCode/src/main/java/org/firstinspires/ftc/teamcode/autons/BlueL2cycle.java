@@ -11,12 +11,15 @@ import com.pedropathing.math.Pose;
 import com.bylazar.telemetry.PanelsTelemetry;
 import com.bylazar.telemetry.TelemetryManager;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.teamcode.Hardware.Robot;
 
 import com.pedropathing.paths.Path;
 
+@Disabled
+@Autonomous(name = "BlueL2cycle", group = "PP")
 public class BlueL2cycle extends OpMode {
 
     Robot robot = new Robot();
@@ -40,13 +43,22 @@ public class BlueL2cycle extends OpMode {
     public Path Backup(){
         return Paths.line(flowerp,backup).linear(flowerp,backup);
     }
+    public Path Launch2(){
+        return Paths.line(backup,scorePose).linear(backup,scorePose);
+    }
+    public Path Park(){
+        return Paths.line(scorePose,parkpose).linear(scorePose,parkpose);
+    }
+
 
 
     protected Command TwocycleBlue(){
         return sequential(
                 robot.driveTrain.cmdAtFollow(Launch1()),
                 robot.driveTrain.cmdAtFollow(Flower()),
-                robot.driveTrain.cmdAtFollow(Backup())
+                robot.driveTrain.cmdAtFollow(Backup()),
+                robot.driveTrain.cmdAtFollow(Launch2()),
+                robot.driveTrain.cmdAtFollow(Park())
 
                 );
     }
