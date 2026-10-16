@@ -27,7 +27,7 @@ public class Launcher extends BaseHardware {
         return HIVEENERGY.getVoltage();
     }
 
-    private static final double POLLENATING_RPM = 4000;
+    private static final double POLLENATING_RPM = 1700;
     private static final double TRANSFER_RPM = 4000;
     private VoltageSensor HIVEENERGY;
     private static final double NOMINAL_VOLTAGE = 12.0;
