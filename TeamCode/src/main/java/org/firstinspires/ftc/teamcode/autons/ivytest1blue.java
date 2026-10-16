@@ -35,8 +35,8 @@ public class ivytest1blue extends OpMode {
     public static final PoseFactory pf = PoseFactory.degrees();
 
 
-    public static Pose startpose = pf.of(57, 8, 90);
-    public static Pose endscore = pf.of(57, 39, 90);
+    public static Pose startpose = pf.of(86, 132, 90);
+    public static Pose endscore = pf.of(86, 98, 90);
     public static Pose parkpose = pf.of(14, 91, -90);
     public static Pose CPparkpath = pf.of(14, 48, 0);
 
