@@ -19,6 +19,7 @@ import org.firstinspires.ftc.teamcode.Hardware.Robot;
 
 import com.pedropathing.paths.Path;
 
+@Autonomous (name = "Red1cycleU", group = "PP")
 public class Red1cycleU extends OpMode {
 
     Robot robot = new Robot();
