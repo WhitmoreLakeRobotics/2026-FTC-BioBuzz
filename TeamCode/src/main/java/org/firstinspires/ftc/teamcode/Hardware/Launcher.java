@@ -33,11 +33,9 @@ public class Launcher extends BaseHardware {
     private static final double NOMINAL_VOLTAGE = 12.0;
 
     private static final double TicksPerRev = 28;
-    private static final double GearRat = 1;
-
-    private double rpmToTicksPerSeconds(double rpm){
-        return (rpm * TicksPerRev) / (60 * GearRat);
-    }
+    // private static final double GearRat = 1;
+    // private double rpmToTicksPerSeconds(double rpm) {
+    //return (rpm * TicksPerRev) / (60 * GearRat);
 
     // ---------------- PID CONSTANTS ----------------
     public static double LkP = 0.00060;   // increased for faster recovery
@@ -69,7 +67,7 @@ public class Launcher extends BaseHardware {
     private ElapsedTime timer2 = new ElapsedTime();
 
 
-    private double getCompensatedVelocity(double targetVelocity) {
+    /*private double getCompensatedVelocity(double targetVelocity) {
 
         double currentVoltage = HIVEENERGY.getVoltage();
 
@@ -78,27 +76,27 @@ public class Launcher extends BaseHardware {
         }
 
         return targetVelocity * (NOMINAL_VOLTAGE / currentVoltage);
-    }
+    }*/
 
-// private static final double Pollenating = 1.0;
-// private static final double LaurenStop = 0.0;
+    // private static final double Pollenating = 1.0;
+    // private static final double LaurenStop = 0.0;
 
     // private static final double Pushingspeed = 0.55;
-// private static final double naughtspeed = 0.0;
+    // private static final double naughtspeed = 0.0;
 
     @Override
     public void init() {
 
-// LM1 = hardwareMap.get(DcMotor.class, "LM1");
-// TransLM2 = hardwareMap.get(DcMotor.class, "TransLM2");
+        // LM1 = hardwareMap.get(DcMotor.class, "LM1");
+        // TransLM2 = hardwareMap.get(DcMotor.class, "TransLM2");
 
         LM1 = hardwareMap.get(DcMotorEx.class, "LM1");
         TransLM2 = hardwareMap.get(DcMotorEx.class, "TransLM2");
 
         HIVEENERGY = hardwareMap.voltageSensor.iterator().next();
 
-        LM1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        TransLM2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        LM1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        TransLM2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         LM1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         TransLM2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
@@ -120,9 +118,7 @@ public class Launcher extends BaseHardware {
 
         runPID();
 
-        if ((CommonLogic.inRange(getMotorRPM(LM1), targetRPM1, targetRPM1Tol)) &&
-                (CommonLogic.inRange(getMotorRPM(TransLM2), targetRPM2, targetRPM2Tol))
-        ) {
+        if ((CommonLogic.inRange(getMotorRPM(LM1), targetRPM1, targetRPM1Tol)) && (CommonLogic.inRange(getMotorRPM(TransLM2), targetRPM2, targetRPM2Tol))) {
             bAtSpeed = true;
         } else {
             bAtSpeed = false;
@@ -134,17 +130,18 @@ public class Launcher extends BaseHardware {
     @Override
     public void stop() {
 
-        LM1.setVelocity(0);
-        TransLM2.setVelocity(0);
+        targetRPM1 = 0;
+        targetRPM2 = 0;
+
+        LM1.setPower(0);
+        TransLM2.setPower(0);
     }
 
     public void cmdLauncherForward() {
 
         CurrentMode = Mode.Pollenating;
 
-        LM1.setVelocity(
-                rpmToTicksPerSeconds( getCompensatedVelocity(POLLENATING_RPM))
-                );
+        targetRPM1 = POLLENATING_RPM + RPMoffset;
 
     }
 
@@ -152,21 +149,20 @@ public class Launcher extends BaseHardware {
 
         CurrentMode = Mode.Pollenating;
 
-        TransLM2.setVelocity(
-                rpmToTicksPerSeconds(TRANSFER_RPM));
+        targetRPM2 = TRANSFER_RPM;
     }
 
     public void cmdLauncherStop() {
 
         CurrentMode = Mode.LaurenStop;
 
-        LM1.setVelocity(0);
+        targetRPM1 = 0;
 
     }
 
     public void cmdTransferStop() {
 
-        TransLM2.setVelocity(0);
+        targetRPM2 = 0;
     }
 
     public double getLauncherVelocity() {
@@ -178,16 +174,17 @@ public class Launcher extends BaseHardware {
     }
 
     public enum Mode {
-        LaurenStop,
-        Pollenating,
+        LaurenStop, Pollenating,
     }
 
 
     public double getMotorRPM(DcMotorEx motor) {
-        double ticksPerRevolution = 28; //update and double check
-        double gearRatio = 1.0; //update and double check
+
         double ticksPerSecond = motor.getVelocity();
-        return (ticksPerSecond / ticksPerRevolution) * 60 * gearRatio;
+
+        return
+                (ticksPerSecond / TicksPerRev) * 60.0;
+
     }
 
     private double pidMotor1(double currentRPM) {
@@ -200,13 +197,14 @@ public class Launcher extends BaseHardware {
         double p = LkP * error;
 
         integral1 += error * dt;
+        integral1 = Math.max(-5000, Math.min(5000, integral1));
         double i = LkI * integral1;
 
         double derivative = (error - lastError1) / dt;
         lastError1 = error;
         double d = LkD * derivative;
 
-        double voltage = HIVEENERGY.getVoltage();
+        double voltage = Math.max(HIVEENERGY.getVoltage(), 1.0);
         double ff = (targetRPM1 * kF) * (12.0 / voltage);
 
         return ff + p + i + d;
@@ -223,13 +221,14 @@ public class Launcher extends BaseHardware {
         double p = bLkP * error;
 
         integral2 += error * dt;
+        integral2 = Math.max(-5000, Math.min(5000, integral2));
         double i = bLkI * integral2;
 
         double derivative = (error - lastError2) / dt;
         lastError2 = error;
         double d = bLkD * derivative;
 
-        double voltage = HIVEENERGY.getVoltage();
+        double voltage = Math.max(HIVEENERGY.getVoltage(), 1.0);
         double ff = (targetRPM2 * bkF) * (12.0 / voltage);
 
         return ff + p + i + d;
@@ -239,9 +238,12 @@ public class Launcher extends BaseHardware {
     public void runPID() {
         double currentRPM1 = getMotorRPM(LM1);
         double power1 = pidMotor1(currentRPM1);
+        power1 = Math.max(minPower, Math.min(maxPower, power1));
 
         double currentRPM2 = getMotorRPM(TransLM2);
         double power2 = pidMotor2(currentRPM2);
+        power2 = Math.max(minPower,
+                Math.min(maxPower, power2));
 
         // Prevent braking when stopping (test) MJD
         if (targetRPM1 == 0) {
@@ -256,8 +258,17 @@ public class Launcher extends BaseHardware {
             lastError2 = 0;
         }
 
+        LM1.setPower(power1);
+        TransLM2.setPower(power2);
 
+        telemetry.addData("Launcher RPM", currentRPM1);
+        telemetry.addData("Launcher Target", targetRPM1);
+        telemetry.addData("Launcher Power", power1);
 
+        telemetry.addData("Transfer RPM", currentRPM2);
+        telemetry.addData("Transfer Target", targetRPM2);
+        telemetry.addData("Transfer Power", power2);
 
     }
+
 }
