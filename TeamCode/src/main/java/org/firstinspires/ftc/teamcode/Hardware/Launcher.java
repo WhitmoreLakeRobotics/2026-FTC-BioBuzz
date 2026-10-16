@@ -27,10 +27,17 @@ public class Launcher extends BaseHardware {
         return HIVEENERGY.getVoltage();
     }
 
-    private static final double POLLENATING_VELOCITY = 4000;
-    private static final double TRANSFER_VELOCITY = 4000;
+    private static final double POLLENATING_RPM = 4000;
+    private static final double TRANSFER_RPM = 4000;
     private VoltageSensor HIVEENERGY;
     private static final double NOMINAL_VOLTAGE = 12.0;
+
+    private static final double TicksPerRev = 28;
+    private static final double GearRat = 1;
+
+    private double rpmToTicksPerSeconds(double rpm){
+        return (rpm * TicksPerRev) / (60 * GearRat);
+    }
 
     // ---------------- PID CONSTANTS ----------------
     public static double LkP = 0.00060;   // increased for faster recovery
@@ -135,7 +142,9 @@ public class Launcher extends BaseHardware {
 
         CurrentMode = Mode.Pollenating;
 
-        LM1.setVelocity(getCompensatedVelocity(POLLENATING_VELOCITY));
+        LM1.setVelocity(
+                rpmToTicksPerSeconds( getCompensatedVelocity(POLLENATING_RPM))
+                );
 
     }
 
@@ -143,7 +152,8 @@ public class Launcher extends BaseHardware {
 
         CurrentMode = Mode.Pollenating;
 
-        TransLM2.setVelocity(getCompensatedVelocity(TRANSFER_VELOCITY));
+        TransLM2.setVelocity(
+                rpmToTicksPerSeconds(TRANSFER_RPM));
     }
 
     public void cmdLauncherStop() {
@@ -245,6 +255,8 @@ public class Launcher extends BaseHardware {
             integral2 = 0;
             lastError2 = 0;
         }
+
+
 
 
     }

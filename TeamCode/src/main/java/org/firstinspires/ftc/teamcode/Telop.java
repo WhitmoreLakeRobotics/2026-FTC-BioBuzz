@@ -110,7 +110,13 @@ public class Telop extends OpMode {
         }
 
         if (gamepad1.right_trigger_pressed) {
-            robot.launcher.cmdLauncherForward();
+          if(robot.launcher.bAtSpeed == true ){
+              robot.transitionR.cmdSpinng();
+
+          } else{
+              robot.transitionR.cmdStop();
+
+            }
         }
 
         if (gamepad1.left_trigger_pressed) {
