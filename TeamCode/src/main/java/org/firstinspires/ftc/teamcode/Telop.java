@@ -109,6 +109,11 @@ public class Telop extends OpMode {
             robot.transitionR.cmdTumble();
         }
 
+        // TODO (reminder): Launcher now has state tracking. Still to do here:
+        //  1. Map a button to robot.launcher.cmdTransferBackward() (no button assigned yet).
+        //  2. Replace the old commented-out "bAtSpeed" gate below with
+        //     robot.launcher.isLauncherAtSpeed() / isTransferAtSpeed() before feeding.
+        //  3. Optionally show getLauncherState() / getTransferState() in debug telemetry.
         if (gamepad1.right_trigger_pressed) {
             robot.launcher.cmdLauncherForward();
           //if(robot.launcher.bAtSpeed == true ){
