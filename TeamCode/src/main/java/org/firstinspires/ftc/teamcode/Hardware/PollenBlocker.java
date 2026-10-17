@@ -10,10 +10,7 @@ public class PollenBlocker extends BaseHardware {
 
     private Servo blocker;
 
-    public enum Mode {
-        BLOCKING,
-        OPEN
-    }
+
 
     public Mode CurrentMode = Mode.BLOCKING;
 
@@ -78,5 +75,9 @@ public class PollenBlocker extends BaseHardware {
     public double getPosition() {
 
         return blocker.getPosition();
+    }
+    public enum Mode {
+        BLOCKING,
+        OPEN
     }
 }
