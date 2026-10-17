@@ -203,8 +203,6 @@ public class Telop extends OpMode {
             telemetry.addData("Robot X (in)", "%.1f", p.x());
             telemetry.addData("Robot Y (in)", "%.1f", p.y());
             telemetry.addData("Heading (deg)", "%.1f", Math.toDegrees(p.heading()));
-            telemetry.addData("Launcher Velocity",robot.launcher.getLauncherVelocity());
-            telemetry.addData("Transfer Velocity",robot.launcher.getTransferVelocity());
             telemetry.addData("Battery Voltage","%.2f", robot.launcher.getBatteryVoltage());
 
 

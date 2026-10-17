@@ -38,16 +38,16 @@ public class Launcher extends BaseHardware {
     //return (rpm * TicksPerRev) / (60 * GearRat);
 
     // ---------------- PID CONSTANTS ----------------
-    public static double LkP = 0.00060;   // increased for faster recovery
+    public static double LkP = 0.0000;   // increased for faster recovery
     public static double LkI = 0.0;       // still unused
-    public static double LkD = 0.0000015; // small D for damping
-    public static double kF = 1.24 / 6000.0; // feedforward per RPM
+    public static double LkD = 0.00000; // small D for damping
+    public static double kF = 1 / 6000.0; // feedforward per RPM
 
     // ---------------- PID CONSTANTS ----------------
     public static double bLkP = 0.00070;   // increased for faster recovery
     public static double bLkI = 0.0;       // still unused
     public static double bLkD = 0.0000015; // small D for damping
-    public static double bkF = 1.01 / 6000.0; // feedforward per RPM
+    public static double bkF = 1.24 / 6000.0; // feedforward per RPM
 
     private double targetRPM1 = 0;
     private double targetRPM2 = 0;
@@ -174,7 +174,8 @@ public class Launcher extends BaseHardware {
     }
 
     public enum Mode {
-        LaurenStop, Pollenating,
+        LaurenStop,
+        Pollenating,
     }
 
 
