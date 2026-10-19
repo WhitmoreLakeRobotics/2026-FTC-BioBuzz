@@ -109,14 +109,20 @@ public class Telop extends OpMode {
             robot.transitionR.cmdTumble();
         }
 
+        // TODO (reminder): Launcher now has state tracking. Still to do here:
+        //  1. Map a button to robot.launcher.cmdTransferBackward() (no button assigned yet).
+        //  2. Replace the old commented-out "bAtSpeed" gate below with
+        //     robot.launcher.isLauncherAtSpeed() / isTransferAtSpeed() before feeding.
+        //  3. Optionally show getLauncherState() / getTransferState() in debug telemetry.
         if (gamepad1.right_trigger_pressed) {
-          if(robot.launcher.bAtSpeed == true ){
-              robot.transitionR.cmdSpinng();
+            robot.launcher.cmdLauncherForward();
+          //if(robot.launcher.bAtSpeed == true ){
+             // robot.transitionR.cmdSpinng();
 
-          } else{
-              robot.transitionR.cmdStop();
+         // } else{
+             // robot.transitionR.cmdStop();
 
-            }
+
         }
 
         if (gamepad1.left_trigger_pressed) {
@@ -202,8 +208,6 @@ public class Telop extends OpMode {
             telemetry.addData("Robot X (in)", "%.1f", p.x());
             telemetry.addData("Robot Y (in)", "%.1f", p.y());
             telemetry.addData("Heading (deg)", "%.1f", Math.toDegrees(p.heading()));
-            telemetry.addData("Launcher Velocity",robot.launcher.getLauncherVelocity());
-            telemetry.addData("Transfer Velocity",robot.launcher.getTransferVelocity());
             telemetry.addData("Battery Voltage","%.2f", robot.launcher.getBatteryVoltage());
 
 
