@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.autons;
 
+import static com.pedropathing.api.Paths.line;
 import static com.pedropathing.ivy.Scheduler.schedule;
 import static com.pedropathing.ivy.groups.Groups.sequential;
 
@@ -24,33 +25,26 @@ public class RedSimpleAuton extends OpMode {
 
 
 
-    public static final PoseFactory pf = PoseFactory.degrees();
+        private final PoseFactory Pf = PoseFactory.degrees();
 
 
-    public static Pose startpose = pf.of(56, 8, 90);
-    public static Pose endscore = pf.of(56, 25, 90);
-    public static Pose parkpose = pf.of(10, 90, 90);
-    public static Pose CPparkpath = pf.of(24, 39, 0);
+        private final Pose path1Start = Pf .of (8, 133, 0);
+        private final Pose path1 = Pf.of(14, 113, 0);
 
-    public Path pth1Score() {
-        return Paths.line(startpose, endscore).constant(startpose);
-    }
-
-    public Path pthPark() {
-        return Paths.curve(endscore, CPparkpath, parkpose).constant(parkpose);
-    }
+        public Path cool_path() {
+            return line(path1Start, path1).linear(path1Start, path1);
+        }
 
     protected Command startToScore() {
         return sequential(
-                robot.driveTrain.cmdAtFollow(pth1Score()),
-                robot.driveTrain.cmdAtFollow(pthPark())
+                robot.driveTrain.cmdAtFollow(cool_path())
+
         );
 
     }
 
-    private Command auto;
 
-
+private Command auto;
 
     @Override
     public void init() {
@@ -59,7 +53,7 @@ public class RedSimpleAuton extends OpMode {
         robot.telemetry = telemetry;
         robot.init();
         Scheduler.reset();
-        robot.driveTrain.cmdOpmodestartPose(startpose);
+        robot.driveTrain.cmdOpmodestartPose(path1Start);
 
     }
 
@@ -101,8 +95,5 @@ public class RedSimpleAuton extends OpMode {
 
     }
 
-    public enum stage {
-        _00_unknown,
 
-    }
 }

@@ -30,7 +30,6 @@ public class ivytest1blue extends OpMode {
     Robot robot = new Robot();
     private TelemetryManager telemetryM;
 
-    private IvyTest1.stage Currentstage = IvyTest1.stage._00_unknown;
 
     public static final PoseFactory pf = PoseFactory.degrees();
 
