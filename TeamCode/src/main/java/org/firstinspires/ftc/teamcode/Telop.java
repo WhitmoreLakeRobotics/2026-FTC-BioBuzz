@@ -99,13 +99,13 @@ public class Telop extends OpMode {
         }
 
         if ((gamepad1.a)) {
-            robot.intake.cmdStop();
+            robot.intake.cmdIntakeStop();
             robot.transitionR.cmdStop();
 
         }
 
         if ((gamepad1.y)) {
-            robot.intake.cmdReverse();
+            robot.intake.cmdIntakeReverse();
             robot.transitionR.cmdTumble();
         }
 
@@ -166,13 +166,13 @@ public class Telop extends OpMode {
         }
 
         if ((gamepad2.a)) {
-            robot.intake.cmdStop();
+            robot.intake.cmdIntakeStop();
             robot.transitionR.cmdStop();
 
         }
 
         if ((gamepad2.y)) {
-            robot.intake.cmdReverse();
+            robot.intake.cmdIntakeReverse();
             robot.transitionR.cmdTumble();
 
         }
