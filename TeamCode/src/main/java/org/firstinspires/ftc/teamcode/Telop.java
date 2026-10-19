@@ -115,12 +115,18 @@ public class Telop extends OpMode {
         //     robot.launcher.isLauncherAtSpeed() / isTransferAtSpeed() before feeding.
         //  3. Optionally show getLauncherState() / getTransferState() in debug telemetry.
         if (gamepad1.right_trigger_pressed) {
-            robot.launcher.cmdLauncherForward();
-          //if(robot.launcher.bAtSpeed == true ){
-             // robot.transitionR.cmdSpinng();
+            //robot.launcher.cmdLauncherForward();
+          if(robot.launcher.isLauncherAtSpeed()){
+              robot.transitionR.cmdSpinng();
+              robot.pollenBlocker.cmdOpen();
+              robot.launcher.cmdLauncherForward();
 
-         // } else{
-             // robot.transitionR.cmdStop();
+          }else{
+              robot.transitionR.cmdStop();
+              robot.pollenBlocker.cmdBlock();
+              robot.launcher.cmdLauncherStop();
+          }
+
 
 
         }
@@ -171,6 +177,10 @@ public class Telop extends OpMode {
 
         }
 
+        if ((gamepad2.x)) {
+            robot.launcher.cmdLauncherStop();
+        }
+
 
         if (gamepad2.right_bumper) {
             robot.launcher.cmdLauncherForward();
@@ -188,13 +198,9 @@ public class Telop extends OpMode {
             robot.launcher.cmdTransferStop();
         }
 
-        if ((gamepad2.x)) {
-            robot.launcher.cmdLauncherStop();
-        }
 
-        if ((gamepad2.x)) {
-            robot.launcher.cmdLauncherStop();
-        }
+
+
 
         // robot.loop() -> driveTrain.loop() -> follower.update(), which sends
         // the power to the motors. Must come AFTER cmdTeleOp.
