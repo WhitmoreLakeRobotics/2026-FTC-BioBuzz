@@ -5,10 +5,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import com.bylazar.configurables.PanelsConfigurables;
 import com.bylazar.configurables.annotations.Configurable;
-import com.bylazar.telemetry.PanelsTelemetry;
-import com.bylazar.telemetry.TelemetryManager;
 
 import org.firstinspires.ftc.teamcode.Common.CommonLogic;
 
@@ -22,7 +19,7 @@ public class Launcher extends BaseHardware {
     private DcMotorEx TransLM2;
 
     private LauncherState launcherState = LauncherState.OFF;
-    private TransferState transferState = TransferState.OFF;
+    private FeederState feederState = FeederState.OFF;
 
     public final double minPower = -1.0;
     public final double maxPower = 1.0;
@@ -121,7 +118,7 @@ public class Launcher extends BaseHardware {
         targetRPM2 = 0;
         pendingTransferRPM = 0;
         launcherState = LauncherState.OFF;
-        transferState = TransferState.OFF;
+        feederState = FeederState.OFF;
 
     }
 
@@ -145,7 +142,7 @@ public class Launcher extends BaseHardware {
 
         telemetry.addData("RPM offset: ", RPMoffset);
         telemetry.addData("Launcher State", launcherState);
-        telemetry.addData("Transfer State", transferState);
+        telemetry.addData("Transfer State", feederState);
 
     }
 
@@ -156,7 +153,7 @@ public class Launcher extends BaseHardware {
         targetRPM2 = 0;
         pendingTransferRPM = 0;
         launcherState = LauncherState.OFF;
-        transferState = TransferState.OFF;
+        feederState = FeederState.OFF;
 
         LM1.setPower(0);
         TransLM2.setPower(0);
@@ -199,8 +196,8 @@ public class Launcher extends BaseHardware {
         targetRPM2 = 0;
         pendingTransferRPM = 0;
 
-        if (transferState != TransferState.OFF) {
-            transferState = TransferState.SPINNING_DOWN;
+        if (feederState != FeederState.OFF) {
+            feederState = FeederState.SPINNING_DOWN;
         }
     }
 
@@ -211,11 +208,11 @@ public class Launcher extends BaseHardware {
      */
     private void requestTransferRPM(double rpm) {
 
-        switch (transferState) {
+        switch (feederState) {
             case OFF:
                 targetRPM2 = rpm;
                 transferAtSpeedTimer.reset();
-                transferState = TransferState.SPINNING_UP;
+                feederState = FeederState.SPINNING_UP;
                 break;
 
             case SPINNING_UP:
@@ -226,7 +223,7 @@ public class Launcher extends BaseHardware {
                 } else {
                     targetRPM2 = 0;
                     pendingTransferRPM = rpm;
-                    transferState = TransferState.SPINNING_DOWN;
+                    feederState = FeederState.SPINNING_DOWN;
                 }
                 break;
 
@@ -273,14 +270,14 @@ public class Launcher extends BaseHardware {
 
         boolean inRange = CommonLogic.inRange(rpm, targetRPM2, RPM_TOLERANCE);
 
-        switch (transferState) {
+        switch (feederState) {
             case SPINNING_UP:
                 if (!inRange) {
                     transferAtSpeedTimer.reset();
                 } else if (transferAtSpeedTimer.seconds() >= AT_SPEED_HOLD_SEC) {
-                    transferState = (targetRPM2 >= 0)
-                            ? TransferState.AT_SPEED_FORWARD
-                            : TransferState.AT_SPEED_BACKWARD;
+                    feederState = (targetRPM2 >= 0)
+                            ? FeederState.AT_SPEED_FORWARD
+                            : FeederState.AT_SPEED_BACKWARD;
                 }
                 break;
 
@@ -288,7 +285,7 @@ public class Launcher extends BaseHardware {
             case AT_SPEED_BACKWARD:
                 if (!inRange) {
                     transferAtSpeedTimer.reset();
-                    transferState = TransferState.SPINNING_UP;
+                    feederState = FeederState.SPINNING_UP;
                 }
                 break;
 
@@ -299,9 +296,9 @@ public class Launcher extends BaseHardware {
                         targetRPM2 = pendingTransferRPM;
                         pendingTransferRPM = 0;
                         transferAtSpeedTimer.reset();
-                        transferState = TransferState.SPINNING_UP;
+                        feederState = FeederState.SPINNING_UP;
                     } else {
-                        transferState = TransferState.OFF;
+                        feederState = FeederState.OFF;
                     }
                 }
                 break;
@@ -317,8 +314,8 @@ public class Launcher extends BaseHardware {
         return launcherState;
     }
 
-    public TransferState getTransferState() {
-        return transferState;
+    public FeederState getTransferState() {
+        return feederState;
     }
 
     public boolean isLauncherAtSpeed() {
@@ -326,8 +323,8 @@ public class Launcher extends BaseHardware {
     }
 
     public boolean isTransferAtSpeed() {
-        return transferState == TransferState.AT_SPEED_FORWARD
-                || transferState == TransferState.AT_SPEED_BACKWARD;
+        return feederState == FeederState.AT_SPEED_FORWARD
+                || feederState == FeederState.AT_SPEED_BACKWARD;
     }
 
     public double getLauncherVelocity() {
@@ -449,7 +446,7 @@ public class Launcher extends BaseHardware {
      * Transfer motor (TransLM2) status. Same pattern as LauncherState, but the
      * final state also says which direction the motor is running.
      */
-    public enum TransferState {
+    public enum FeederState {
         OFF,
         SPINNING_UP,
         AT_SPEED_FORWARD,
