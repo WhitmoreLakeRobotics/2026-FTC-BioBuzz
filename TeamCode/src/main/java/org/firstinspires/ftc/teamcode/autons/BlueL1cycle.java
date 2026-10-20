@@ -19,8 +19,8 @@ import org.firstinspires.ftc.teamcode.Hardware.Robot;
 import com.pedropathing.paths.Path;
 
 @Disabled
-@Autonomous(name = "BlueL2cycle", group = "PP")
-public class BlueL2cycle extends OpMode {
+@Autonomous(name = "BlueL1cycle", group = "PP")
+public class BlueL1cycle extends OpMode {
 
     Robot robot = new Robot();
     private TelemetryManager telemetryM;

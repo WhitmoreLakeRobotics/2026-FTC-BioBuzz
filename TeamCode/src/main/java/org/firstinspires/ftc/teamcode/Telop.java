@@ -99,46 +99,55 @@ public class Telop extends OpMode {
         }
 
         if ((gamepad1.a)) {
-            robot.intake.cmdStop();
+            robot.intake.cmdIntakeStop();
             robot.transitionR.cmdStop();
 
         }
 
         if ((gamepad1.y)) {
-            robot.intake.cmdReverse();
+            robot.intake.cmdIntakeReverse();
             robot.transitionR.cmdTumble();
         }
 
+        // TODO (reminder): Launcher now has state tracking. Still to do here:
+        //  1. Map a button to robot.launcher.cmdTransferBackward() (no button assigned yet).
+        //  2. Replace the old commented-out "bAtSpeed" gate below with
+        //     robot.launcher.isLauncherAtSpeed() / isTransferAtSpeed() before feeding.
+        //  3. Optionally show getLauncherState() / getTransferState() in debug telemetry.
         if (gamepad1.right_trigger_pressed) {
-            robot.launcher.cmdLauncherForward();
-          //if(robot.launcher.bAtSpeed == true ){
-             // robot.transitionR.cmdSpinng();
+            //robot.launcher.cmdLauncherForward();
+          if(robot.launcher.isLauncherAtSpeed()){
+              robot.transitionR.cmdSpinng();
+              robot.pollenBlocker.cmdOpen();
+              robot.launcher.cmdLauncherForward();
 
-         // } else{
-             // robot.transitionR.cmdStop();
+          }else{
+              robot.transitionR.cmdStop();
+              robot.pollenBlocker.cmdBlock();
+              robot.launcher.cmdLauncherStop();
+          }
+
 
 
         }
 
         if (gamepad1.left_trigger_pressed) {
-            robot.launcher.cmdTransferForward();
+
         }
 
         if (gamepad1.dpad_left) {
-            robot.launcher.cmdLauncherStop();
+
         }
 
         if (gamepad1.dpad_right) {
-            robot.launcher.cmdTransferStop();
+
         }
 
         if ((gamepad1.x)) {
-            robot.launcher.cmdLauncherStop();
+
         }
 
-        if ((gamepad1.x)) {
-            robot.launcher.cmdLauncherStop();
-        }
+
 
         if ((gamepad1.back)){
             robot.driveTrain.resetDriveHeading();
@@ -155,15 +164,20 @@ public class Telop extends OpMode {
         }
 
         if ((gamepad2.a)) {
-            robot.intake.cmdStop();
+            robot.intake.cmdIntakeStop();
             robot.transitionR.cmdStop();
 
         }
 
         if ((gamepad2.y)) {
-            robot.intake.cmdReverse();
+            robot.intake.cmdIntakeReverse();
             robot.transitionR.cmdTumble();
 
+        }
+
+        if ((gamepad2.x)) {
+            robot.launcher.cmdLauncherStop();
+            robot.launcher.cmdTransferStop();
         }
 
 
@@ -176,20 +190,16 @@ public class Telop extends OpMode {
         }
 
         if (gamepad2.dpad_left) {
-            robot.launcher.cmdLauncherStop();
+
         }
 
         if (gamepad2.dpad_right) {
-            robot.launcher.cmdTransferStop();
+           
         }
 
-        if ((gamepad2.x)) {
-            robot.launcher.cmdLauncherStop();
-        }
 
-        if ((gamepad2.x)) {
-            robot.launcher.cmdLauncherStop();
-        }
+
+
 
         // robot.loop() -> driveTrain.loop() -> follower.update(), which sends
         // the power to the motors. Must come AFTER cmdTeleOp.

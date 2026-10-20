@@ -16,6 +16,7 @@ public class Robot extends BaseHardware {
     public Intake intake = new Intake();
     public Launcher launcher = new Launcher();
     public TransitionR transitionR = new TransitionR();
+    public PollenBlocker pollenBlocker = new PollenBlocker();
 
 
     /**
@@ -43,6 +44,11 @@ public class Robot extends BaseHardware {
         transitionR.hardwareMap = this.hardwareMap;
         transitionR.telemetry = this.telemetry;
         transitionR.init();
+
+        //launcher blocker
+        pollenBlocker.hardwareMap = this.hardwareMap;
+        pollenBlocker.telemetry = this.telemetry;
+        pollenBlocker.init();
     }
 
     /**
@@ -54,6 +60,7 @@ public class Robot extends BaseHardware {
         intake.init_loop();
         launcher.init_loop();
         transitionR.init_loop();
+        pollenBlocker.init_loop();
     }
 
     /**
@@ -65,6 +72,7 @@ public class Robot extends BaseHardware {
         intake.start();
         launcher.start();
         transitionR.start();
+        pollenBlocker.start();
     }
 
     /**
@@ -76,6 +84,7 @@ public class Robot extends BaseHardware {
         intake.loop();
         launcher.loop();
         transitionR.loop();
+        pollenBlocker.loop();
     }
 
     /**
@@ -88,5 +97,6 @@ public class Robot extends BaseHardware {
         intake.stop();
         launcher.stop();
         transitionR.stop();
+        pollenBlocker.stop();
     }
 }
