@@ -25,6 +25,7 @@ public class BlueAutonSimple extends OpMode  {
 
 
 
+
     public static final PoseFactory pf = PoseFactory.degrees();
 
 
@@ -32,7 +33,7 @@ public class BlueAutonSimple extends OpMode  {
     public static Pose parkpose = pf.of(127, 25, 180);
 
 
-    public Path pth1Score() {
+    public Path pthpark() {
         return Paths.line(startpose, parkpose).constant(startpose);
     }
 
@@ -40,7 +41,7 @@ public class BlueAutonSimple extends OpMode  {
 
     protected Command startToScore() {
         return sequential(
-                robot.driveTrain.cmdAtFollow(pth1Score())
+                robot.driveTrain.cmdAtFollow(pthpark())
         );
 
     }
