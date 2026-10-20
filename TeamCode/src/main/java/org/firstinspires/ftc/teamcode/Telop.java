@@ -132,24 +132,22 @@ public class Telop extends OpMode {
         }
 
         if (gamepad1.left_trigger_pressed) {
-            robot.launcher.cmdTransferForward();
+
         }
 
         if (gamepad1.dpad_left) {
-            robot.launcher.cmdLauncherStop();
+
         }
 
         if (gamepad1.dpad_right) {
-            robot.launcher.cmdTransferStop();
+
         }
 
         if ((gamepad1.x)) {
-            robot.launcher.cmdLauncherStop();
+
         }
 
-        if ((gamepad1.x)) {
-            robot.launcher.cmdLauncherStop();
-        }
+
 
         if ((gamepad1.back)){
             robot.driveTrain.resetDriveHeading();
@@ -179,6 +177,7 @@ public class Telop extends OpMode {
 
         if ((gamepad2.x)) {
             robot.launcher.cmdLauncherStop();
+            robot.launcher.cmdTransferStop();
         }
 
 
@@ -191,11 +190,11 @@ public class Telop extends OpMode {
         }
 
         if (gamepad2.dpad_left) {
-            robot.launcher.cmdLauncherStop();
+
         }
 
         if (gamepad2.dpad_right) {
-            robot.launcher.cmdTransferStop();
+           
         }
 
 
