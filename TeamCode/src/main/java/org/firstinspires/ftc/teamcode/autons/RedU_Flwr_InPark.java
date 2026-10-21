@@ -6,7 +6,7 @@ import com.pedropathing.api.Paths;
 import static com.pedropathing.ivy.Scheduler.schedule;
 import static com.pedropathing.ivy.groups.Groups.sequential;
 
-import static org.firstinspires.ftc.teamcode.autons.Red1cycleL.Startpose;
+import static org.firstinspires.ftc.teamcode.autons.RedL1cycle_Park.Startpose;
 
 import com.pedropathing.api.PoseFactory;
 import com.pedropathing.ivy.Command;
@@ -18,9 +18,10 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import org.firstinspires.ftc.teamcode.Hardware.Robot;
 
 import com.pedropathing.paths.Path;
-
+// Starts next to on the right side of the upper red flower goes a short distance up and go to
+// flower then parks on the upper red loading zone
 @Autonomous (name = "Red1cycleU", group = "PP")
-public class Red1cycleU extends OpMode {
+public class RedU_Flwr_InPark extends OpMode {
 
     Robot robot = new Robot();
     private TelemetryManager telemetryM;
