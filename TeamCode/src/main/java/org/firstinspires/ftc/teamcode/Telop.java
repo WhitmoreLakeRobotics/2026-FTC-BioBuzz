@@ -93,17 +93,20 @@ public class Telop extends OpMode {
         //gamepad1
 
         if ((gamepad1.b)) {
-
+            robot.intake.cmdIntakeForward();
+            robot.transitionR.cmdSpinng();
 
         }
 
         if ((gamepad1.a)) {
-
+            robot.intake.cmdIntakeStop();
+            robot.transitionR.cmdStop();
 
         }
 
         if ((gamepad1.y)) {
-
+            robot.intake.cmdIntakeReverse();
+            robot.transitionR.cmdTumble();
         }
 
         // TODO (reminder): Launcher now has state tracking. Still to do here:
@@ -112,6 +115,18 @@ public class Telop extends OpMode {
         //     robot.launcher.isLauncherAtSpeed() / isTransferAtSpeed() before feeding.
         //  3. Optionally show getLauncherState() / getTransferState() in debug telemetry.
         if (gamepad1.right_trigger_pressed) {
+            //robot.launcher.cmdLauncherForward();
+          if(robot.launcher.isLauncherAtSpeed()){
+              robot.transitionR.cmdSpinng();
+              robot.pollenBlocker.cmdOpen();
+
+
+          }else{
+              robot.transitionR.cmdStop();
+              robot.pollenBlocker.cmdBlock();
+
+          }
+
 
 
         }

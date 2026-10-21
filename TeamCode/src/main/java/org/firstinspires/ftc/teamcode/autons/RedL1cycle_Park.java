@@ -6,8 +6,6 @@ import com.pedropathing.api.Paths;
 import static com.pedropathing.ivy.Scheduler.schedule;
 import static com.pedropathing.ivy.groups.Groups.sequential;
 
-import static org.firstinspires.ftc.teamcode.autons.Red1cycleL.Startpose;
-
 import com.pedropathing.api.PoseFactory;
 import com.pedropathing.ivy.Command;
 import com.pedropathing.ivy.Scheduler;
@@ -18,50 +16,50 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import org.firstinspires.ftc.teamcode.Hardware.Robot;
 
 import com.pedropathing.paths.Path;
-
-@Autonomous (name = "Red1cycleU", group = "PP")
-public class Red1cycleU extends OpMode {
+//starts lower facing hive then Tries to launch then drives by garden to park on the lower
+//side of the red lower loading zone
+@Autonomous (name = "RedL1cycle_Park" ,group = "")
+public class RedL1cycle_Park extends OpMode{
 
     Robot robot = new Robot();
     private TelemetryManager telemetryM;
 
-    public stage currentstage = stage._00_unknown;
+
+    public stage Currentstage = stage ._00_unknown;
 
     public static final PoseFactory pf = PoseFactory.degrees();
-    public static Pose startPose = pf.of (60, 132,270);
-    public static Pose Scorepose = pf.of (60,120,275);
-    public static Pose Parkpose = pf.of (17, 112,295);
-    public static Pose Flowerp2 = new Pose ( 56, 128, 160);
 
-    public Path Score1(){
-        return Paths.line(startPose,Scorepose). linear(startPose,Scorepose);
+    public static Pose Startpose = pf.of (56,10,90);
+    public static Pose scorePose = pf.of (60,20,95);
+    public static Pose Pickupgarden = pf.of (9,10,270);
+    public static Pose Park = pf.of (13,90,260);
 
+    public Path Pickup(){
+        return Paths.line (Startpose, Pickupgarden) .linear(Startpose, Pickupgarden);
     }
-    public Path FlowerP(){
-        return Paths.line(Scorepose,Flowerp2). linear(Scorepose,Flowerp2);
+    public Path Launchp2(){
+        return Paths.line (Pickupgarden,scorePose) .linear(Pickupgarden,scorePose);
     }
-    public Path Score2(){
-        return Paths.line(Flowerp2,Scorepose).linear(Flowerp2,Scorepose);
-    }
-    public Path Park(){
-        return Paths.line(Scorepose,Parkpose).linear(Scorepose,Parkpose);
 
+    public Path DrivetoPark(){
+        return Paths.line (scorePose, Park) .linear (scorePose,Park);
     }
-    protected Command UBcycle1(){
+
+    protected Command Onecycle(){
         return sequential(
-                robot.driveTrain.cmdAtFollow(Score1()),
-                robot.driveTrain.cmdAtFollow(FlowerP()),
-                robot.driveTrain.cmdAtFollow(Score2()),
-                robot.driveTrain.cmdAtFollow(Park())
+                robot.driveTrain.cmdAtFollow(Pickup()),
+                robot.driveTrain.cmdAtFollow(Launchp2()),
+                robot.driveTrain.cmdAtFollow(DrivetoPark())
         );
+
     }
 
     private Command auto;
-    public stage Currentstage = stage._00_unknown;
-
+    public stage currentstage = stage._00_unknown;
 
     @Override
-    public void init() {
+    public void init(){
+
         telemetryM = PanelsTelemetry.INSTANCE.getTelemetry();
         robot.hardwareMap = hardwareMap;
         robot.telemetry = telemetry;
@@ -71,22 +69,24 @@ public class Red1cycleU extends OpMode {
 
     }
 
+
+
     @Override
-    public void init_loop() {
-        robot.init_loop();
+    public void init_loop(){
+    robot.init_loop();
 
     }
-
     @Override
-    public void start() {
+    public void start(){
         robot.start();
-        auto = UBcycle1();
+        auto = Onecycle();
         schedule(auto);
 
+
     }
 
     @Override
-    public void loop() {
+    public void loop(){
         robot.loop();
         Scheduler.execute();
         telemetryM.addData("pose", robot.driveTrain.getPose());
@@ -97,15 +97,25 @@ public class Red1cycleU extends OpMode {
         telemetry.addData("auto running", auto.isScheduled());
         telemetry.update();
 
+
+
+
+
+
     }
 
     @Override
-    public void stop() {
+    public void stop(){
         robot.stop();
 
     }
 
     private enum stage{
-        _00_unknown;
+        _00_unknown,
+
+
+
     }
+
+
 }
