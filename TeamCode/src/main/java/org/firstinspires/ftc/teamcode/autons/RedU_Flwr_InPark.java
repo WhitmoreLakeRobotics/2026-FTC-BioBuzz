@@ -20,7 +20,7 @@ import org.firstinspires.ftc.teamcode.Hardware.Robot;
 import com.pedropathing.paths.Path;
 // Starts next to on the right side of the upper red flower goes a short distance up and go to
 // flower then parks on the upper red loading zone
-@Autonomous (name = "Red1cycleU", group = "PP")
+@Autonomous (name = "RedU_Flwr_Inpark", group = "PP")
 public class RedU_Flwr_InPark extends OpMode {
 
     Robot robot = new Robot();

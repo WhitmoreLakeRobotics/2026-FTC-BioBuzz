@@ -118,12 +118,12 @@ public class Telop extends OpMode {
             //robot.launcher.cmdLauncherForward();
           if(robot.launcher.isLauncherAtSpeed()){
               robot.transitionR.cmdSpinng();
-              robot.pollenBlocker.cmdOpen();
+             // robot.pollenBlocker.cmdOpen();
 
 
           }else{
               robot.transitionR.cmdStop();
-              robot.pollenBlocker.cmdBlock();
+              // robot.pollenBlocker.cmdBlock();
 
           }
 
