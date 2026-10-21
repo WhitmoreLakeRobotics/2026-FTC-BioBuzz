@@ -16,10 +16,10 @@ public class Launcher extends BaseHardware {
 // private DcMotor TransLM2;
 
     private DcMotorEx LM1;
-    private DcMotorEx TransLM2;
+
 
     private LauncherState launcherState = LauncherState.OFF;
-    private FeederState feederState = FeederState.OFF;
+
 
     public final double minPower = -1.0;
     public final double maxPower = 1.0;
@@ -31,10 +31,9 @@ public class Launcher extends BaseHardware {
     }
 
     private static final double POLLENATING_RPM = 1700;
-    private static final double TRANSFER_RPM = 4000;
+
 
     // ---------------- STATE MACHINE CONSTANTS ----------------
-    public static double TRANSFER_BACKWARD_RPM = -500; // default until a real value is chosen
     public static double RPM_TOLERANCE = 50;           // "at speed" window around the target RPM
     public static double AT_SPEED_HOLD_SEC = 0.15;     // RPM must stay in tolerance this long
     public static double OFF_RPM_THRESHOLD = 50;       // |RPM| below this counts as stopped
@@ -60,13 +59,11 @@ public class Launcher extends BaseHardware {
     public static double bkF = 1.24 / 6000.0; // feedforward per RPM
 
     private double targetRPM1 = 0;
-    private double targetRPM2 = 0;
 
     // Transfer direction change waiting for the motor to stop first (0 = none pending).
-    private double pendingTransferRPM = 0;
 
     private final ElapsedTime launcherAtSpeedTimer = new ElapsedTime();
-    private final ElapsedTime transferAtSpeedTimer = new ElapsedTime();
+
 
 
     private double lastError1 = 0;
@@ -76,7 +73,7 @@ public class Launcher extends BaseHardware {
     private double integral2 = 0;
 
     private ElapsedTime timer1 = new ElapsedTime();
-    private ElapsedTime timer2 = new ElapsedTime();
+
 
 
     /*private double getCompensatedVelocity(double targetVelocity) {
@@ -103,22 +100,21 @@ public class Launcher extends BaseHardware {
         // TransLM2 = hardwareMap.get(DcMotor.class, "TransLM2");
 
         LM1 = hardwareMap.get(DcMotorEx.class, "LM1");
-        TransLM2 = hardwareMap.get(DcMotorEx.class, "TransLM2");
+
 
         HIVEENERGY = hardwareMap.voltageSensor.iterator().next();
 
         LM1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        TransLM2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
 
         LM1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-        TransLM2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+
 
         // start from a known state
         targetRPM1 = 0;
-        targetRPM2 = 0;
-        pendingTransferRPM = 0;
+
         launcherState = LauncherState.OFF;
-        feederState = FeederState.OFF;
+
 
     }
 
@@ -138,11 +134,10 @@ public class Launcher extends BaseHardware {
         runPID();
 
         updateLauncherState(getMotorRPM(LM1));
-        updateTransferState(getMotorRPM(TransLM2));
 
         telemetry.addData("RPM offset: ", RPMoffset);
         telemetry.addData("Launcher State", launcherState);
-        telemetry.addData("Transfer State", feederState);
+
 
     }
 
@@ -150,13 +145,9 @@ public class Launcher extends BaseHardware {
     public void stop() {
 
         targetRPM1 = 0;
-        targetRPM2 = 0;
-        pendingTransferRPM = 0;
         launcherState = LauncherState.OFF;
-        feederState = FeederState.OFF;
-
         LM1.setPower(0);
-        TransLM2.setPower(0);
+
     }
 
     // ---------------- COMMANDS ----------------
@@ -183,55 +174,15 @@ public class Launcher extends BaseHardware {
         }
     }
 
-    public void cmdTransferForward() {
-        requestTransferRPM(TRANSFER_RPM);
-    }
 
-    public void cmdTransferBackward() {
-        requestTransferRPM(TRANSFER_BACKWARD_RPM);
-    }
 
-    public void cmdTransferStop() {
-
-        targetRPM2 = 0;
-        pendingTransferRPM = 0;
-
-        if (feederState != FeederState.OFF) {
-            feederState = FeederState.SPINNING_DOWN;
-        }
-    }
 
     /**
      * Sets a new transfer target. Same direction: retarget directly. Opposite direction (or
      * still spinning down): drop the target to 0, remember the request, and let loop() spin up
      * the other way only after the motor has stopped, so we never reverse a spinning motor.
      */
-    private void requestTransferRPM(double rpm) {
 
-        switch (feederState) {
-            case OFF:
-                targetRPM2 = rpm;
-                transferAtSpeedTimer.reset();
-                feederState = FeederState.SPINNING_UP;
-                break;
-
-            case SPINNING_UP:
-            case AT_SPEED_FORWARD:
-            case AT_SPEED_BACKWARD:
-                if (Math.signum(rpm) == Math.signum(targetRPM2)) {
-                    targetRPM2 = rpm;   // same direction, keep state (no debounce reset)
-                } else {
-                    targetRPM2 = 0;
-                    pendingTransferRPM = rpm;
-                    feederState = FeederState.SPINNING_DOWN;
-                }
-                break;
-
-            case SPINNING_DOWN:
-                pendingTransferRPM = rpm;   // wait for the stop, then loop() spins up
-                break;
-        }
-    }
 
     // ---------------- STATE MACHINE ----------------
 
@@ -266,47 +217,6 @@ public class Launcher extends BaseHardware {
         }
     }
 
-    private void updateTransferState(double rpm) {
-
-        boolean inRange = CommonLogic.inRange(rpm, targetRPM2, RPM_TOLERANCE);
-
-        switch (feederState) {
-            case SPINNING_UP:
-                if (!inRange) {
-                    transferAtSpeedTimer.reset();
-                } else if (transferAtSpeedTimer.seconds() >= AT_SPEED_HOLD_SEC) {
-                    feederState = (targetRPM2 >= 0)
-                            ? FeederState.AT_SPEED_FORWARD
-                            : FeederState.AT_SPEED_BACKWARD;
-                }
-                break;
-
-            case AT_SPEED_FORWARD:
-            case AT_SPEED_BACKWARD:
-                if (!inRange) {
-                    transferAtSpeedTimer.reset();
-                    feederState = FeederState.SPINNING_UP;
-                }
-                break;
-
-            case SPINNING_DOWN:
-                if (Math.abs(rpm) < OFF_RPM_THRESHOLD) {
-                    if (pendingTransferRPM != 0) {
-                        // stopped, now safe to spin up (possibly the other direction)
-                        targetRPM2 = pendingTransferRPM;
-                        pendingTransferRPM = 0;
-                        transferAtSpeedTimer.reset();
-                        feederState = FeederState.SPINNING_UP;
-                    } else {
-                        feederState = FeederState.OFF;
-                    }
-                }
-                break;
-
-            case OFF:
-                break;
-        }
-    }
 
     // ---------------- STATUS GETTERS ----------------
 
@@ -314,26 +224,16 @@ public class Launcher extends BaseHardware {
         return launcherState;
     }
 
-    public FeederState getTransferState() {
-        return feederState;
-    }
 
     public boolean isLauncherAtSpeed() {
         return launcherState == LauncherState.AT_SPEED;
-    }
-
-    public boolean isTransferAtSpeed() {
-        return feederState == FeederState.AT_SPEED_FORWARD
-                || feederState == FeederState.AT_SPEED_BACKWARD;
     }
 
     public double getLauncherVelocity() {
         return LM1.getVelocity();
     }
 
-    public double getTransferVelocity() {
-        return TransLM2.getVelocity();
-    }
+
 
     public double getMotorRPM(DcMotorEx motor) {
 
@@ -368,28 +268,6 @@ public class Launcher extends BaseHardware {
     }
 
 
-    private double pidMotor2(double currentRPM) {
-        double error = targetRPM2 - currentRPM;
-        double dt = timer2.seconds();
-        timer2.reset();
-
-        if (dt <= 0) dt = 0.001;
-
-        double p = bLkP * error;
-
-        integral2 += error * dt;
-        integral2 = Math.max(-5000, Math.min(5000, integral2));
-        double i = bLkI * integral2;
-
-        double derivative = (error - lastError2) / dt;
-        lastError2 = error;
-        double d = bLkD * derivative;
-
-        double voltage = Math.max(HIVEENERGY.getVoltage(), 1.0);
-        double ff = (targetRPM2 * bkF) * (12.0 / voltage);
-
-        return ff + p + i + d;
-    }
 
 
     public void runPID() {
@@ -397,10 +275,7 @@ public class Launcher extends BaseHardware {
         double power1 = pidMotor1(currentRPM1);
         power1 = Math.max(minPower, Math.min(maxPower, power1));
 
-        double currentRPM2 = getMotorRPM(TransLM2);
-        double power2 = pidMotor2(currentRPM2);
-        power2 = Math.max(minPower,
-                Math.min(maxPower, power2));
+
 
         // Prevent braking when stopping (test) MJD
         if (targetRPM1 == 0) {
@@ -409,22 +284,14 @@ public class Launcher extends BaseHardware {
             lastError1 = 0;
         }
 
-        if (targetRPM2 == 0) {
-            power2 = 0;
-            integral2 = 0;
-            lastError2 = 0;
-        }
 
         LM1.setPower(power1);
-        TransLM2.setPower(power2);
 
         telemetry.addData("Launcher RPM", currentRPM1);
         telemetry.addData("Launcher Target", targetRPM1);
         telemetry.addData("Launcher Power", power1);
 
-        telemetry.addData("Transfer RPM", currentRPM2);
-        telemetry.addData("Transfer Target", targetRPM2);
-        telemetry.addData("Transfer Power", power2);
+
 
     }
 

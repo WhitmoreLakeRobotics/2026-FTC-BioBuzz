@@ -119,12 +119,12 @@ public class Telop extends OpMode {
           if(robot.launcher.isLauncherAtSpeed()){
               robot.transitionR.cmdSpinng();
               robot.pollenBlocker.cmdOpen();
-              robot.launcher.cmdLauncherForward();
+
 
           }else{
               robot.transitionR.cmdStop();
               robot.pollenBlocker.cmdBlock();
-              robot.launcher.cmdLauncherStop();
+
           }
 
 
@@ -177,7 +177,7 @@ public class Telop extends OpMode {
 
         if ((gamepad2.x)) {
             robot.launcher.cmdLauncherStop();
-            robot.launcher.cmdTransferStop();
+            robot.feeder.cmdTransferStop();
         }
 
 
@@ -186,7 +186,7 @@ public class Telop extends OpMode {
         }
 
         if (gamepad2.left_bumper) {
-            robot.launcher.cmdTransferForward();
+            robot.feeder.cmdTransferForward();
         }
 
         if (gamepad2.dpad_left) {
