@@ -313,12 +313,6 @@ public class Launcher extends BaseHardware {
      * Transfer motor (TransLM2) status. Same pattern as LauncherState, but the
      * final state also says which direction the motor is running.
      */
-    public enum FeederState {
-        OFF,
-        SPINNING_UP,
-        AT_SPEED_FORWARD,
-        AT_SPEED_BACKWARD,
-        SPINNING_DOWN
-    }
+
 
 }

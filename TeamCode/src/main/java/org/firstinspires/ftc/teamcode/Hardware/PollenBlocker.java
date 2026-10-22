@@ -3,6 +3,9 @@ package org.firstinspires.ftc.teamcode.Hardware;
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.util.ElapsedTime;
+
 
 @Disabled
 
@@ -16,6 +19,9 @@ public class PollenBlocker extends BaseHardware {
 
     public static double BLOCK_POSITION = 0.80;
     public static double OPEN_POSITION = 0.20;
+
+    private ElapsedTime runtime = new ElapsedTime();
+    private ElapsedTime timerun = new ElapsedTime();
 
     @Override
     public void init() {
@@ -68,7 +74,6 @@ public class PollenBlocker extends BaseHardware {
     }
 
     public boolean isBlocking() {
-
         return CurrentMode == Mode.BLOCKING;
     }
 

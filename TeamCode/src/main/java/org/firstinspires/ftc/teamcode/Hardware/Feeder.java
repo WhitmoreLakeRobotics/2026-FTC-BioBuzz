@@ -14,7 +14,7 @@ public class Feeder extends BaseHardware {
 
     private DcMotorEx TransLM2;
 
-    private Launcher.FeederState feederState = Launcher.FeederState.OFF;
+    private Feeder.FeederState feederState = Feeder.FeederState.OFF;
 
     public final double minPower = -1.0;
     public final double maxPower = 1.0;
@@ -59,7 +59,7 @@ public class Feeder extends BaseHardware {
 
         TransLM2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
-        feederState = Launcher.FeederState.OFF;
+        feederState = Feeder.FeederState.OFF;
         pendingTransferRPM = 0;
 
     }
@@ -86,7 +86,7 @@ public class Feeder extends BaseHardware {
     @Override
     public void stop() {
 
-        feederState = Launcher.FeederState.OFF;
+        feederState = Feeder.FeederState.OFF;
         pendingTransferRPM = 0;
         TransLM2.setPower(0);
 
@@ -134,8 +134,8 @@ public void runPID() {
         targetRPM2 = 0;
         pendingTransferRPM = 0;
 
-        if (feederState != Launcher.FeederState.OFF) {
-            feederState = Launcher.FeederState.SPINNING_DOWN;
+        if (feederState != Feeder.FeederState.OFF) {
+            feederState = Feeder.FeederState.SPINNING_DOWN;
         }
     }
 
@@ -145,7 +145,7 @@ public void runPID() {
             case OFF:
                 targetRPM2 = rpm;
                 transferAtSpeedTimer.reset();
-                feederState = Launcher.FeederState.SPINNING_UP;
+                feederState = Feeder.FeederState.SPINNING_UP;
                 break;
 
             case SPINNING_UP:
@@ -156,7 +156,7 @@ public void runPID() {
                 } else {
                     targetRPM2 = 0;
                     pendingTransferRPM = rpm;
-                    feederState = Launcher.FeederState.SPINNING_DOWN;
+                    feederState = Feeder.FeederState.SPINNING_DOWN;
                 }
                 break;
 
@@ -176,8 +176,8 @@ public void runPID() {
                     transferAtSpeedTimer.reset();
                 } else if (transferAtSpeedTimer.seconds() >= AT_SPEED_HOLD_SEC) {
                     feederState = (targetRPM2 >= 0)
-                            ? Launcher.FeederState.AT_SPEED_FORWARD
-                            : Launcher.FeederState.AT_SPEED_BACKWARD;
+                            ? Feeder.FeederState.AT_SPEED_FORWARD
+                            : Feeder.FeederState.AT_SPEED_BACKWARD;
                 }
                 break;
 
@@ -185,7 +185,7 @@ public void runPID() {
             case AT_SPEED_BACKWARD:
                 if (!inRange) {
                     transferAtSpeedTimer.reset();
-                    feederState = Launcher.FeederState.SPINNING_UP;
+                    feederState = Feeder.FeederState.SPINNING_UP;
                 }
                 break;
 
@@ -196,9 +196,9 @@ public void runPID() {
                         targetRPM2 = pendingTransferRPM;
                         pendingTransferRPM = 0;
                         transferAtSpeedTimer.reset();
-                        feederState = Launcher.FeederState.SPINNING_UP;
+                        feederState = Feeder.FeederState.SPINNING_UP;
                     } else {
-                        feederState = Launcher.FeederState.OFF;
+                        feederState = Feeder.FeederState.OFF;
                     }
                 }
                 break;
@@ -208,13 +208,13 @@ public void runPID() {
         }
     }
 
-    public Launcher.FeederState getTransferState() {
+    FeederState getTransferState() {
         return feederState;
     }
 
     public boolean isTransferAtSpeed() {
-        return feederState == Launcher.FeederState.AT_SPEED_FORWARD
-                || feederState == Launcher.FeederState.AT_SPEED_BACKWARD;
+        return feederState == Feeder.FeederState.AT_SPEED_FORWARD
+                || feederState == Feeder.FeederState.AT_SPEED_BACKWARD;
     }
 
     public double getTransferVelocity() {
@@ -247,4 +247,15 @@ public void runPID() {
         return ff + p + i + d;
     }
 
+    public Feeder.FeederState getFeederState() {
+        return feederState;
+    }
+
+    public enum FeederState {
+        OFF,
+        SPINNING_UP,
+        AT_SPEED_FORWARD,
+        AT_SPEED_BACKWARD,
+        SPINNING_DOWN
+    }
 }
