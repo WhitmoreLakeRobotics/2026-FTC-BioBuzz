@@ -1,4 +1,5 @@
 package org.firstinspires.ftc.teamcode.autons;
+
 import com.bylazar.telemetry.PanelsTelemetry;
 import com.bylazar.telemetry.TelemetryManager;
 import com.pedropathing.api.Paths;
@@ -16,36 +17,34 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import org.firstinspires.ftc.teamcode.Hardware.Robot;
 
 import com.pedropathing.paths.Path;
+
 //starts lower facing hive then Tries to launch then drives by garden to park on the lower
 //side of the red lower loading zone
-@Autonomous (name = "RedL1cycle_Park" ,group = "")
-public class RedL1cycle_Park extends OpMode{
+@Autonomous(name = "RedL1cycle_Park", group = "")
+public class RedL1cycle_Park extends OpMode {
 
     Robot robot = new Robot();
     private TelemetryManager telemetryM;
-
-
-    public stage Currentstage = stage ._00_unknown;
-
     public static final PoseFactory pf = PoseFactory.degrees();
 
-    public static Pose Startpose = pf.of (56,10,90);
-    public static Pose scorePose = pf.of (60,20,95);
-    public static Pose Pickupgarden = pf.of (9,10,270);
-    public static Pose Park = pf.of (13,90,260);
+    public static Pose Startpose = pf.of(56, 10, 90);
+    public static Pose scorePose = pf.of(60, 20, 95);
+    public static Pose Pickupgarden = pf.of(9, 10, 270);
+    public static Pose Park = pf.of(13, 90, 260);
 
-    public Path Pickup(){
-        return Paths.line (Startpose, Pickupgarden) .linear(Startpose, Pickupgarden);
-    }
-    public Path Launchp2(){
-        return Paths.line (Pickupgarden,scorePose) .linear(Pickupgarden,scorePose);
+    public Path Pickup() {
+        return Paths.line(Startpose, Pickupgarden).linear(Startpose, Pickupgarden);
     }
 
-    public Path DrivetoPark(){
-        return Paths.line (scorePose, Park) .linear (scorePose,Park);
+    public Path Launchp2() {
+        return Paths.line(Pickupgarden, scorePose).linear(Pickupgarden, scorePose);
     }
 
-    protected Command Onecycle(){
+    public Path DrivetoPark() {
+        return Paths.line(scorePose, Park).linear(scorePose, Park);
+    }
+
+    protected Command Onecycle() {
         return sequential(
                 robot.driveTrain.cmdAtFollow(Pickup()),
                 robot.driveTrain.cmdAtFollow(Launchp2()),
@@ -55,10 +54,9 @@ public class RedL1cycle_Park extends OpMode{
     }
 
     private Command auto;
-    public stage currentstage = stage._00_unknown;
 
     @Override
-    public void init(){
+    public void init() {
 
         telemetryM = PanelsTelemetry.INSTANCE.getTelemetry();
         robot.hardwareMap = hardwareMap;
@@ -70,14 +68,14 @@ public class RedL1cycle_Park extends OpMode{
     }
 
 
-
     @Override
-    public void init_loop(){
-    robot.init_loop();
+    public void init_loop() {
+        robot.init_loop();
 
     }
+
     @Override
-    public void start(){
+    public void start() {
         robot.start();
         auto = Onecycle();
         schedule(auto);
@@ -86,7 +84,7 @@ public class RedL1cycle_Park extends OpMode{
     }
 
     @Override
-    public void loop(){
+    public void loop() {
         robot.loop();
         Scheduler.execute();
         telemetryM.addData("pose", robot.driveTrain.getPose());
@@ -98,22 +96,11 @@ public class RedL1cycle_Park extends OpMode{
         telemetry.update();
 
 
-
-
-
-
     }
 
     @Override
-    public void stop(){
+    public void stop() {
         robot.stop();
-
-    }
-
-    private enum stage{
-        _00_unknown,
-
-
 
     }
 
