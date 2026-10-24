@@ -66,7 +66,7 @@ follower.update();
 
     @Override
     public void start() {
-      
+
 
         follower.update();
     }
@@ -89,7 +89,9 @@ follower.update();
 
     @Override
     public void stop() {
-        OpModeStorage.autonomousEndPose = follower.pose();
+        if (follower != null) {
+            OpModeStorage.autonomousEndPose = follower.pose();
+        }
     }
 
     public void cmdTeleOp(double Left_Y, double Left_X, double Right_X, double Current_Speed) {

@@ -1,12 +1,13 @@
 package org.firstinspires.ftc.teamcode.Comp.Hardware;
 
 
+import com.bylazar.configurables.annotations.Configurable;   // CHANGED: so the positions can be tuned in Panels
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
-
+@Configurable   // CHANGED
 public class PollenBlocker extends BaseHardware {
 
     private Servo blocker;
@@ -15,8 +16,8 @@ public class PollenBlocker extends BaseHardware {
 
     public Mode CurrentMode = Mode.BLOCKING;
 
-    public static double BLOCK_POSITION = 0.80;
-    public static double OPEN_POSITION = 0.20;
+    public static double BLOCK_POSITION = 0.55;
+    public static double OPEN_POSITION = 0.45;
 
     private ElapsedTime runtime = new ElapsedTime();
     private ElapsedTime timerun = new ElapsedTime();
@@ -49,7 +50,11 @@ public class PollenBlocker extends BaseHardware {
 
     @Override
     public void stop() {
-
+        // CHANGED: close the blocker when the OpMode ends (null-safe if init() failed).
+        if (blocker != null) {
+            blocker.setPosition(BLOCK_POSITION);
+            CurrentMode = Mode.BLOCKING;
+        }
     }
 
     public void cmdBlock() {

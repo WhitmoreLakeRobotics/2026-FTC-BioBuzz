@@ -50,9 +50,8 @@ public class Telop extends OpMode {
     private boolean gp2_prev_left_trigger = false;
     // CHANGED: used to detect the moment the shoot trigger is released (now on gamepad 2).
     private boolean gp2_prev_right_trigger = false;
-    // CHANGED: true once the launcher has reached speed with the shoot trigger held. It latches,
-    // so dips in RPM during a volley can't close the blocker. It clears when the trigger is released.
-    private boolean volleyActive = false;
+    // CHANGED: replaced by the TripleThreat state machine (robot.tripleThreat), so this latch is no longer needed.
+    //private boolean volleyActive = false;
     private double LeftMotorPower = 0;
     private double RightMotorPower = 0;
     private int tHeading = 0;
@@ -108,6 +107,12 @@ public class Telop extends OpMode {
 
         }
 
+        //gamepad1
+        // CHANGED: gamepad 1 is driving and speed changes only for now. The launcher, blocker,
+        // feeder and intake controls moved to gamepad 2. The old gamepad 1 lines are commented
+        // out below so they are easy to restore.
+
+        // CHANGED: the Comp bot has no TransitionR servo, so every transitionR line is commented out.
         if ((gamepad1.b)) {
             //robot.intake.cmdIntakeForward();
             //robot.transitionR.cmdSpinng();
@@ -168,6 +173,8 @@ public class Telop extends OpMode {
 
         }
 
+        // CHANGED: dpad left/up/down now set the drive speed. They used to call
+        // cmdTeleOp(0, 0, 0, ...), which zeroed the sticks while the button was held.
         if (gamepad1.dpad_left) {
             driveSpeed = robot.driveTrain.NORMALSPEED;
         }
@@ -202,23 +209,29 @@ public class Telop extends OpMode {
 
         if ((gamepad2.b)) {
             robot.intake.cmdIntakeForward();
+            //robot.transitionR.cmdSpinng();
 
         }
 
         if ((gamepad2.a)) {
             robot.intake.cmdIntakeStop();
+            //robot.transitionR.cmdStop();
 
         }
 
         if ((gamepad2.y)) {
             robot.intake.cmdIntakeReverse();
+            //robot.transitionR.cmdTumble();
 
         }
 
+        // CHANGED: x is now a full stop: launcher off, feeder off, blocker closed,
+        // and any shot in progress is cancelled. (Before it left the blocker where it was.)
         if ((gamepad2.x)) {
-            robot.launcher.cmdLauncherStop();
-            robot.feeder.cmdFeederStop();
-            volleyActive = false;
+            robot.tripleThreat.cmdTripleThreatStop();
+            //robot.launcher.cmdLauncherStop();
+            //robot.feeder.cmdFeederStop();
+            //volleyActive = false;
         }
 
 
@@ -226,14 +239,19 @@ public class Telop extends OpMode {
             robot.launcher.cmdLauncherForward();
         }
 
-        if (gamepad2.left_bumper) {
+        // CHANGED: the manual feeder controls only act while TripleThreat is idle,
+        // so they can't fight the launch sequence.
+        if (gamepad2.left_bumper && robot.tripleThreat.isIdle()) {
             robot.feeder.cmdFeederForward();
         }
 
+        // CHANGED: feeder backward while held (the TODO "map a button to cmdFeederBackward").
         if (gamepad2.dpad_left) {
-            robot.feeder.cmdFeederBackward();
-        } else if (gp2_prev_dpad_left) {
-            robot.feeder.cmdFeederStop();
+            if (robot.tripleThreat.isIdle()) {
+                robot.feeder.cmdFeederBackward();
+            }
+        } else if (gp2_prev_dpad_left && robot.tripleThreat.isIdle()) {
+            robot.feeder.cmdFeederStop();   // just released
         }
         gp2_prev_dpad_left = gamepad2.dpad_left;
 
@@ -245,20 +263,31 @@ public class Telop extends OpMode {
 
         }
 
+        // CHANGED: manual blocker override. It only acts while the trigger is held (open) and
+        // once on release (close), and only while TripleThreat is idle. Before, the else branch
+        // ran every loop and kept closing the blocker, which cancelled the shoot sequence.
         boolean blockerOverrideHeld = gamepad2.left_trigger > 0.6;
 
-        if (blockerOverrideHeld){
-            robot.pollenBlocker.cmdOpen();
+        if (robot.tripleThreat.isIdle()) {
+            if (blockerOverrideHeld){
+                robot.pollenBlocker.cmdOpen();
 
-        }else if (gp2_prev_left_trigger){
-            robot.pollenBlocker.cmdBlock();
+            }else if (gp2_prev_left_trigger){
+                robot.pollenBlocker.cmdBlock();
+            }
         }
         gp2_prev_left_trigger = blockerOverrideHeld;
 
 
+        // CHANGED: the whole shoot sequence is one call now. Hold the trigger: TripleThreat spins up
+        // the launcher, waits for speed, starts the feeder, then opens the blocker and keeps firing.
+        // Release it: the blocker closes and the feeder stops (the launcher keeps spinning for the
+        // next volley; x stops it).
         boolean shootHeld = gamepad2.right_trigger_pressed;
 
         if (shootHeld) {
+            robot.tripleThreat.cmdShoot();
+            /* old latch version, replaced by the TripleThreat state machine:
             robot.launcher.cmdLauncherForward();
 
             // CHANGED: the at-speed check only STARTS the volley. After that, dips in RPM
@@ -277,13 +306,15 @@ public class Telop extends OpMode {
                 robot.feeder.cmdFeederStop();
 
             }
+            */
 
 
 
         } else if (gp2_prev_right_trigger) {
-            volleyActive = false;
-            robot.pollenBlocker.cmdBlock();
-            robot.feeder.cmdFeederStop();
+            robot.tripleThreat.cmdCeaseFire();
+            //volleyActive = false;
+            //robot.pollenBlocker.cmdBlock();
+            //robot.feeder.cmdFeederStop();
         }
         gp2_prev_right_trigger = shootHeld;
 
@@ -309,7 +340,7 @@ public class Telop extends OpMode {
             telemetry.addData("Launcher at speed", robot.launcher.isLauncherAtSpeed());
             telemetry.addData("Feeder at speed", robot.feeder.isFeederAtSpeed());
             telemetry.addData("Blocker open", robot.pollenBlocker.isOpen());
-            telemetry.addData("Volley active", volleyActive);   // CHANGED: shows the latch
+            //telemetry.addData("Volley active", volleyActive);   // CHANGED: replaced by "TripleThreat State" from the TripleThreat class
 
 
         }
