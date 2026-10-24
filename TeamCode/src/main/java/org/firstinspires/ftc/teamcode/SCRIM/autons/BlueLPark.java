@@ -18,8 +18,8 @@ import org.firstinspires.ftc.teamcode.SCRIM.Hardware.Robot;
 
 import com.pedropathing.paths.Path;
 //starts in corner and goes to upper side park area blue
-@Autonomous(name = "SCRIM_BlueUPark", group = "Ivy")
-public class BlueUPark extends OpMode  {
+@Autonomous(name = "SCRIM_BluelPark", group = "Ivy")
+public class BlueLPark extends OpMode  {
     Robot robot = new Robot();
     private TelemetryManager telemetryM;
 
