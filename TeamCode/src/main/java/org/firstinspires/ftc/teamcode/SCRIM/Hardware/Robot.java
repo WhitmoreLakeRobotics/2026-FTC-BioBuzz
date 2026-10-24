@@ -18,7 +18,7 @@ public class Robot extends BaseHardware {
     public Intake intake = new Intake();
     public Launcher launcher = new Launcher();
     public TransitionR transitionR = new TransitionR();
-    public PollenBlocker pollenBlocker = new PollenBlocker();
+    public Pollenblockerdisabled pollenBlocker = new Pollenblockerdisabled();
     public Feeder feeder = new Feeder();
 
 

@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 @Disabled
 
-public class PollenBlocker extends BaseHardware {
+public class Pollenblockerdisabled extends BaseHardware {
 
     private Servo blocker;
 
