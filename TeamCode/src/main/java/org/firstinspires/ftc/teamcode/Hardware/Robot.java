@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode.Hardware;
 
 
+import org.firstinspires.ftc.teamcode.Common.CommonLogic;
+
 /**
  * Holds all of Team 8492's hardware and passes each OpMode step
  * (init, init_loop, start, loop, stop) down to every part.
@@ -25,7 +27,8 @@ public class Robot extends BaseHardware {
      */
     @Override
     public void init() {
-
+//checking to make sure running the right code for this robot markerDevice is a device that is unique in each robot
+        CommonLogic.WhichRobotCheck(this.hardwareMap,"TransS","Scrimmage");
         // drivetrain
         driveTrain.hardwareMap = this.hardwareMap;
         driveTrain.telemetry = this.telemetry;
@@ -47,9 +50,9 @@ public class Robot extends BaseHardware {
         transitionR.init();
 
         //launcher blocker
-        pollenBlocker.hardwareMap = this.hardwareMap;
-        pollenBlocker.telemetry = this.telemetry;
-        pollenBlocker.init();
+  //      pollenBlocker.hardwareMap = this.hardwareMap;
+  //      pollenBlocker.telemetry = this.telemetry;
+    //    pollenBlocker.init();
 
         //Feeder
         feeder.hardwareMap = this.hardwareMap;
@@ -66,7 +69,7 @@ public class Robot extends BaseHardware {
         intake.init_loop();
         launcher.init_loop();
         transitionR.init_loop();
-        pollenBlocker.init_loop();
+      //  pollenBlocker.init_loop();
         feeder.init_loop();
     }
 
@@ -79,7 +82,7 @@ public class Robot extends BaseHardware {
         intake.start();
         launcher.start();
         transitionR.start();
-        pollenBlocker.start();
+ //       pollenBlocker.start();
         feeder.start();
     }
 
@@ -92,7 +95,7 @@ public class Robot extends BaseHardware {
         intake.loop();
         launcher.loop();
         transitionR.loop();
-        pollenBlocker.loop();
+   //     pollenBlocker.loop();
         feeder.loop();
     }
 
@@ -106,7 +109,7 @@ public class Robot extends BaseHardware {
         intake.stop();
         launcher.stop();
         transitionR.stop();
-        pollenBlocker.stop();
+   //     pollenBlocker.stop();
         feeder.stop();
     }
 }

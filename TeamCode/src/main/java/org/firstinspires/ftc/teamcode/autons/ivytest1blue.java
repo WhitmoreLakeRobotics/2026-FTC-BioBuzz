@@ -8,10 +8,6 @@ import static com.pedropathing.api.Paths.curve;
 import static com.pedropathing.api.Paths.line;
 import static com.pedropathing.ivy.Scheduler.schedule;
 import static com.pedropathing.ivy.groups.Groups.sequential;
-import static com.pedropathing.ivy.pedro.PedroCommands.follow;
-
-import static org.firstinspires.ftc.teamcode.autons.IvyTest1Red.Controlpoint1;
-import static org.firstinspires.ftc.teamcode.autons.ppAutonBase.follower;
 
 import com.pedropathing.api.PoseFactory;
 import com.pedropathing.math.Pose;
@@ -40,30 +36,23 @@ public class ivytest1blue extends OpMode {
     public static Pose CPparkpath = pf.of(14, 48, 0);
 
     public Path basicpath() {
-        return line(startpose, endscore).constant(parkpose);
+        return line(startpose, endscore).constant(startpose);
 
     }
 
     public Path Park() {
-        return curve(endscore, CPparkpath, parkpose).linear(parkpose, startpose);
+        return curve(endscore, CPparkpath, parkpose).linear(endscore, parkpose);
 
 
     }
+
     protected Command startToScore() {
         return sequential(
                 robot.driveTrain.cmdAtFollow(basicpath()),
                 robot.driveTrain.cmdAtFollow(Park())
         );
 
-    }
 
-    private Command autoRoutine() {
-        return sequential(
-                follow(follower, basicpath()),
-                // Add mechanism commands here.
-                follow(follower, Park())
-
-        );
     }
     private Command auto;
 
@@ -81,8 +70,6 @@ public class ivytest1blue extends OpMode {
     @Override
     public void init_loop() {
     robot.init_loop();
-        auto = startToScore();
-        schedule(auto);
 
 
     }
@@ -90,6 +77,8 @@ public class ivytest1blue extends OpMode {
     @Override
     public void start() {
     robot.start();
+        auto = startToScore();
+        schedule(auto);
 
     }
 

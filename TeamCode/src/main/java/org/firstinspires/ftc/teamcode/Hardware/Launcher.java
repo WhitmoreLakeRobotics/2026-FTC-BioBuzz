@@ -30,7 +30,7 @@ public class Launcher extends BaseHardware {
         return HIVEENERGY.getVoltage();
     }
 
-    private static final double POLLENATING_RPM = 1700;
+    private static  double POLLENATING_RPM = 1700;
 
 
     // ---------------- STATE MACHINE CONSTANTS ----------------

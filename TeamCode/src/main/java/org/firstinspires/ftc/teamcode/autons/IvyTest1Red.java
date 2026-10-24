@@ -22,31 +22,28 @@ import static com.pedropathing.api.Paths.*;
 import com.pedropathing.paths.Path;
 
 @Autonomous(name = "IvyTest1R", group = "PP")
-public class IvyTest1Red extends OpMode{
+public class IvyTest1Red extends OpMode {
 
 
     Robot robot = new Robot();
 
-    public Follower follower;
-
-    private stage Currentstage = stage._00_unknown;
 
     public static final PoseFactory P = PoseFactory.degrees();
 
 
-    public static Pose startpose = P.of (40,8,90);
-    public static Pose endscore = P.of (60,25, 90);
-    public static Pose Park = P.of (11,90,-13);
-    public static Pose Controlpoint1 = P.of (18,50,77);
+    public static Pose startpose = P.of(40, 8, 90);
+    public static Pose endscore = P.of(60, 25, 90);
+    public static Pose Park = P.of(11, 90, -13);
+    public static Pose Controlpoint1 = P.of(18, 50, 77);
 
 
-    public Path basicpath(){
-        return line(startpose,endscore).constant(90);
+    public Path basicpath() {
+        return line(startpose, endscore).constant(startpose);
 
     }
 
-    public Path Park(){
-       return curve(endscore,Controlpoint1,Park).linear(endscore,Park);
+    public Path Park() {
+        return curve(endscore, Controlpoint1, Park).linear(endscore, Park);
 
 
     }
@@ -54,91 +51,57 @@ public class IvyTest1Red extends OpMode{
 
     private Command autoRoutine() {
         return sequential(
-                follow(follower, basicpath()),
-                // Add mechanism commands here.
-                follow(follower, Park())
+                robot.driveTrain.cmdAtFollow(basicpath()),
+                robot.driveTrain.cmdAtFollow(Park())
 
         );
     }
-    
 
 
     @Override
-    public void init(){
-
+    public void init() {
+        robot.hardwareMap = hardwareMap;
+        robot.init();
         Scheduler.reset();
-        follower = Constants.create(hardwareMap);
-        follower.setPose(startpose);
-
-
-
-    }
-
-
-    @Override
-    public void init_loop(){
+        robot.driveTrain.cmdOpmodestartPose(startpose);
 
 
     }
 
 
     @Override
-    public void start(){
+    public void init_loop() {
+        robot.init_loop();
 
+    }
+
+
+    @Override
+    public void start() {
+        robot.start();
         schedule(autoRoutine());
 
 
     }
 
     @Override
-    public void loop(){
-
-
-        Scheduler.execute();
-        follower.update();
-
+    public void loop() {
         robot.loop();
 
-        switch (Currentstage) {
-            case _00_unknown:
-                Currentstage = stage._10_prestart;
-                break;
+        Scheduler.execute();
 
-            case _10_prestart:
-                Currentstage = stage._20_Outdrive;
-                break;
-
-
-                case _20_Outdrive:
-                if (follower.isBusy()) {
-                    follower.follow(basicpath());
-                    Currentstage = stage._30_end;
-                }
-                break;
-
-
-                case _30_end:
-                    if (!follower.isBusy()) {
-                        stop();
-                    }
-
-        }
+        telemetry.addData("auto running", autoRoutine().isScheduled());
+        telemetry.update();
 
     }
 
 
     @Override
-    public void stop(){
-
+    public void stop() {
+        robot.stop();
 
 
     }
 
-    private enum stage{
-        _00_unknown,
-        _10_prestart,
-        _20_Outdrive,
-        _30_end;
 
-    }
 }
