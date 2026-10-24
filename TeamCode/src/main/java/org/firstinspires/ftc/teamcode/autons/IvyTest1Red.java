@@ -60,6 +60,7 @@ public class IvyTest1Red extends OpMode {
 
     @Override
     public void init() {
+        robot.hardwareMap = hardwareMap;
         robot.init();
         Scheduler.reset();
         robot.driveTrain.cmdOpmodestartPose(startpose);
