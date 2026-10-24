@@ -6,147 +6,94 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.Common.CommonLogic;
-
+/**
+ * Launcher flywheel motor (LM1).
+ * Closed-loop RPM control (feedforward + PID). A cmd sets the target and the transition
+ * state; loop() decides when we arrive.
+ */
 @Configurable
 public class Launcher extends BaseHardware {
 
-// private DcMotor LM1;
-// private DcMotor TransLM2;
+    private DcMotorEx launcherMotor;
+    private VoltageSensor battery;
 
-    private DcMotorEx LM1;
-
-
-    private LauncherState launcherState = LauncherState.OFF;
-
-
-    public final double minPower = -1.0;
-    public final double maxPower = 1.0;
-
-    public int RPMoffset = 0;
-
-    public double getBatteryVoltage() {
-        return HIVEENERGY.getVoltage();
-    }
-
-    private static  double POLLENATING_RPM = 1700;
-
-
-    // ---------------- STATE MACHINE CONSTANTS ----------------
+    // ---------------- TUNABLE CONSTANTS ----------------
+    public static double LAUNCHER_RPM = 1700;
+    public static int RPM_OFFSET = 0;                  // added to LAUNCHER_RPM (trim from Panels)
     public static double RPM_TOLERANCE = 50;           // "at speed" window around the target RPM
     public static double AT_SPEED_HOLD_SEC = 0.15;     // RPM must stay in tolerance this long
     public static double OFF_RPM_THRESHOLD = 50;       // |RPM| below this counts as stopped
 
-    private VoltageSensor HIVEENERGY;
+    // ---------------- PID CONSTANTS ----------------
+    public static double LAUNCHER_KP = 0.0002;
+    public static double LAUNCHER_KI = 0.0;            // still unused
+    public static double LAUNCHER_KD = 0.0;
+    public static double LAUNCHER_KF = 1 / 6000.0;     // feedforward per RPM
+
+    private static final double TICKS_PER_REV = 28;    // motor-shaft encoder; change if geared
+    private static final double MIN_POWER = -1.0;
+    private static final double MAX_POWER = 1.0;
     private static final double NOMINAL_VOLTAGE = 12.0;
+    private static final String MOTOR_NAME = "LM1";    // must match the robot configuration
 
-    private static final double TicksPerRev = 28;
-    // private static final double GearRat = 1;
-    // private double rpmToTicksPerSeconds(double rpm) {
-    //return (rpm * TicksPerRev) / (60 * GearRat);
+    // ---------------- STATE ----------------
+    private LauncherState launcherState = LauncherState.OFF;
+    private double targetRPM = 0;
+    private final ElapsedTime atSpeedTimer = new ElapsedTime();
 
-    // ---------------- PID CONSTANTS ----------------
-    public static double LkP = 0.0002;   // increased for faster recovery
-    public static double LkI = 0.0;       // still unused
-    public static double LkD = 0.00000; // small D for damping
-    public static double kF = 1 / 6000.0; // feedforward per RPM
+    // ---------------- PID WORKING VALUES ----------------
+    private final ElapsedTime pidTimer = new ElapsedTime();
+    private double integral = 0;
+    private double lastError = 0;
 
-    // ---------------- PID CONSTANTS ----------------
-    public static double bLkP = 0.00070;   // increased for faster recovery
-    public static double bLkI = 0.0;       // still unused
-    public static double bLkD = 0.0000015; // small D for damping
-    public static double bkF = 1.24 / 6000.0; // feedforward per RPM
-
-    private double targetRPM1 = 0;
-
-    // Transfer direction change waiting for the motor to stop first (0 = none pending).
-
-    private final ElapsedTime launcherAtSpeedTimer = new ElapsedTime();
-
-
-
-    private double lastError1 = 0;
-    private double lastError2 = 0;
-
-    private double integral1 = 0;
-    private double integral2 = 0;
-
-    private ElapsedTime timer1 = new ElapsedTime();
-
-
-
-    /*private double getCompensatedVelocity(double targetVelocity) {
-
-        double currentVoltage = HIVEENERGY.getVoltage();
-
-        if (currentVoltage <= 0) {
-            return targetVelocity;
-        }
-
-        return targetVelocity * (NOMINAL_VOLTAGE / currentVoltage);
-    }*/
-
-    // private static final double Pollenating = 1.0;
-    // private static final double LaurenStop = 0.0;
-
-    // private static final double Pushingspeed = 0.55;
-    // private static final double naughtspeed = 0.0;
-
+    // ---------------- LIFECYCLE ----------------
     @Override
     public void init() {
+        launcherMotor = hardwareMap.get(DcMotorEx.class, MOTOR_NAME);
+        battery = hardwareMap.voltageSensor.iterator().next();
 
-        // LM1 = hardwareMap.get(DcMotor.class, "LM1");
-        // TransLM2 = hardwareMap.get(DcMotor.class, "TransLM2");
+        launcherMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);   // our own PID; velocity still reads
+        launcherMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
-        LM1 = hardwareMap.get(DcMotorEx.class, "LM1");
-
-
-        HIVEENERGY = hardwareMap.voltageSensor.iterator().next();
-
-        LM1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
-
-        LM1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-
-
-        // start from a known state
-        targetRPM1 = 0;
-
-        launcherState = LauncherState.OFF;
-
-
+        resetState();
+        pidTimer.reset();
     }
 
     @Override
     public void init_loop() {
-
     }
 
     @Override
     public void start() {
-
+        pidTimer.reset();   // so the first dt isn't the whole time since init
     }
 
     @Override
     public void loop() {
+        double rpm = getLauncherRPM();   // read the encoder once per loop
 
-        runPID();
+        runPID(rpm);
+        updateLauncherState(rpm);
 
-        updateLauncherState(getMotorRPM(LM1));
-
-        telemetry.addData("RPM offset: ", RPMoffset);
         telemetry.addData("Launcher State", launcherState);
-
-
+        telemetry.addData("Launcher RPM", rpm);
+        telemetry.addData("Launcher Target", targetRPM);
     }
 
     @Override
     public void stop() {
+        resetState();
 
-        targetRPM1 = 0;
+        if (launcherMotor != null) {
+            launcherMotor.setPower(0);
+        }
+    }
+
+    private void resetState() {
+        targetRPM = 0;
+        integral = 0;
+        lastError = 0;
         launcherState = LauncherState.OFF;
-        LM1.setPower(0);
-
     }
 
     // ---------------- COMMANDS ----------------
@@ -154,11 +101,11 @@ public class Launcher extends BaseHardware {
 
     public void cmdLauncherForward() {
 
-        // Same direction as before, so retargeting while spinning (or spinning down) is safe.
-        targetRPM1 = POLLENATING_RPM + RPMoffset;
+        // Only one direction, so retargeting while spinning (or spinning down) is safe.
+        targetRPM = LAUNCHER_RPM + RPM_OFFSET;
 
         if (launcherState == LauncherState.OFF || launcherState == LauncherState.SPINNING_DOWN) {
-            launcherAtSpeedTimer.reset();
+            atSpeedTimer.reset();
             launcherState = LauncherState.SPINNING_UP;
         }
         // SPINNING_UP / AT_SPEED: keep the state so a held button doesn't reset the debounce.
@@ -166,41 +113,31 @@ public class Launcher extends BaseHardware {
 
     public void cmdLauncherStop() {
 
-        targetRPM1 = 0;
+        targetRPM = 0;
 
         if (launcherState != LauncherState.OFF) {
             launcherState = LauncherState.SPINNING_DOWN;
         }
     }
 
-
-
-
-    /**
-     * Sets a new transfer target. Same direction: retarget directly. Opposite direction (or
-     * still spinning down): drop the target to 0, remember the request, and let loop() spin up
-     * the other way only after the motor has stopped, so we never reverse a spinning motor.
-     */
-
-
     // ---------------- STATE MACHINE ----------------
 
     private void updateLauncherState(double rpm) {
 
-        boolean inRange = CommonLogic.inRange(rpm, targetRPM1, RPM_TOLERANCE);
+        boolean inRange = Math.abs(rpm - targetRPM) <= RPM_TOLERANCE;
 
         switch (launcherState) {
             case SPINNING_UP:
                 if (!inRange) {
-                    launcherAtSpeedTimer.reset();
-                } else if (launcherAtSpeedTimer.seconds() >= AT_SPEED_HOLD_SEC) {
+                    atSpeedTimer.reset();
+                } else if (atSpeedTimer.seconds() >= AT_SPEED_HOLD_SEC) {
                     launcherState = LauncherState.AT_SPEED;
                 }
                 break;
 
             case AT_SPEED:
                 if (!inRange) {   // e.g. RPM dropped after a shot
-                    launcherAtSpeedTimer.reset();
+                    atSpeedTimer.reset();
                     launcherState = LauncherState.SPINNING_UP;
                 }
                 break;
@@ -216,6 +153,49 @@ public class Launcher extends BaseHardware {
         }
     }
 
+    // ---------------- PID ----------------
+
+    private void runPID(double currentRPM) {
+
+        double power;
+
+        if (targetRPM == 0) {
+            // no braking when stopping; reset so the PID doesn't spike later
+            power = 0;
+            integral = 0;
+            lastError = 0;
+            pidTimer.reset();
+        } else {
+            power = calculatePower(currentRPM);
+        }
+
+        launcherMotor.setPower(Math.max(MIN_POWER, Math.min(MAX_POWER, power)));
+
+        telemetry.addData("Launcher Power", power);
+    }
+
+    private double calculatePower(double currentRPM) {
+        double error = targetRPM - currentRPM;
+        double dt = pidTimer.seconds();
+        pidTimer.reset();
+
+        if (dt <= 0) dt = 0.001;
+
+        double p = LAUNCHER_KP * error;
+
+        integral += error * dt;
+        integral = Math.max(-5000, Math.min(5000, integral));
+        double i = LAUNCHER_KI * integral;
+
+        double derivative = (error - lastError) / dt;
+        lastError = error;
+        double d = LAUNCHER_KD * derivative;
+
+        double voltage = Math.max(battery.getVoltage(), 1.0);
+        double ff = (targetRPM * LAUNCHER_KF) * (NOMINAL_VOLTAGE / voltage);
+
+        return ff + p + i + d;
+    }
 
     // ---------------- STATUS GETTERS ----------------
 
@@ -223,75 +203,24 @@ public class Launcher extends BaseHardware {
         return launcherState;
     }
 
-
     public boolean isLauncherAtSpeed() {
         return launcherState == LauncherState.AT_SPEED;
     }
 
-    public double getLauncherVelocity() {
-        return LM1.getVelocity();
+    public boolean isLauncherOff() {
+        return launcherState == LauncherState.OFF;
     }
 
-
-
-    public double getMotorRPM(DcMotorEx motor) {
-
-        double ticksPerSecond = motor.getVelocity();
-
-        return
-                (ticksPerSecond / TicksPerRev) * 60.0;
-
+    public double getLauncherRPM() {
+        return (launcherMotor.getVelocity() / TICKS_PER_REV) * 60.0;
     }
 
-    private double pidMotor1(double currentRPM) {
-        double error = targetRPM1 - currentRPM;
-        double dt = timer1.seconds();
-        timer1.reset();
-
-        if (dt <= 0) dt = 0.001;
-
-        double p = LkP * error;
-
-        integral1 += error * dt;
-        integral1 = Math.max(-5000, Math.min(5000, integral1));
-        double i = LkI * integral1;
-
-        double derivative = (error - lastError1) / dt;
-        lastError1 = error;
-        double d = LkD * derivative;
-
-        double voltage = Math.max(HIVEENERGY.getVoltage(), 1.0);
-        double ff = (targetRPM1 * kF) * (12.0 / voltage);
-
-        return ff + p + i + d;
+    public double getLauncherTargetRPM() {
+        return targetRPM;
     }
 
-
-
-
-    public void runPID() {
-        double currentRPM1 = getMotorRPM(LM1);
-        double power1 = pidMotor1(currentRPM1);
-        power1 = Math.max(minPower, Math.min(maxPower, power1));
-
-
-
-        // Prevent braking when stopping (test) MJD
-        if (targetRPM1 == 0) {
-            power1 = 0;
-            integral1 = 0;   // reset PID so it doesn't spike later
-            lastError1 = 0;
-        }
-
-
-        LM1.setPower(power1);
-
-        telemetry.addData("Launcher RPM", currentRPM1);
-        telemetry.addData("Launcher Target", targetRPM1);
-        telemetry.addData("Launcher Power", power1);
-
-
-
+    public double getBatteryVoltage() {
+        return battery.getVoltage();
     }
 
     // ---------------- ENUMS (keep at the end of the class) ----------------
@@ -307,11 +236,4 @@ public class Launcher extends BaseHardware {
         AT_SPEED,
         SPINNING_DOWN
     }
-
-    /**
-     * Transfer motor (TransLM2) status. Same pattern as LauncherState, but the
-     * final state also says which direction the motor is running.
-     */
-
-
 }
