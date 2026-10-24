@@ -1,49 +1,59 @@
-package org.firstinspires.ftc.teamcode.autons;
+package org.firstinspires.ftc.teamcode.SCRIM.autons;
 
-import static com.pedropathing.api.Paths.line;
+import com.pedropathing.api.Paths;
+import com.pedropathing.ivy.Command;
+import com.pedropathing.ivy.Scheduler;
+
 import static com.pedropathing.ivy.Scheduler.schedule;
 import static com.pedropathing.ivy.groups.Groups.sequential;
 
+import com.pedropathing.api.PoseFactory;
+import com.pedropathing.math.Pose;
 import com.bylazar.telemetry.PanelsTelemetry;
 import com.bylazar.telemetry.TelemetryManager;
-import com.pedropathing.api.PoseFactory;
-import com.pedropathing.ivy.Command;
-import com.pedropathing.ivy.Scheduler;
-import com.pedropathing.math.Pose;
-import com.pedropathing.paths.Path;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
-import org.firstinspires.ftc.teamcode.Hardware.Robot;
+import org.firstinspires.ftc.teamcode.SCRIM.Hardware.Robot;
 
-//starts in corner and goes to upper side park area red
-@Autonomous(name = "RedUPark", group = "")
-public class RedUPark extends OpMode {
+import com.pedropathing.paths.Path;
+
+@Autonomous(name = "IvyTest1", group = "Ivy")
+public class IvyTest1 extends OpMode {
+
+
     Robot robot = new Robot();
     private TelemetryManager telemetryM;
 
 
 
-        private final PoseFactory Pf = PoseFactory.degrees();
+    public static final PoseFactory pf = PoseFactory.degrees();
 
 
-        private final Pose path1Start = Pf .of (8, 133, 0);
-        private final Pose path1 = Pf.of(14, 113, 0);
+    public static Pose startpose = pf.of(56, 8, 90);
+    public static Pose endscore = pf.of(56, 25, 90);
+    public static Pose parkpose = pf.of(10, 90, 90);
+    public static Pose CPparkpath = pf.of(24, 39, 0);
 
-        public Path cool_path() {
-            return line(path1Start, path1).linear(path1Start, path1);
-        }
+    public Path pth1Score() {
+        return Paths.line(startpose, endscore).constant(startpose);
+    }
+
+    public Path pthPark() {
+        return Paths.curve(endscore, CPparkpath, parkpose).constant(parkpose);
+    }
 
     protected Command startToScore() {
         return sequential(
-                robot.driveTrain.cmdAtFollow(cool_path())
-
+                robot.driveTrain.cmdAtFollow(pth1Score()),
+                robot.driveTrain.cmdAtFollow(pthPark())
         );
 
     }
 
+    private Command auto;
 
-private Command auto;
+
 
     @Override
     public void init() {
@@ -52,7 +62,7 @@ private Command auto;
         robot.telemetry = telemetry;
         robot.init();
         Scheduler.reset();
-        robot.driveTrain.cmdOpmodestartPose(path1Start);
+        robot.driveTrain.cmdOpmodestartPose(startpose);
 
     }
 

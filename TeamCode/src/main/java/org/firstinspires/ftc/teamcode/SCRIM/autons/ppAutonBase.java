@@ -1,30 +1,9 @@
-package org.firstinspires.ftc.teamcode.autons;
+package org.firstinspires.ftc.teamcode.SCRIM.autons;
 
 import com.pedropathing.api.PoseFactory;
 import com.pedropathing.math.Pose;
 import com.pedropathing.follower.Follower;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-
-import org.firstinspires.ftc.teamcode.Hardware.Robot;
-import static com.pedropathing.api.Paths.*;
-import com.pedropathing.paths.Path;
-
-import com.bylazar.configurables.PanelsConfigurables;
-import com.bylazar.telemetry.PanelsTelemetry;
-import com.bylazar.telemetry.TelemetryManager;
-
-
-import com.pedropathing.follower.Follower;
-import com.pedropathing.math.Pose;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.util.ElapsedTime;
-
-import org.firstinspires.ftc.teamcode.Common.CommonLogic;
-import org.firstinspires.ftc.teamcode.Hardware.Robot;
-
 
 
 public class ppAutonBase extends OpMode {

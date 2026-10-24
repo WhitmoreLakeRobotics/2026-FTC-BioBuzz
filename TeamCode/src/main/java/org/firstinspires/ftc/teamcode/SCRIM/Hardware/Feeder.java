@@ -1,12 +1,10 @@
-package org.firstinspires.ftc.teamcode.Hardware;
+package org.firstinspires.ftc.teamcode.SCRIM.Hardware;
 
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
-
-import com.bylazar.configurables.annotations.Configurable;
 
 import org.firstinspires.ftc.teamcode.Common.CommonLogic;
 
