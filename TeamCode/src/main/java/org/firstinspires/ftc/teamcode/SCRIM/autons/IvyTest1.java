@@ -18,7 +18,7 @@ import org.firstinspires.ftc.teamcode.SCRIM.Hardware.Robot;
 
 import com.pedropathing.paths.Path;
 
-@Autonomous(name = "IvyTest1", group = "Ivy")
+@Autonomous(name = "SCRIM_IvyTest1", group = "Ivy")
 public class IvyTest1 extends OpMode {
 
 

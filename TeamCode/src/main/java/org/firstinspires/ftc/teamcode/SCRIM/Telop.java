@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcode.SCRIM.Hardware.Robot;
 import com.pedropathing.math.Pose;
 
 
-@TeleOp(name = "TeleOp")
+@TeleOp(name = "Scrim_TeleOp")
 public class Telop extends OpMode {
 
     private static final String TAGTeleop = "8492-Teleop";

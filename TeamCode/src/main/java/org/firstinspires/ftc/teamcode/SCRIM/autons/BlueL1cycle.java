@@ -19,7 +19,7 @@ import org.firstinspires.ftc.teamcode.SCRIM.Hardware.Robot;
 import com.pedropathing.paths.Path;
 
 @Disabled
-@Autonomous(name = "BlueL1cycle", group = "PP")
+@Autonomous(name = "SCRIM_BlueL1cycle", group = "PP")
 public class BlueL1cycle extends OpMode {
 
     Robot robot = new Robot();

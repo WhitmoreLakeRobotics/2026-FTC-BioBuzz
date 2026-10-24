@@ -20,7 +20,7 @@ import com.pedropathing.paths.Path;
 
 //starts lower facing hive then Tries to launch then drives by garden to park on the lower
 //side of the red lower loading zone
-@Autonomous(name = "RedL1cycle_Park", group = "")
+@Autonomous(name = "Scrim_RedL1cycle_Park", group = "")
 public class RedL1cycle_Park extends OpMode {
 
     Robot robot = new Robot();

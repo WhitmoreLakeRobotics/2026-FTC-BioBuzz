@@ -19,7 +19,7 @@ import org.firstinspires.ftc.teamcode.SCRIM.Hardware.Robot;
 
 import com.pedropathing.paths.Path;
 
-@Autonomous(name = "ivytest1blue" , group = "")
+@Autonomous(name = "SCRIM_ivytest1blue" , group = "")
 public class ivytest1blue extends OpMode {
 
     Robot robot = new Robot();
