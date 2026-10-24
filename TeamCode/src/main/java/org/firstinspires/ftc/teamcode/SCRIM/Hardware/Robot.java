@@ -1,0 +1,115 @@
+package org.firstinspires.ftc.teamcode.SCRIM.Hardware;
+
+
+import org.firstinspires.ftc.teamcode.Common.CommonLogic;
+
+/**
+ * Holds all of Team 8492's hardware and passes each OpMode step
+ * (init, init_loop, start, loop, stop) down to every part.
+ * <p>
+ * CHANGED: removed the duplicate "telemetry" and "hardwareMap" fields.
+ * Robot extends BaseHardware, which already has both, so declaring them
+ * again here created a second, confusing copy. Telop's
+ * "robot.hardwareMap = hardwareMap;" still works exactly the same.
+ */
+public class Robot extends BaseHardware {
+
+    public DriveTrain driveTrain = new DriveTrain();
+    public Intake intake = new Intake();
+    public Launcher launcher = new Launcher();
+    public TransitionR transitionR = new TransitionR();
+    public PollenBlocker pollenBlocker = new PollenBlocker();
+    public Feeder feeder = new Feeder();
+
+
+    /**
+     * Called once when the INIT button is pressed.
+     */
+    @Override
+    public void init() {
+//checking to make sure running the right code for this robot markerDevice is a device that is unique in each robot
+        CommonLogic.WhichRobotCheck(this.hardwareMap,"TransS","Scrimmage");
+        // drivetrain
+        driveTrain.hardwareMap = this.hardwareMap;
+        driveTrain.telemetry = this.telemetry;
+        driveTrain.init();
+
+        // Intake
+        intake.hardwareMap = this.hardwareMap;
+        intake.telemetry = this.telemetry;
+        intake.init();
+
+        //Launcher
+        launcher.hardwareMap = this.hardwareMap;
+        launcher.telemetry = this.telemetry;
+        launcher.init();
+
+        //Transition Roller
+        transitionR.hardwareMap = this.hardwareMap;
+        transitionR.telemetry = this.telemetry;
+        transitionR.init();
+
+        //launcher blocker
+  //      pollenBlocker.hardwareMap = this.hardwareMap;
+  //      pollenBlocker.telemetry = this.telemetry;
+    //    pollenBlocker.init();
+
+        //Feeder
+        feeder.hardwareMap = this.hardwareMap;
+        feeder.telemetry = this.telemetry;
+        feeder.init();
+    }
+
+    /**
+     * Called repeatedly after INIT is pressed, until PLAY.
+     */
+    @Override
+    public void init_loop() {
+        driveTrain.init_loop();
+        intake.init_loop();
+        launcher.init_loop();
+        transitionR.init_loop();
+      //  pollenBlocker.init_loop();
+        feeder.init_loop();
+    }
+
+    /**
+     * Called once when the PLAY button is pressed.
+     */
+    @Override
+    public void start() {
+        driveTrain.start();
+        intake.start();
+        launcher.start();
+        transitionR.start();
+ //       pollenBlocker.start();
+        feeder.start();
+    }
+
+    /**
+     * Called repeatedly while the OpMode is running.
+     */
+    @Override
+    public void loop() {
+        driveTrain.loop();
+        intake.loop();
+        launcher.loop();
+        transitionR.loop();
+   //     pollenBlocker.loop();
+        feeder.loop();
+    }
+
+    /**
+     * Called once when STOP is pressed.
+     * CHANGED: added "public" (was just "void stop()").
+     */
+    @Override
+    public void stop() {
+        driveTrain.stop();
+        intake.stop();
+        launcher.stop();
+        transitionR.stop();
+   //     pollenBlocker.stop();
+        feeder.stop();
+    }
+}
