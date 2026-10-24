@@ -19,7 +19,7 @@ import static com.pedropathing.api.Paths.*;
 import com.pedropathing.paths.Path;
 
 @Autonomous(name = "Scrim_IvyTest1R", group = "PP")
-public class IvyTest1Red extends OpMode {
+public class RedLPark extends OpMode {
 
 
     Robot robot = new Robot();
