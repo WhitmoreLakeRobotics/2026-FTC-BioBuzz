@@ -1,12 +1,7 @@
 package org.firstinspires.ftc.teamcode.Comp.Hardware;
 
 
-import com.pedropathing.ivy.Command;
-
 import org.firstinspires.ftc.teamcode.Common.CommonLogic;
-
-import static com.pedropathing.ivy.commands.Commands.*;
-import static com.pedropathing.ivy.groups.Groups.*;
 
 /**
  * Holds all of Team 8492's hardware and passes each OpMode step
@@ -26,8 +21,6 @@ public class Robot extends BaseHardware {
     //public TransitionR transitionR = new TransitionR();
     public PollenBlocker pollenBlocker = new PollenBlocker();
     public Feeder feeder = new Feeder();
-    // CHANGED: runs the launch sequence. Declared AFTER the parts it uses.
-    public TripleThreat tripleThreat = new TripleThreat(launcher, feeder, pollenBlocker);
 
 
     /**
@@ -55,13 +48,11 @@ public class Robot extends BaseHardware {
         launcher.init();
 
         //Transition Roller
-        // CHANGED: no TransitionR servo on the Comp bot.
         //transitionR.hardwareMap = this.hardwareMap;
         //transitionR.telemetry = this.telemetry;
         //transitionR.init();
 
         //launcher blocker
-        // CHANGED: the blocker is on the Comp bot, so these are active again.
         pollenBlocker.hardwareMap = this.hardwareMap;
         pollenBlocker.telemetry = this.telemetry;
         pollenBlocker.init();
@@ -70,16 +61,8 @@ public class Robot extends BaseHardware {
         feeder.hardwareMap = this.hardwareMap;
         feeder.telemetry = this.telemetry;
         feeder.init();
-
-        //TripleThreat (launch sequence)
-        tripleThreat.hardwareMap = this.hardwareMap;
-        tripleThreat.telemetry = this.telemetry;
-        tripleThreat.init();
     }
 
-    /**
-     * Called repeatedly after INIT is pressed, until PLAY.
-     */
     @Override
     public void init_loop() {
         driveTrain.init_loop();
@@ -88,12 +71,8 @@ public class Robot extends BaseHardware {
         //transitionR.init_loop();
         pollenBlocker.init_loop();
         feeder.init_loop();
-        tripleThreat.init_loop();
     }
 
-    /**
-     * Called once when the PLAY button is pressed.
-     */
     @Override
     public void start() {
         driveTrain.start();
@@ -102,18 +81,12 @@ public class Robot extends BaseHardware {
         //transitionR.start();
         pollenBlocker.start();
         feeder.start();
-        tripleThreat.start();
     }
 
-    /**
-     * Called repeatedly while the OpMode is running.
-     */
     @Override
     public void loop() {
         driveTrain.loop();
         intake.loop();
-        // CHANGED: TripleThreat runs before the parts it commands, so its commands take effect this loop.
-        tripleThreat.loop();
         launcher.loop();
         //transitionR.loop();
         pollenBlocker.loop();
@@ -128,31 +101,11 @@ public class Robot extends BaseHardware {
      */
     @Override
     public void stop() {
-        tripleThreat.stop();
         launcher.stop();
         feeder.stop();
         intake.stop();
         //transitionR.stop();
         pollenBlocker.stop();
         driveTrain.stop();
-    }
-
-    // ---------------- IVY COMMANDS (for Pedro auto paths) ----------------
-
-    /**
-     * Start the launch sequence and finish once TripleThreat is FIRING (or the shot aborted).
-     * It keeps firing until cmdCeaseFireSequence() runs.
-     * Auto must call robot.loop() every cycle, since that is what advances the states.
-     */
-    public Command cmdShootSequence() {
-        return sequential(
-                instant(() -> tripleThreat.cmdShoot()),
-                waitUntil(() -> tripleThreat.isFiring() || tripleThreat.isIdle())
-        ).requiring(this);
-    }
-
-    /** End the volley: stop the feeder and close the blocker (the launcher keeps spinning). */
-    public Command cmdCeaseFireSequence() {
-        return instant(() -> tripleThreat.cmdCeaseFire()).requiring(this);
     }
 }

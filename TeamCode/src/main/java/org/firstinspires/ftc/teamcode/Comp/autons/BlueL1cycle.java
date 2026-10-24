@@ -18,7 +18,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import org.firstinspires.ftc.teamcode.Comp.Hardware.Robot;
 
 @Disabled
-@Autonomous(name = "BlueL1cycle", group = "PP")
+@Autonomous(name = "BlueL1cycle", group = "Comp")
 public class BlueL1cycle extends OpMode {
 
     Robot robot = new Robot();
