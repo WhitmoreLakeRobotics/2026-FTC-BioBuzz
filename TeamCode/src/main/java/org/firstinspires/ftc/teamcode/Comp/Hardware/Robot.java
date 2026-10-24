@@ -28,7 +28,7 @@ public class Robot extends BaseHardware {
     @Override
     public void init() {
 //checking to make sure running the right code for this robot markerDevice is a device that is unique in each robot
-        CommonLogic.WhichRobotCheck(this.hardwareMap,"TransS","Competition");
+        CommonLogic.WhichRobotCheck(this.hardwareMap,"TransLM2","Competition");
         // drivetrain
         driveTrain.hardwareMap = this.hardwareMap;
         driveTrain.telemetry = this.telemetry;
