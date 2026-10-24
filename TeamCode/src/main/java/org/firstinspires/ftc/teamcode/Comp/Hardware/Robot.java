@@ -17,7 +17,8 @@ public class Robot extends BaseHardware {
     public DriveTrain driveTrain = new DriveTrain();
     public Intake intake = new Intake();
     public Launcher launcher = new Launcher();
-    public TransitionR transitionR = new TransitionR();
+    // CHANGED: the Comp bot has no TransitionR servo.
+    //public TransitionR transitionR = new TransitionR();
     public PollenBlocker pollenBlocker = new PollenBlocker();
     public Feeder feeder = new Feeder();
 
@@ -28,7 +29,9 @@ public class Robot extends BaseHardware {
     @Override
     public void init() {
 //checking to make sure running the right code for this robot markerDevice is a device that is unique in each robot
-        CommonLogic.WhichRobotCheck(this.hardwareMap,"TransS","Competition");
+        // CHANGED: "TransS" is the Scrimmage servo and doesn't exist on the Comp bot.
+        // TODO: put a device name that only the Comp bot has here.
+        //CommonLogic.WhichRobotCheck(this.hardwareMap,"TransS","Competition");
         // drivetrain
         driveTrain.hardwareMap = this.hardwareMap;
         driveTrain.telemetry = this.telemetry;
@@ -45,14 +48,14 @@ public class Robot extends BaseHardware {
         launcher.init();
 
         //Transition Roller
-        transitionR.hardwareMap = this.hardwareMap;
-        transitionR.telemetry = this.telemetry;
-        transitionR.init();
+        //transitionR.hardwareMap = this.hardwareMap;
+        //transitionR.telemetry = this.telemetry;
+        //transitionR.init();
 
         //launcher blocker
-  //      pollenBlocker.hardwareMap = this.hardwareMap;
-  //      pollenBlocker.telemetry = this.telemetry;
-    //    pollenBlocker.init();
+        pollenBlocker.hardwareMap = this.hardwareMap;
+        pollenBlocker.telemetry = this.telemetry;
+        pollenBlocker.init();
 
         //Feeder
         feeder.hardwareMap = this.hardwareMap;
@@ -60,56 +63,49 @@ public class Robot extends BaseHardware {
         feeder.init();
     }
 
-    /**
-     * Called repeatedly after INIT is pressed, until PLAY.
-     */
     @Override
     public void init_loop() {
         driveTrain.init_loop();
         intake.init_loop();
         launcher.init_loop();
-        transitionR.init_loop();
-      //  pollenBlocker.init_loop();
+        //transitionR.init_loop();
+        pollenBlocker.init_loop();
         feeder.init_loop();
     }
 
-    /**
-     * Called once when the PLAY button is pressed.
-     */
     @Override
     public void start() {
         driveTrain.start();
         intake.start();
         launcher.start();
-        transitionR.start();
- //       pollenBlocker.start();
+        //transitionR.start();
+        pollenBlocker.start();
         feeder.start();
     }
 
-    /**
-     * Called repeatedly while the OpMode is running.
-     */
     @Override
     public void loop() {
         driveTrain.loop();
         intake.loop();
         launcher.loop();
-        transitionR.loop();
-   //     pollenBlocker.loop();
+        //transitionR.loop();
+        pollenBlocker.loop();
         feeder.loop();
     }
 
     /**
      * Called once when STOP is pressed.
      * CHANGED: added "public" (was just "void stop()").
+     * CHANGED: mechanisms stop first and driveTrain last (it saves the pose), so a failure in
+     * driveTrain.stop() can't leave the launcher or feeder running.
      */
     @Override
     public void stop() {
-        driveTrain.stop();
-        intake.stop();
         launcher.stop();
-        transitionR.stop();
-   //     pollenBlocker.stop();
         feeder.stop();
+        intake.stop();
+        //transitionR.stop();
+        pollenBlocker.stop();
+        driveTrain.stop();
     }
 }
