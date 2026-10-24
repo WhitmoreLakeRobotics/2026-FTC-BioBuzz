@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode.Hardware;
 
 
+import org.firstinspires.ftc.teamcode.Common.CommonLogic;
+
 /**
  * Holds all of Team 8492's hardware and passes each OpMode step
  * (init, init_loop, start, loop, stop) down to every part.
@@ -25,7 +27,8 @@ public class Robot extends BaseHardware {
      */
     @Override
     public void init() {
-
+//checking to make sure running the right code for this robot markerDevice is a device that is unique in each robot
+        CommonLogic.WhichRobotCheck(this.hardwareMap,"TransS","Scrimmage");
         // drivetrain
         driveTrain.hardwareMap = this.hardwareMap;
         driveTrain.telemetry = this.telemetry;

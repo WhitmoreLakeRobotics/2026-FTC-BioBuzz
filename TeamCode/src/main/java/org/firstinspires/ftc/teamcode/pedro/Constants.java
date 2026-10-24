@@ -42,17 +42,7 @@ public class Constants {
     // exactly in the center of the robot. If that's not true, re-run the
     // Pinpoint AutoTuner. Wrong offsets make field-centric drive feel wrong.
     // ---------------------------------------------------------------
-  /*  public static PinpointConfig localizerConfig = new PinpointConfig(c -> {
-        c.name.set("pinpoint");
-        c.podType.set(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD);
-        c.xPodOffset.set(0.09681786139180343);
-        c.yPodOffset.set(0.9472080290786863);
-        c.xPodDirection.set(GoBildaPinpointDriver.EncoderDirection.FORWARD);
-        c.yPodDirection.set(GoBildaPinpointDriver.EncoderDirection.FORWARD);
-        c.globalDistanceUnit.set(DistanceUnit.INCH);
-        c.offsetUnits.set(DistanceUnit.INCH);
-    });
-*/
+
     public static PinpointConfig localizerConfig = new PinpointConfig(c -> {
         c.name.set("pinpoint");
         c.podType.set(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD);
@@ -63,6 +53,15 @@ public class Constants {
         c.globalDistanceUnit.set(DistanceUnit.INCH);
         c.offsetUnits.set(DistanceUnit.INCH);
     });
+    // ---------------------------------------------------------------
+    // ADDED: FORESIGHT is Pedro's path-following "brain". The Follower
+    // cannot be built without it, even if you only drive manually.
+    //
+    // !!! TEMPORARY VALUES !!! These numbers are the example values from
+    // the Pedro Pathing docs, NOT your robot. They are only here so the
+    // code runs for TeleOp testing. Run the Foresight AutoTuner and paste
+    // your own values here before you use Pedro for autonomous paths.
+    // ---------------------------------------------------------------
 
     public static ForesightConfig foresightConfig = new ForesightConfig(
             c -> {
@@ -89,38 +88,7 @@ public class Constants {
                 c.naturalStrafeDeceleration.set(59.99618987040094);
             }
     );
-    // ---------------------------------------------------------------
-    // ADDED: FORESIGHT is Pedro's path-following "brain". The Follower
-    // cannot be built without it, even if you only drive manually.
-    //
-    // !!! TEMPORARY VALUES !!! These numbers are the example values from
-    // the Pedro Pathing docs, NOT your robot. They are only here so the
-    // code runs for TeleOp testing. Run the Foresight AutoTuner and paste
-    // your own values here before you use Pedro for autonomous paths.
-    // ---------------------------------------------------------------
- /*   public static ForesightConfig foresightConfig = new ForesightConfig(c -> {
-        Controller primaryTranslationalForward = Controller.proportional(0.3);
-        Controller secondaryTranslationalForward = Controller.proportional(0.1);
-        Controller primaryTranslationalLateral = Controller.proportional(0.3);
-        Controller secondaryTranslationalLateral = Controller.proportional(0.1);
 
-        c.forwardTranslational.set(Controller.piecewise(secondaryTranslationalForward).put(2.5, primaryTranslationalForward));
-        c.strafeTranslational.set(Controller.piecewise(secondaryTranslationalLateral).put(2.5, primaryTranslationalLateral));
-
-        c.coast.set(Controller.proportionalFeedforward(0.010978350889324107));
-        c.brake.set(Controller.proportionalFeedforward(0.008731598255925491));
-
-        c.headingFeedback.set(Controller.proportional(5.258721785960744));
-        c.headingBrakeCoefficients.set(Vector2D.cartesian(0.05642143125655298, 0.0063829525363003695));
-
-        c.linearBrakeCoefficients.set(Matrix.diag(0.10605894992901523, 0.08719146175596092));
-        c.quadraticBrakeCoefficients.set(Matrix.diag(0.0014663966976606565, 0.0013837064502458813));
-
-        c.maxAchievableForwardVelocity.set(72.72923108818539);
-        c.maxAchievableStrafeVelocity.set(52.34323936525474);
-        c.naturalForwardDeceleration.set(85.01144677379789);
-        c.naturalStrafeDeceleration.set(104.49787535782846);
-    });*/
 
     // ---------------------------------------------------------------
     // CHANGED: this used to "return null", which crashed the robot.

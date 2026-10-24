@@ -2,6 +2,9 @@ package org.firstinspires.ftc.teamcode.Common;
 
 //import com.pedropathing.geometry.Pose;
 
+import com.qualcomm.robotcore.hardware.HardwareDevice;
+import com.qualcomm.robotcore.hardware.HardwareMap;
+
 public class CommonLogic extends Object {
 
     //*********************************************************************************************
@@ -168,6 +171,11 @@ public class CommonLogic extends Object {
         return (delta / P) + F_hold;
 
     }
-
+    public static void WhichRobotCheck(HardwareMap hw, String markerDevice, String robotName) {
+        if (hw.tryGet(HardwareDevice.class, markerDevice) == null) {
+            throw new RuntimeException("WRONG ROBOT: this OpMode is for the " + robotName
+                    + " (no device named '" + markerDevice + "' in this configuration)");
+        }
+    }
 
 }
