@@ -44,16 +44,14 @@ public class Constants {
     // ---------------------------------------------------------------
 
     public static PinpointConfig localizerConfig = new PinpointConfig(c -> {
-       /* c.name.set("pinpoint");
+        c.name.set("pinpoint");
         c.podType.set(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD);
-        c.xPodOffset.set(0.1630282026576245);
-        c.yPodOffset.set(1.352237190787248);
+        c.xPodOffset.set(-1.3966823187400037);
+        c.yPodOffset.set(0.11193760736720769);
         c.xPodDirection.set(GoBildaPinpointDriver.EncoderDirection.FORWARD);
         c.yPodDirection.set(GoBildaPinpointDriver.EncoderDirection.FORWARD);
         c.globalDistanceUnit.set(DistanceUnit.INCH);
         c.offsetUnits.set(DistanceUnit.INCH);
-
-        */
     });
     // ---------------------------------------------------------------
     // ADDED: FORESIGHT is Pedro's path-following "brain". The Follower
@@ -65,36 +63,31 @@ public class Constants {
     // your own values here before you use Pedro for autonomous paths.
     // ---------------------------------------------------------------
 
-    /*public static ForesightConfig foresightConfig = new ForesightConfig(
+    public static ForesightConfig foresightConfig = new ForesightConfig(
             c -> {
-                Controller primaryTranslationalForward = Controller.proportional(0.2923861835744072);
-                Controller secondaryTranslationalForward = Controller.proportional(0.10802888212802975);
-                Controller primaryTranslationalLateral = Controller.proportional(0.4251986125628129);
-                Controller secondaryTranslationalLateral = Controller.proportional(0.15709952582578363);
+                Controller primaryTranslationalForward = Controller.proportional(0.3756106647117264);
+                Controller secondaryTranslationalForward = Controller.proportional(0.1387781041091769);
+                Controller primaryTranslationalLateral = Controller.proportional(0.7082725041248348);
+                Controller secondaryTranslationalLateral = Controller.proportional(0.2616877648842624);
 
                 c.forwardTranslational.set(Controller.piecewise(secondaryTranslationalForward).put(2.5, primaryTranslationalForward));
                 c.strafeTranslational.set(Controller.piecewise(secondaryTranslationalLateral).put(2.5, primaryTranslationalLateral));
 
-                c.coast.set(Controller.proportionalFeedforward(0.017085781672349126));
-                c.brake.set(Controller.proportionalFeedforward(0.014522914421496756));
+                c.coast.set(Controller.proportionalFeedforward(0.014056781295862273));
+                c.brake.set(Controller.proportionalFeedforward(0.011948264101482932));
 
-                c.headingFeedback.set(Controller.proportional(4.034894483494385));
-                c.headingBrakeCoefficients.set(Vector2D.cartesian(0.03985431209838468, 0.010157355922336402));
+                c.headingFeedback.set(Controller.proportional(6.8145338806730456));
+                c.headingBrakeCoefficients.set(Vector2D.cartesian(-0.012989764307967082, 0.022951060334438885));
 
-                c.linearBrakeCoefficients.set(Matrix.diag(0.05228174036486682, 0.07076329848876768));
-                c.quadraticBrakeCoefficients.set(Matrix.diag(0.0026383482784554163, 0.002016981811521824));
+                c.linearBrakeCoefficients.set(Matrix.diag(0.110871617833743, 0.07003593470018442));
+                c.quadraticBrakeCoefficients.set(Matrix.diag(9.806866373336875E-4, 0.0015279170050780109));
 
-                c.maxAchievableForwardVelocity.set(60.21423789282585);
-                c.maxAchievableStrafeVelocity.set(47.58803077759725);
-                c.naturalForwardDeceleration.set(31.39264520693605);
-                c.naturalStrafeDeceleration.set(59.99618987040094);
+                c.maxAchievableForwardVelocity.set(71.56738972977463);
+                c.maxAchievableStrafeVelocity.set(54.3746260863919);
+                c.naturalForwardDeceleration.set(33.63473758632306);
+                c.naturalStrafeDeceleration.set(72.24037100782935);
             }
-
-
     );
-
-     */
-
 
 
 
@@ -102,13 +95,13 @@ public class Constants {
     // CHANGED: this used to "return null", which crashed the robot.
     // Now it actually builds the Follower out of the three parts above.
     // ---------------------------------------------------------------
-   /* public static Follower create(HardwareMap h) {
+    public static Follower create(HardwareMap h) {
         return new Follower(
                 new PinpointLocalizer(h, localizerConfig),
                 new Mecanum(h, drivetrainConfig),
-               // new Foresight(foresightConfig)
+                new Foresight(foresightConfig)
         );
     }
 
-    */
+
 }
