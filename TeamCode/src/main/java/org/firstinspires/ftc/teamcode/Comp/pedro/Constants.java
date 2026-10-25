@@ -30,8 +30,8 @@ public class Constants {
         c.backRightName.set("RDM2");
         c.frontLeftDirection.set(DcMotorSimple.Direction.REVERSE);
         c.frontRightDirection.set(DcMotorSimple.Direction.FORWARD);
-        c.backLeftDirection.set(DcMotorSimple.Direction.REVERSE);
-        c.backRightDirection.set(DcMotorSimple.Direction.FORWARD);
+        c.backLeftDirection.set(DcMotorSimple.Direction.FORWARD);
+        c.backRightDirection.set(DcMotorSimple.Direction.REVERSE);
     });
 
     // ---------------------------------------------------------------
@@ -44,7 +44,7 @@ public class Constants {
     // ---------------------------------------------------------------
 
     public static PinpointConfig localizerConfig = new PinpointConfig(c -> {
-        c.name.set("pinpoint");
+       /* c.name.set("pinpoint");
         c.podType.set(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD);
         c.xPodOffset.set(0.1630282026576245);
         c.yPodOffset.set(1.352237190787248);
@@ -52,6 +52,8 @@ public class Constants {
         c.yPodDirection.set(GoBildaPinpointDriver.EncoderDirection.FORWARD);
         c.globalDistanceUnit.set(DistanceUnit.INCH);
         c.offsetUnits.set(DistanceUnit.INCH);
+
+        */
     });
     // ---------------------------------------------------------------
     // ADDED: FORESIGHT is Pedro's path-following "brain". The Follower
@@ -63,7 +65,7 @@ public class Constants {
     // your own values here before you use Pedro for autonomous paths.
     // ---------------------------------------------------------------
 
-    public static ForesightConfig foresightConfig = new ForesightConfig(
+    /*public static ForesightConfig foresightConfig = new ForesightConfig(
             c -> {
                 Controller primaryTranslationalForward = Controller.proportional(0.2923861835744072);
                 Controller secondaryTranslationalForward = Controller.proportional(0.10802888212802975);
@@ -87,18 +89,26 @@ public class Constants {
                 c.naturalForwardDeceleration.set(31.39264520693605);
                 c.naturalStrafeDeceleration.set(59.99618987040094);
             }
+
+
     );
+
+     */
+
+
 
 
     // ---------------------------------------------------------------
     // CHANGED: this used to "return null", which crashed the robot.
     // Now it actually builds the Follower out of the three parts above.
     // ---------------------------------------------------------------
-    public static Follower create(HardwareMap h) {
+   /* public static Follower create(HardwareMap h) {
         return new Follower(
                 new PinpointLocalizer(h, localizerConfig),
                 new Mecanum(h, drivetrainConfig),
-                new Foresight(foresightConfig)
+               // new Foresight(foresightConfig)
         );
     }
+
+    */
 }

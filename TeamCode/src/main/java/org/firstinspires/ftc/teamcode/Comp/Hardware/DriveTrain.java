@@ -52,7 +52,7 @@ public class DriveTrain extends BaseHardware {
     public void init() {
         // Build the Follower. This connects to the motors and the Pinpoint.
         // hardwareMap must already be set by Robot BEFORE this runs.
-        follower = Constants.create(hardwareMap);
+        //follower = Constants.create(hardwareMap);
 //these are needed to draw the path on the field in Panels.
         field.setOffsets(PanelsField.INSTANCE.getPresets().getPEDRO_PATHING());   // Pedro coordinates
         field.setBackground(PanelsField.INSTANCE.getImages().getBIOBUZZ().getDARK()); // or getLIGHT()
