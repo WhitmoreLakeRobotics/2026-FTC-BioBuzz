@@ -14,16 +14,16 @@ import com.pedropathing.math.Pose;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
-import org.firstinspires.ftc.teamcode.SCRIM.Hardware.Robot;
+import org.firstinspires.ftc.teamcode.SCRIM.Hardware.S_Robot;
 
 import com.pedropathing.paths.Path;
 
 //starts lower facing hive then Tries to launch then drives by garden to park on the lower
 //side of the red lower loading zone
 @Autonomous(name = "Scrim_RedL1cycle_Park", group = "")
-public class RedL1cycle_Park extends OpMode {
+public class S_RedL1cycle_Park extends OpMode {
 
-    Robot robot = new Robot();
+    S_Robot S_Robot = new S_Robot();
     private TelemetryManager telemetryM;
     public static final PoseFactory pf = PoseFactory.degrees();
 
@@ -46,9 +46,9 @@ public class RedL1cycle_Park extends OpMode {
 
     protected Command Onecycle() {
         return sequential(
-                robot.driveTrain.cmdAtFollow(Pickup()),
-                robot.driveTrain.cmdAtFollow(Launchp2()),
-                robot.driveTrain.cmdAtFollow(DrivetoPark())
+                S_Robot.S_DriveTrain.cmdAtFollow(Pickup()),
+                S_Robot.S_DriveTrain.cmdAtFollow(Launchp2()),
+                S_Robot.S_DriveTrain.cmdAtFollow(DrivetoPark())
         );
 
     }
@@ -59,24 +59,24 @@ public class RedL1cycle_Park extends OpMode {
     public void init() {
 
         telemetryM = PanelsTelemetry.INSTANCE.getTelemetry();
-        robot.hardwareMap = hardwareMap;
-        robot.telemetry = telemetry;
-        robot.init();
+        S_Robot.hardwareMap = hardwareMap;
+        S_Robot.telemetry = telemetry;
+        S_Robot.init();
         Scheduler.reset();
-        robot.driveTrain.cmdOpmodestartPose(Startpose);
+        S_Robot.S_DriveTrain.cmdOpmodestartPose(Startpose);
 
     }
 
 
     @Override
     public void init_loop() {
-        robot.init_loop();
+        S_Robot.init_loop();
 
     }
 
     @Override
     public void start() {
-        robot.start();
+        S_Robot.start();
         auto = Onecycle();
         schedule(auto);
 
@@ -85,9 +85,9 @@ public class RedL1cycle_Park extends OpMode {
 
     @Override
     public void loop() {
-        robot.loop();
+        S_Robot.loop();
         Scheduler.execute();
-        telemetryM.addData("pose", robot.driveTrain.getPose());
+        telemetryM.addData("pose", S_Robot.S_DriveTrain.getPose());
         telemetryM.addData("auto running", auto.isScheduled());
         telemetryM.update();   // sends to Panels only
 
@@ -100,7 +100,7 @@ public class RedL1cycle_Park extends OpMode {
 
     @Override
     public void stop() {
-        robot.stop();
+        S_Robot.stop();
 
     }
 

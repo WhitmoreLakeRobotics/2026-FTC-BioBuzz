@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
-public class TransitionR extends BaseHardware {
+public class S_TransitionR extends S_BaseHardware {
 
     // private DcMotor TRM;
     public CRServo TransS;

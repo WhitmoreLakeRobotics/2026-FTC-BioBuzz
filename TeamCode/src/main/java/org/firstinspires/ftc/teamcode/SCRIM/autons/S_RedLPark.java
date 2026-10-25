@@ -11,7 +11,7 @@ import com.pedropathing.math.Pose;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
-import org.firstinspires.ftc.teamcode.SCRIM.Hardware.Robot;
+import org.firstinspires.ftc.teamcode.SCRIM.Hardware.S_Robot;
 
 import static com.pedropathing.api.Paths.*;
 
@@ -19,10 +19,10 @@ import static com.pedropathing.api.Paths.*;
 import com.pedropathing.paths.Path;
 
 @Autonomous(name = "Scrim_IvyTest1R", group = "PP")
-public class RedLPark extends OpMode {
+public class S_RedLPark extends OpMode {
 
 
-    Robot robot = new Robot();
+    S_Robot S_Robot = new S_Robot();
 
 
     public static final PoseFactory P = PoseFactory.degrees();
@@ -48,8 +48,8 @@ public class RedLPark extends OpMode {
 
     private Command autoRoutine() {
         return sequential(
-                robot.driveTrain.cmdAtFollow(basicpath()),
-                robot.driveTrain.cmdAtFollow(Park())
+                S_Robot.S_DriveTrain.cmdAtFollow(basicpath()),
+                S_Robot.S_DriveTrain.cmdAtFollow(Park())
 
         );
     }
@@ -57,10 +57,10 @@ public class RedLPark extends OpMode {
 
     @Override
     public void init() {
-        robot.hardwareMap = hardwareMap;
-        robot.init();
+        S_Robot.hardwareMap = hardwareMap;
+        S_Robot.init();
         Scheduler.reset();
-        robot.driveTrain.cmdOpmodestartPose(startpose);
+        S_Robot.S_DriveTrain.cmdOpmodestartPose(startpose);
 
 
     }
@@ -68,14 +68,14 @@ public class RedLPark extends OpMode {
 
     @Override
     public void init_loop() {
-        robot.init_loop();
+        S_Robot.init_loop();
 
     }
 
 
     @Override
     public void start() {
-        robot.start();
+        S_Robot.start();
         schedule(autoRoutine());
 
 
@@ -83,7 +83,7 @@ public class RedLPark extends OpMode {
 
     @Override
     public void loop() {
-        robot.loop();
+        S_Robot.loop();
 
         Scheduler.execute();
 
@@ -95,7 +95,7 @@ public class RedLPark extends OpMode {
 
     @Override
     public void stop() {
-        robot.stop();
+        S_Robot.stop();
 
 
     }

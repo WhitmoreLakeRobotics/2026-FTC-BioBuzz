@@ -12,14 +12,14 @@ import org.firstinspires.ftc.teamcode.Common.CommonLogic;
  * again here created a second, confusing copy. Telop's
  * "robot.hardwareMap = hardwareMap;" still works exactly the same.
  */
-public class Robot extends BaseHardware {
+public class S_Robot extends S_BaseHardware {
 
-    public DriveTrain driveTrain = new DriveTrain();
-    public Intake intake = new Intake();
-    public Launcher launcher = new Launcher();
-    public TransitionR transitionR = new TransitionR();
-    public Pollenblockerdisabled pollenBlocker = new Pollenblockerdisabled();
-    public Feeder feeder = new Feeder();
+    public S_DriveTrain S_DriveTrain = new S_DriveTrain();
+    public S_Intake S_Intake = new S_Intake();
+    public S_Launcher S_Launcher = new S_Launcher();
+    public S_TransitionR S_TransitionR = new S_TransitionR();
+    public S_Pollenblockerdisabled pollenBlocker = new S_Pollenblockerdisabled();
+    public S_Feeder feeder = new S_Feeder();
 
 
     /**
@@ -30,24 +30,24 @@ public class Robot extends BaseHardware {
 //checking to make sure running the right code for this robot markerDevice is a device that is unique in each robot
         CommonLogic.WhichRobotCheck(this.hardwareMap,"TransS","Scrimmage");
         // drivetrain
-        driveTrain.hardwareMap = this.hardwareMap;
-        driveTrain.telemetry = this.telemetry;
-        driveTrain.init();
+        S_DriveTrain.hardwareMap = this.hardwareMap;
+        S_DriveTrain.telemetry = this.telemetry;
+        S_DriveTrain.init();
 
         // Intake
-        intake.hardwareMap = this.hardwareMap;
-        intake.telemetry = this.telemetry;
-        intake.init();
+        S_Intake.hardwareMap = this.hardwareMap;
+        S_Intake.telemetry = this.telemetry;
+        S_Intake.init();
 
         //Launcher
-        launcher.hardwareMap = this.hardwareMap;
-        launcher.telemetry = this.telemetry;
-        launcher.init();
+        S_Launcher.hardwareMap = this.hardwareMap;
+        S_Launcher.telemetry = this.telemetry;
+        S_Launcher.init();
 
         //Transition Roller
-        transitionR.hardwareMap = this.hardwareMap;
-        transitionR.telemetry = this.telemetry;
-        transitionR.init();
+        S_TransitionR.hardwareMap = this.hardwareMap;
+        S_TransitionR.telemetry = this.telemetry;
+        S_TransitionR.init();
 
         //launcher blocker
   //      pollenBlocker.hardwareMap = this.hardwareMap;
@@ -65,10 +65,10 @@ public class Robot extends BaseHardware {
      */
     @Override
     public void init_loop() {
-        driveTrain.init_loop();
-        intake.init_loop();
-        launcher.init_loop();
-        transitionR.init_loop();
+        S_DriveTrain.init_loop();
+        S_Intake.init_loop();
+        S_Launcher.init_loop();
+        S_TransitionR.init_loop();
       //  pollenBlocker.init_loop();
         feeder.init_loop();
     }
@@ -78,10 +78,10 @@ public class Robot extends BaseHardware {
      */
     @Override
     public void start() {
-        driveTrain.start();
-        intake.start();
-        launcher.start();
-        transitionR.start();
+        S_DriveTrain.start();
+        S_Intake.start();
+        S_Launcher.start();
+        S_TransitionR.start();
  //       pollenBlocker.start();
         feeder.start();
     }
@@ -91,10 +91,10 @@ public class Robot extends BaseHardware {
      */
     @Override
     public void loop() {
-        driveTrain.loop();
-        intake.loop();
-        launcher.loop();
-        transitionR.loop();
+        S_DriveTrain.loop();
+        S_Intake.loop();
+        S_Launcher.loop();
+        S_TransitionR.loop();
    //     pollenBlocker.loop();
         feeder.loop();
     }
@@ -105,10 +105,10 @@ public class Robot extends BaseHardware {
      */
     @Override
     public void stop() {
-        driveTrain.stop();
-        intake.stop();
-        launcher.stop();
-        transitionR.stop();
+        S_DriveTrain.stop();
+        S_Intake.stop();
+        S_Launcher.stop();
+        S_TransitionR.stop();
    //     pollenBlocker.stop();
         feeder.stop();
     }
