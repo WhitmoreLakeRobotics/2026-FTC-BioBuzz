@@ -14,16 +14,16 @@ import com.pedropathing.math.Pose;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
-import org.firstinspires.ftc.teamcode.SCRIM.Hardware.Robot;
+import org.firstinspires.ftc.teamcode.SCRIM.Hardware.S_Robot;
 
 import com.pedropathing.paths.Path;
 
 // Starts next to on the right side of the upper red flower goes a short distance up and go to
 // flower then parks on the upper red loading zone
 @Autonomous(name = "Scrim_RedU_Flwr_Inpark", group = "PP")
-public class RedU_Flwr_InPark extends OpMode {
+public class S_RedU_Flwr_InPark extends OpMode {
 
-    Robot robot = new Robot();
+    S_Robot S_Robot = new S_Robot();
     private TelemetryManager telemetryM;
 
     public static final PoseFactory pf = PoseFactory.degrees();
@@ -52,10 +52,10 @@ public class RedU_Flwr_InPark extends OpMode {
 
     protected Command UBcycle1() {
         return sequential(
-                robot.driveTrain.cmdAtFollow(Score1()),
-                robot.driveTrain.cmdAtFollow(FlowerP()),
-                robot.driveTrain.cmdAtFollow(Score2()),
-                robot.driveTrain.cmdAtFollow(Park())
+                S_Robot.S_DriveTrain.cmdAtFollow(Score1()),
+                S_Robot.S_DriveTrain.cmdAtFollow(FlowerP()),
+                S_Robot.S_DriveTrain.cmdAtFollow(Score2()),
+                S_Robot.S_DriveTrain.cmdAtFollow(Park())
         );
     }
 
@@ -64,23 +64,23 @@ public class RedU_Flwr_InPark extends OpMode {
     @Override
     public void init() {
         telemetryM = PanelsTelemetry.INSTANCE.getTelemetry();
-        robot.hardwareMap = hardwareMap;
-        robot.telemetry = telemetry;
-        robot.init();
+        S_Robot.hardwareMap = hardwareMap;
+        S_Robot.telemetry = telemetry;
+        S_Robot.init();
         Scheduler.reset();
-        robot.driveTrain.cmdOpmodestartPose(startPose);
+        S_Robot.S_DriveTrain.cmdOpmodestartPose(startPose);
 
     }
 
     @Override
     public void init_loop() {
-        robot.init_loop();
+        S_Robot.init_loop();
 
     }
 
     @Override
     public void start() {
-        robot.start();
+        S_Robot.start();
         auto = UBcycle1();
         schedule(auto);
 
@@ -88,9 +88,9 @@ public class RedU_Flwr_InPark extends OpMode {
 
     @Override
     public void loop() {
-        robot.loop();
+        S_Robot.loop();
         Scheduler.execute();
-        telemetryM.addData("pose", robot.driveTrain.getPose());
+        telemetryM.addData("pose", S_Robot.S_DriveTrain.getPose());
         telemetryM.addData("auto running", auto.isScheduled());
         telemetryM.update();   // sends to Panels only
 
@@ -102,7 +102,7 @@ public class RedU_Flwr_InPark extends OpMode {
 
     @Override
     public void stop() {
-        robot.stop();
+        S_Robot.stop();
 
     }
 

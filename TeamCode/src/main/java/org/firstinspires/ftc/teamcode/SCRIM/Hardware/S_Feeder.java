@@ -8,11 +8,11 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Common.CommonLogic;
 
-public class Feeder extends BaseHardware {
+public class S_Feeder extends S_BaseHardware {
 
     private DcMotorEx TransLM2;
 
-    private Feeder.FeederState feederState = Feeder.FeederState.OFF;
+    private S_Feeder.FeederState feederState = S_Feeder.FeederState.OFF;
 
     public final double minPower = -1.0;
     public final double maxPower = 1.0;
@@ -57,7 +57,7 @@ public class Feeder extends BaseHardware {
 
         TransLM2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
-        feederState = Feeder.FeederState.OFF;
+        feederState = S_Feeder.FeederState.OFF;
         pendingTransferRPM = 0;
 
     }
@@ -84,7 +84,7 @@ public class Feeder extends BaseHardware {
     @Override
     public void stop() {
 
-        feederState = Feeder.FeederState.OFF;
+        feederState = S_Feeder.FeederState.OFF;
         pendingTransferRPM = 0;
         TransLM2.setPower(0);
 
@@ -132,8 +132,8 @@ public void runPID() {
         targetRPM2 = 0;
         pendingTransferRPM = 0;
 
-        if (feederState != Feeder.FeederState.OFF) {
-            feederState = Feeder.FeederState.SPINNING_DOWN;
+        if (feederState != S_Feeder.FeederState.OFF) {
+            feederState = S_Feeder.FeederState.SPINNING_DOWN;
         }
     }
 
@@ -143,7 +143,7 @@ public void runPID() {
             case OFF:
                 targetRPM2 = rpm;
                 transferAtSpeedTimer.reset();
-                feederState = Feeder.FeederState.SPINNING_UP;
+                feederState = S_Feeder.FeederState.SPINNING_UP;
                 break;
 
             case SPINNING_UP:
@@ -154,7 +154,7 @@ public void runPID() {
                 } else {
                     targetRPM2 = 0;
                     pendingTransferRPM = rpm;
-                    feederState = Feeder.FeederState.SPINNING_DOWN;
+                    feederState = S_Feeder.FeederState.SPINNING_DOWN;
                 }
                 break;
 
@@ -174,8 +174,8 @@ public void runPID() {
                     transferAtSpeedTimer.reset();
                 } else if (transferAtSpeedTimer.seconds() >= AT_SPEED_HOLD_SEC) {
                     feederState = (targetRPM2 >= 0)
-                            ? Feeder.FeederState.AT_SPEED_FORWARD
-                            : Feeder.FeederState.AT_SPEED_BACKWARD;
+                            ? S_Feeder.FeederState.AT_SPEED_FORWARD
+                            : S_Feeder.FeederState.AT_SPEED_BACKWARD;
                 }
                 break;
 
@@ -183,7 +183,7 @@ public void runPID() {
             case AT_SPEED_BACKWARD:
                 if (!inRange) {
                     transferAtSpeedTimer.reset();
-                    feederState = Feeder.FeederState.SPINNING_UP;
+                    feederState = S_Feeder.FeederState.SPINNING_UP;
                 }
                 break;
 
@@ -194,9 +194,9 @@ public void runPID() {
                         targetRPM2 = pendingTransferRPM;
                         pendingTransferRPM = 0;
                         transferAtSpeedTimer.reset();
-                        feederState = Feeder.FeederState.SPINNING_UP;
+                        feederState = S_Feeder.FeederState.SPINNING_UP;
                     } else {
-                        feederState = Feeder.FeederState.OFF;
+                        feederState = S_Feeder.FeederState.OFF;
                     }
                 }
                 break;
@@ -211,8 +211,8 @@ public void runPID() {
     }
 
     public boolean isTransferAtSpeed() {
-        return feederState == Feeder.FeederState.AT_SPEED_FORWARD
-                || feederState == Feeder.FeederState.AT_SPEED_BACKWARD;
+        return feederState == S_Feeder.FeederState.AT_SPEED_FORWARD
+                || feederState == S_Feeder.FeederState.AT_SPEED_BACKWARD;
     }
 
     public double getTransferVelocity() {
@@ -245,7 +245,7 @@ public void runPID() {
         return ff + p + i + d;
     }
 
-    public Feeder.FeederState getFeederState() {
+    public S_Feeder.FeederState getFeederState() {
         return feederState;
     }
 

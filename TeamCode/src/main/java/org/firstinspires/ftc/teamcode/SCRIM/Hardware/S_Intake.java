@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 @Configurable
-public class Intake extends BaseHardware {
+public class S_Intake extends S_BaseHardware {
 
     private DcMotorEx NTKM;
 

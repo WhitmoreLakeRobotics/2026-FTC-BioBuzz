@@ -14,12 +14,12 @@ import com.pedropathing.paths.Path;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
-import org.firstinspires.ftc.teamcode.SCRIM.Hardware.Robot;
+import org.firstinspires.ftc.teamcode.SCRIM.Hardware.S_Robot;
 
 //starts in corner and goes to upper side park area red
 @Autonomous(name = "Scrim_RedUPark", group = "")
-public class RedUPark extends OpMode {
-    Robot robot = new Robot();
+public class S_RedUPark extends OpMode {
+    S_Robot S_Robot = new S_Robot();
     private TelemetryManager telemetryM;
 
 
@@ -36,7 +36,7 @@ public class RedUPark extends OpMode {
 
     protected Command startToScore() {
         return sequential(
-                robot.driveTrain.cmdAtFollow(cool_path())
+                S_Robot.S_DriveTrain.cmdAtFollow(cool_path())
 
         );
 
@@ -48,25 +48,25 @@ private Command auto;
     @Override
     public void init() {
         telemetryM = PanelsTelemetry.INSTANCE.getTelemetry();
-        robot.hardwareMap = hardwareMap;
-        robot.telemetry = telemetry;
-        robot.init();
+        S_Robot.hardwareMap = hardwareMap;
+        S_Robot.telemetry = telemetry;
+        S_Robot.init();
         Scheduler.reset();
-        robot.driveTrain.cmdOpmodestartPose(path1Start);
+        S_Robot.S_DriveTrain.cmdOpmodestartPose(path1Start);
 
     }
 
 
     @Override
     public void init_loop() {
-        robot.init_loop();
+        S_Robot.init_loop();
 
     }
 
 
     @Override
     public void start() {
-        robot.start();
+        S_Robot.start();
         auto = startToScore();
         schedule(auto);
 
@@ -75,9 +75,9 @@ private Command auto;
 
     @Override
     public void loop() {
-        robot.loop();
+        S_Robot.loop();
         Scheduler.execute();
-        telemetryM.addData("pose", robot.driveTrain.getPose());
+        telemetryM.addData("pose", S_Robot.S_DriveTrain.getPose());
         telemetryM.addData("auto running", auto.isScheduled());
         telemetryM.update();   // sends to Panels only
 
@@ -89,7 +89,7 @@ private Command auto;
 
     @Override
     public void stop() {
-        robot.stop();
+        S_Robot.stop();
 
 
     }

@@ -8,7 +8,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 /**
  * Base class for FTC Team 8492 defined hardware
  */
-public abstract class BaseHardware {
+public abstract class S_BaseHardware {
 
 
     /**
@@ -27,7 +27,7 @@ public abstract class BaseHardware {
     /**
      * BaseHardware constructor
      */
-    public BaseHardware() {
+    public S_BaseHardware() {
 
     }
 
