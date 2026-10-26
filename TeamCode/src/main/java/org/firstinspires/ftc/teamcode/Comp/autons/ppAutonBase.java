@@ -3,9 +3,10 @@ package org.firstinspires.ftc.teamcode.Comp.autons;
 import com.pedropathing.api.PoseFactory;
 import com.pedropathing.follower.Follower;
 import com.pedropathing.math.Pose;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
-
+@Disabled
 public class ppAutonBase extends OpMode {
 
 

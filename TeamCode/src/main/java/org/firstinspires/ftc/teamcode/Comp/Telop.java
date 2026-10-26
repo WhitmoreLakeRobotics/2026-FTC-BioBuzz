@@ -92,6 +92,8 @@ public class Telop extends OpMode {
     @Override
     public void loop() {
 
+
+
         if (bAutoTurn) {
             // auto-turn code goes here later (use FASTSPEED / MORNINGSPEED,
             // DTrain_FASTSPEED and DTrain_SLOWSPEED don't exist).
