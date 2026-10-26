@@ -16,8 +16,8 @@ public class PollenBlocker extends BaseHardware {
 
     public Mode CurrentMode = Mode.BLOCKING;
 
-    public static double BLOCK_POSITION = 0.50;
-    public static double OPEN_POSITION = 0.45;
+    public static double BLOCK_POSITION = 0.48;
+    public static double OPEN_POSITION = 0.40;
 
     private ElapsedTime runtime = new ElapsedTime();
     private ElapsedTime timerun = new ElapsedTime();
