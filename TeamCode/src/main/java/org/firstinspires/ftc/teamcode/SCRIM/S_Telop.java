@@ -7,16 +7,16 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.Common.CommonLogic;
 import org.firstinspires.ftc.teamcode.Common.Settings;
 import org.firstinspires.ftc.teamcode.OpModeStorage;
-import org.firstinspires.ftc.teamcode.SCRIM.Hardware.Robot;
+import org.firstinspires.ftc.teamcode.SCRIM.Hardware.S_Robot;
 
 import com.pedropathing.math.Pose;
 
 
 @TeleOp(name = "Scrim_TeleOp")
-public class Telop extends OpMode {
+public class S_Telop extends OpMode {
 
     private static final String TAGTeleop = "8492-Teleop";
-    Robot robot = new Robot();
+    S_Robot S_Robot = new S_Robot();
     private boolean debug = true;  // if debug, show telemetry with values you're interested in
 
     private boolean gp1_prev_a = false;
@@ -54,22 +54,22 @@ public class Telop extends OpMode {
 
     @Override
     public void init() {
-        robot.hardwareMap = hardwareMap;
-        robot.telemetry = telemetry;
-        robot.init();
-        robot.driveTrain.cmdOpmodestartPose(OpModeStorage.autonomousEndPose);
+        S_Robot.hardwareMap = hardwareMap;
+        S_Robot.telemetry = telemetry;
+        S_Robot.init();
+        S_Robot.S_DriveTrain.cmdOpmodestartPose(OpModeStorage.autonomousEndPose);
     }
 
     @Override
     public void init_loop() {
-        robot.init_loop();
+        S_Robot.init_loop();
         PanelsTelemetry.INSTANCE.getTelemetry().update();
         telemetry.update();
     }
 
     @Override
     public void start() {
-        robot.start();
+        S_Robot.start();
 
     }
 
@@ -80,11 +80,11 @@ public class Telop extends OpMode {
             // auto-turn code goes here later (use FASTSPEED / MORNINGSPEED,
             // DTrain_FASTSPEED and DTrain_SLOWSPEED don't exist).
         } else {
-            robot.driveTrain.cmdTeleOp(
+            S_Robot.S_DriveTrain.cmdTeleOp(
                     CommonLogic.joyStickMath(gamepad1.left_stick_y * -1),
                     CommonLogic.joyStickMath(gamepad1.left_stick_x * -1),
                     CommonLogic.joyStickMath(gamepad1.right_stick_x),
-                    robot.driveTrain.NORMALSPEED);
+                    S_Robot.S_DriveTrain.NORMALSPEED);
         }
 
         if (Math.abs(gamepad1.right_stick_y) > Settings.JOYSTICK_DEADBAND_STICK) {
@@ -94,20 +94,20 @@ public class Telop extends OpMode {
         //gamepad1
 
         if ((gamepad1.b)) {
-            robot.intake.cmdIntakeForward();
-            robot.transitionR.cmdSpinng();
+            S_Robot.S_Intake.cmdIntakeForward();
+            S_Robot.S_TransitionR.cmdSpinng();
 
         }
 
         if ((gamepad1.a)) {
-            robot.intake.cmdIntakeStop();
-            robot.transitionR.cmdStop();
+            S_Robot.S_Intake.cmdIntakeStop();
+            S_Robot.S_TransitionR.cmdStop();
 
         }
 
         if ((gamepad1.y)) {
-            robot.intake.cmdIntakeReverse();
-            robot.transitionR.cmdTumble();
+            S_Robot.S_Intake.cmdIntakeReverse();
+            S_Robot.S_TransitionR.cmdTumble();
         }
 
         // TODO (reminder): Launcher now has state tracking. Still to do here:
@@ -117,14 +117,14 @@ public class Telop extends OpMode {
         //  3. Optionally show getLauncherState() / getTransferState() in debug telemetry.
         if (gamepad1.right_trigger_pressed) {
             //robot.launcher.cmdLauncherForward();
-          if(robot.launcher.isLauncherAtSpeed()){
-              robot.transitionR.cmdSpinng();
-              robot.pollenBlocker.cmdOpen();
+          if(S_Robot.S_Launcher.isLauncherAtSpeed()){
+              S_Robot.S_TransitionR.cmdSpinng();
+              S_Robot.pollenBlocker.cmdOpen();
 
 
           }else{
-              robot.transitionR.cmdStop();
-              robot.pollenBlocker.cmdBlock();
+              S_Robot.S_TransitionR.cmdStop();
+              S_Robot.pollenBlocker.cmdBlock();
 
           }
 
@@ -137,7 +137,7 @@ public class Telop extends OpMode {
         }
 
         if (gamepad1.dpad_left) {
-            robot.driveTrain.cmdTeleOp(0,0,0, robot.driveTrain.NORMALSPEED);
+            S_Robot.S_DriveTrain.cmdTeleOp(0,0,0, S_Robot.S_DriveTrain.NORMALSPEED);
         }
 
         if (gamepad1.dpad_right) {
@@ -145,12 +145,12 @@ public class Telop extends OpMode {
         }
 
         if ((gamepad1.dpad_up)){
-            robot.driveTrain.cmdTeleOp(0, 0, 0, robot.driveTrain.FASTSPEED);
+            S_Robot.S_DriveTrain.cmdTeleOp(0, 0, 0, S_Robot.S_DriveTrain.FASTSPEED);
 
         }
 
         if ((gamepad1.dpad_down)){
-            robot.driveTrain.cmdTeleOp(0, 0, 0, robot.driveTrain.MORNINGSPEED);
+            S_Robot.S_DriveTrain.cmdTeleOp(0, 0, 0, S_Robot.S_DriveTrain.MORNINGSPEED);
 
         }
 
@@ -161,7 +161,7 @@ public class Telop extends OpMode {
 
 
         if ((gamepad1.back)){
-            robot.driveTrain.resetDriveHeading();
+            S_Robot.S_DriveTrain.resetDriveHeading();
 
         }
 
@@ -169,35 +169,35 @@ public class Telop extends OpMode {
         //gamepad2
 
         if ((gamepad2.b)) {
-            robot.intake.cmdIntakeForward();
-            robot.transitionR.cmdSpinng();
+            S_Robot.S_Intake.cmdIntakeForward();
+            S_Robot.S_TransitionR.cmdSpinng();
 
         }
 
         if ((gamepad2.a)) {
-            robot.intake.cmdIntakeStop();
-            robot.transitionR.cmdStop();
+            S_Robot.S_Intake.cmdIntakeStop();
+            S_Robot.S_TransitionR.cmdStop();
 
         }
 
         if ((gamepad2.y)) {
-            robot.intake.cmdIntakeReverse();
-            robot.transitionR.cmdTumble();
+            S_Robot.S_Intake.cmdIntakeReverse();
+            S_Robot.S_TransitionR.cmdTumble();
 
         }
 
         if ((gamepad2.x)) {
-            robot.launcher.cmdLauncherStop();
-            robot.feeder.cmdTransferStop();
+            S_Robot.S_Launcher.cmdLauncherStop();
+            S_Robot.feeder.cmdTransferStop();
         }
 
 
         if (gamepad2.right_bumper) {
-            robot.launcher.cmdLauncherForward();
+            S_Robot.S_Launcher.cmdLauncherForward();
         }
 
         if (gamepad2.left_bumper) {
-            robot.feeder.cmdTransferForward();
+            S_Robot.feeder.cmdTransferForward();
         }
 
         if (gamepad2.dpad_left) {
@@ -212,10 +212,10 @@ public class Telop extends OpMode {
 
         }
         if ((gamepad2.left_trigger < 0.6)){
-            robot.pollenBlocker.cmdOpen();
+            S_Robot.pollenBlocker.cmdOpen();
 
         }else{
-            robot.pollenBlocker.cmdBlock();
+            S_Robot.pollenBlocker.cmdBlock();
         }
 
 
@@ -225,17 +225,17 @@ public class Telop extends OpMode {
 
         // robot.loop() -> driveTrain.loop() -> follower.update(), which sends
         // the power to the motors. Must come AFTER cmdTeleOp.
-        robot.loop();
+        S_Robot.loop();
         PanelsTelemetry.INSTANCE.getTelemetry().update();
         // ADDED: debug telemetry so you can see what's happening.
         if (debug) {
-            Pose p = robot.driveTrain.getPose();
+            Pose p = S_Robot.S_DriveTrain.getPose();
             telemetry.addData("Stick fwd/strafe/turn", "%.2f / %.2f / %.2f",
                     -gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x);
             telemetry.addData("Robot X (in)", "%.1f", p.x());
             telemetry.addData("Robot Y (in)", "%.1f", p.y());
             telemetry.addData("Heading (deg)", "%.1f", Math.toDegrees(p.heading()));
-            telemetry.addData("Battery Voltage","%.2f", robot.launcher.getBatteryVoltage());
+            telemetry.addData("Battery Voltage","%.2f", S_Robot.S_Launcher.getBatteryVoltage());
 
 
         }
@@ -245,7 +245,7 @@ public class Telop extends OpMode {
     @Override
     public void stop() {
         // ADDED: without this, DriveTrain.stop() never saves the pose.
-        robot.stop();
+        S_Robot.stop();
     }
 
 }

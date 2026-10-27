@@ -14,15 +14,15 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
-import org.firstinspires.ftc.teamcode.SCRIM.Hardware.Robot;
+import org.firstinspires.ftc.teamcode.SCRIM.Hardware.S_Robot;
 
 import com.pedropathing.paths.Path;
 
 @Disabled
 @Autonomous(name = "SCRIM_BlueL1cycle", group = "PP")
-public class BlueL1cycle extends OpMode {
+public class S_BlueL1cycle extends OpMode {
 
-    Robot robot = new Robot();
+    S_Robot S_Robot = new S_Robot();
     private TelemetryManager telemetryM;
 
     public stage currentstage = stage._00_unknown;
@@ -54,11 +54,11 @@ public class BlueL1cycle extends OpMode {
 
     protected Command TwocycleBlue(){
         return sequential(
-                robot.driveTrain.cmdAtFollow(Launch1()),
-                robot.driveTrain.cmdAtFollow(Flower()),
-                robot.driveTrain.cmdAtFollow(Backup()),
-                robot.driveTrain.cmdAtFollow(Launch2()),
-                robot.driveTrain.cmdAtFollow(Park())
+                S_Robot.S_DriveTrain.cmdAtFollow(Launch1()),
+                S_Robot.S_DriveTrain.cmdAtFollow(Flower()),
+                S_Robot.S_DriveTrain.cmdAtFollow(Backup()),
+                S_Robot.S_DriveTrain.cmdAtFollow(Launch2()),
+                S_Robot.S_DriveTrain.cmdAtFollow(Park())
 
                 );
     }
@@ -68,11 +68,11 @@ public class BlueL1cycle extends OpMode {
     @Override
     public void init(){
         telemetryM = PanelsTelemetry.INSTANCE.getTelemetry();
-        robot.hardwareMap = hardwareMap;
-        robot.telemetry = telemetry;
-        robot.init();
+        S_Robot.hardwareMap = hardwareMap;
+        S_Robot.telemetry = telemetry;
+        S_Robot.init();
         Scheduler.reset();
-        robot.driveTrain.cmdOpmodestartPose(startpose);
+        S_Robot.S_DriveTrain.cmdOpmodestartPose(startpose);
 
 
 
@@ -80,13 +80,13 @@ public class BlueL1cycle extends OpMode {
 
     @Override
     public void init_loop(){
-        robot.init_loop();
+        S_Robot.init_loop();
 
     }
 
     @Override
     public void start(){
-        robot.start();
+        S_Robot.start();
         auto = TwocycleBlue();
         schedule(auto);
 
@@ -94,9 +94,9 @@ public class BlueL1cycle extends OpMode {
 
     @Override
     public void loop(){
-        robot.loop();
+        S_Robot.loop();
         Scheduler.execute();
-        telemetryM.addData("pose", robot.driveTrain.getPose());
+        telemetryM.addData("pose", S_Robot.S_DriveTrain.getPose());
         telemetryM.addData("auto running", auto.isScheduled());
         telemetryM.update();   // sends to Panels only
 
@@ -109,7 +109,7 @@ public class BlueL1cycle extends OpMode {
 
     @Override
     public void stop(){
-        robot.stop();
+        S_Robot.stop();
 
 
     }

@@ -1,25 +1,28 @@
-package org.firstinspires.ftc.teamcode.Comp.autons;
+package org.firstinspires.ftc.teamcode.SCRIM.autons;
 
-import static com.pedropathing.api.Paths.curve;
-import static com.pedropathing.api.Paths.line;
+import com.pedropathing.ivy.Command;
+
 import static com.pedropathing.ivy.Scheduler.schedule;
 import static com.pedropathing.ivy.groups.Groups.sequential;
 
 import com.pedropathing.api.PoseFactory;
-import com.pedropathing.ivy.Command;
 import com.pedropathing.ivy.Scheduler;
 import com.pedropathing.math.Pose;
-import com.pedropathing.paths.Path;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
-import org.firstinspires.ftc.teamcode.Comp.Hardware.Robot;
+import org.firstinspires.ftc.teamcode.SCRIM.Hardware.S_Robot;
 
-@Autonomous(name = "IvyTest1R", group = "PP")
-public class IvyTest1Red extends OpMode {
+import static com.pedropathing.api.Paths.*;
 
 
-    Robot robot = new Robot();
+import com.pedropathing.paths.Path;
+
+@Autonomous(name = "Scrim_IvyTest1R", group = "PP")
+public class S_RedLPark extends OpMode {
+
+
+    S_Robot S_Robot = new S_Robot();
 
 
     public static final PoseFactory P = PoseFactory.degrees();
@@ -45,8 +48,8 @@ public class IvyTest1Red extends OpMode {
 
     private Command autoRoutine() {
         return sequential(
-                robot.driveTrain.cmdAtFollow(basicpath()),
-                robot.driveTrain.cmdAtFollow(Park())
+                S_Robot.S_DriveTrain.cmdAtFollow(basicpath()),
+                S_Robot.S_DriveTrain.cmdAtFollow(Park())
 
         );
     }
@@ -54,10 +57,10 @@ public class IvyTest1Red extends OpMode {
 
     @Override
     public void init() {
-        robot.hardwareMap = hardwareMap;
-        robot.init();
+        S_Robot.hardwareMap = hardwareMap;
+        S_Robot.init();
         Scheduler.reset();
-        robot.driveTrain.cmdOpmodestartPose(startpose);
+        S_Robot.S_DriveTrain.cmdOpmodestartPose(startpose);
 
 
     }
@@ -65,14 +68,14 @@ public class IvyTest1Red extends OpMode {
 
     @Override
     public void init_loop() {
-        robot.init_loop();
+        S_Robot.init_loop();
 
     }
 
 
     @Override
     public void start() {
-        robot.start();
+        S_Robot.start();
         schedule(autoRoutine());
 
 
@@ -80,7 +83,7 @@ public class IvyTest1Red extends OpMode {
 
     @Override
     public void loop() {
-        robot.loop();
+        S_Robot.loop();
 
         Scheduler.execute();
 
@@ -92,7 +95,7 @@ public class IvyTest1Red extends OpMode {
 
     @Override
     public void stop() {
-        robot.stop();
+        S_Robot.stop();
 
 
     }

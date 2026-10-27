@@ -16,8 +16,8 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.teamcode.Comp.Hardware.Robot;
 
-//starts in corner and goes to upper side park area red tested
-@Autonomous(name = "RedUPark", group = "")
+//starts in corner and goes to upper side park area red
+@Autonomous(name = "RedUPark", group = "Comp")
 public class RedUPark extends OpMode {
     Robot robot = new Robot();
     private TelemetryManager telemetryM;

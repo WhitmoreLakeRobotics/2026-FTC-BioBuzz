@@ -1,24 +1,21 @@
-package org.firstinspires.ftc.teamcode.SCRIM.autons;
+package org.firstinspires.ftc.teamcode.Comp.autons;
 
-import com.pedropathing.ivy.Command;
-
+import static com.pedropathing.api.Paths.curve;
+import static com.pedropathing.api.Paths.line;
 import static com.pedropathing.ivy.Scheduler.schedule;
 import static com.pedropathing.ivy.groups.Groups.sequential;
 
 import com.pedropathing.api.PoseFactory;
+import com.pedropathing.ivy.Command;
 import com.pedropathing.ivy.Scheduler;
 import com.pedropathing.math.Pose;
+import com.pedropathing.paths.Path;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
-import org.firstinspires.ftc.teamcode.SCRIM.Hardware.Robot;
+import org.firstinspires.ftc.teamcode.Comp.Hardware.Robot;
 
-import static com.pedropathing.api.Paths.*;
-
-
-import com.pedropathing.paths.Path;
-
-@Autonomous(name = "Scrim_IvyTest1R", group = "PP")
+@Autonomous(name = "RedLPark", group = "Comp")
 public class RedLPark extends OpMode {
 
 

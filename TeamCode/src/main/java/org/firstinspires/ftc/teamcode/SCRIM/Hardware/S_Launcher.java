@@ -10,7 +10,7 @@ import com.bylazar.configurables.annotations.Configurable;
 import org.firstinspires.ftc.teamcode.Common.CommonLogic;
 
 @Configurable
-public class Launcher extends BaseHardware {
+public class S_Launcher extends S_BaseHardware {
 
 // private DcMotor LM1;
 // private DcMotor TransLM2;
