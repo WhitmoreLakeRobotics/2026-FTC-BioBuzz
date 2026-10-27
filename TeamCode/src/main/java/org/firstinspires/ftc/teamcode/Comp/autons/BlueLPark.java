@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Comp.autons;
 
+import static com.pedropathing.api.Paths.curve;
 import static com.pedropathing.api.Paths.line;
 import static com.pedropathing.ivy.Scheduler.schedule;
 import static com.pedropathing.ivy.groups.Groups.sequential;
@@ -33,20 +34,16 @@ public class BlueLPark extends OpMode{
 
 
 
-    public static final PoseFactory pf = PoseFactory.degrees();
-    private final Pose start = poseFactory.of(93, 133, 90);
-    private final Pose path1Start = poseFactory.of(93, 133, -90);
-    private final Pose end = poseFactory.of(128, 45, 180);
 
-    public Path parkp() {
-        return line(path1Start, end).linear(path1Start, end);
-    }
-    protected Command startToScore() {
 
-        return sequential(
-                robot.driveTrain.cmdAtFollow(parkp())
-        );
+    private final PoseFactory Pf = PoseFactory.degrees();
 
+    private final Pose start = poseFactory.of(78, 7, 90);
+    private final Pose path1 = poseFactory.of(127, 23, 180);
+    private final Pose path1Control1 = poseFactory.of(99, 37, 0);
+
+    public Path path1() {
+        return curve(start, path1Control1, path1).linear(start, path1);
     }
 
     private Command auto;
@@ -75,7 +72,6 @@ public class BlueLPark extends OpMode{
     @Override
     public void start() {
         robot.start();
-        auto = startToScore();
         schedule(auto);
 
 
