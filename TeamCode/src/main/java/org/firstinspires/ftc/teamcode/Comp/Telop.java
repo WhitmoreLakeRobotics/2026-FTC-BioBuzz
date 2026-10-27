@@ -13,7 +13,7 @@ import org.firstinspires.ftc.teamcode.OpModeStorage;
 
 // CHANGED: renamed so it doesn't clash with the Scrimmage TeleOp (two OpModes can't share a name).
 @TeleOp(name = "Comp TeleOp")
-public class Telop extends OpMode {
+public class  Telop extends OpMode {
 
     private static final String TAGTeleop = "8492-Teleop";
     Robot robot = new Robot();
@@ -91,6 +91,8 @@ public class Telop extends OpMode {
 
     @Override
     public void loop() {
+
+
 
         if (bAutoTurn) {
             // auto-turn code goes here later (use FASTSPEED / MORNINGSPEED,

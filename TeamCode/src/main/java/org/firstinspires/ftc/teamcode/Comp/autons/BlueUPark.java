@@ -17,7 +17,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import org.firstinspires.ftc.teamcode.Comp.Hardware.Robot;
 
 //starts in corner and goes to upper side park area blue
-@Autonomous(name = "BlueUPark", group = "Ivy")
+@Autonomous(name = "BlueUPark", group = "Comp")
 public class BlueUPark extends OpMode  {
     Robot robot = new Robot();
     private TelemetryManager telemetryM;
