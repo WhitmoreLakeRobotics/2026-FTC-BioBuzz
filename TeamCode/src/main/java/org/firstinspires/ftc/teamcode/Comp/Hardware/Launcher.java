@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.Comp.Hardware;
 
 import com.bylazar.configurables.annotations.Configurable;
+import com.bylazar.telemetry.TelemetryManager;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
@@ -16,6 +17,7 @@ public class Launcher extends BaseHardware {
 
     private DcMotorEx launcherMotor;
     private VoltageSensor battery;
+    private TelemetryManager telemetryM;
 
     // ---------------- TUNABLE CONSTANTS ----------------
     public static double LAUNCHER_RPM = 1700;
@@ -78,6 +80,9 @@ public class Launcher extends BaseHardware {
         telemetry.addData("Launcher State", launcherState);
         telemetry.addData("Launcher RPM", rpm);
         telemetry.addData("Launcher Target", targetRPM);
+        telemetryM.addData("Launcher State", launcherState);
+        telemetryM.addData("Launcher RPM", rpm);
+        telemetryM.addData("Launcher Target", targetRPM);
     }
 
     @Override
