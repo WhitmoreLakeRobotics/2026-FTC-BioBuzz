@@ -1,9 +1,12 @@
 package org.firstinspires.ftc.teamcode.Comp.Hardware;
 
+import com.bylazar.configurables.PanelsConfigurables;
 import com.bylazar.configurables.annotations.Configurable;
+import com.bylazar.telemetry.PanelsTelemetry;
 import com.bylazar.telemetry.TelemetryManager;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -53,12 +56,15 @@ public class Launcher extends BaseHardware {
     public void init() {
         launcherMotor = hardwareMap.get(DcMotorEx.class, MOTOR_NAME);
         battery = hardwareMap.voltageSensor.iterator().next();
+        launcherMotor.setDirection(DcMotorEx.Direction.REVERSE);
 
         launcherMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);   // our own PID; velocity still reads
         launcherMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
         resetState();
         pidTimer.reset();
+        telemetryM = PanelsTelemetry.INSTANCE.getTelemetry();
+        PanelsConfigurables.INSTANCE.refreshClass(this);
     }
 
     @Override

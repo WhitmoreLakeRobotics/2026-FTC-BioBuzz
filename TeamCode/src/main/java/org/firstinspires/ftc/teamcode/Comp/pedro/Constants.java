@@ -63,7 +63,7 @@ public class Constants {
     // your own values here before you use Pedro for autonomous paths.
     // ---------------------------------------------------------------
 
-    public static ForesightConfig foresightConfig = new ForesightConfig(
+ /*   public static ForesightConfig foresightConfig = new ForesightConfig(
             c -> {
                 Controller primaryTranslationalForward = Controller.proportional(0.3756106647117264);
                 Controller secondaryTranslationalForward = Controller.proportional(0.1387781041091769);
@@ -88,7 +88,33 @@ public class Constants {
                 c.naturalStrafeDeceleration.set(72.24037100782935);
             }
     );
+    */
 
+    public static ForesightConfig foresightConfig = new ForesightConfig(
+            c -> {
+                Controller primaryTranslationalForward = Controller.proportional(0.3374385517814459);
+                Controller secondaryTranslationalForward = Controller.proportional(0.12467452835908092);
+                Controller primaryTranslationalLateral = Controller.proportional(0.5699164268548091);
+                Controller secondaryTranslationalLateral = Controller.proportional(0.2105688912754601);
+
+                c.forwardTranslational.set(Controller.piecewise(secondaryTranslationalForward).put(2.5, primaryTranslationalForward));
+                c.strafeTranslational.set(Controller.piecewise(secondaryTranslationalLateral).put(2.5, primaryTranslationalLateral));
+
+                c.coast.set(Controller.proportionalFeedforward(0.012606127565399947));
+                c.brake.set(Controller.proportionalFeedforward(0.010715208430589955));
+
+                c.headingFeedback.set(Controller.proportional(5.282652091721666));
+                c.headingBrakeCoefficients.set(Vector2D.cartesian(0.05347576215092371, 0.00493727631479744));
+
+                c.linearBrakeCoefficients.set(Matrix.diag(0.12768897959441647, 0.07174593721976737));
+                c.quadraticBrakeCoefficients.set(Matrix.diag(9.296951057798224E-4, 0.001527911887592254));
+
+                c.maxAchievableForwardVelocity.set(75.44132187672247);
+                c.maxAchievableStrafeVelocity.set(61.896782322501565);
+                c.naturalForwardDeceleration.set(32.06631195443067);
+                c.naturalStrafeDeceleration.set(67.9526812394844);
+            }
+    );
 
 
     // ---------------------------------------------------------------
