@@ -6,11 +6,13 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+
 @Configurable
 public class Intake extends BaseHardware {
 
     private DcMotorEx NTKM;
-
+private Telemetry telemetry=null;
     public static double INTAKE_POWER = -1.0;
     public static double REVERSE_POWER = 0.45;
     public static double AT_SPEED_INTAKE_RPM = 3000;
