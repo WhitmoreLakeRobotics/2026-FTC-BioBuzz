@@ -1,8 +1,12 @@
 package org.firstinspires.ftc.teamcode.Comp.Hardware;
 
+import com.bylazar.configurables.PanelsConfigurables;
 import com.bylazar.configurables.annotations.Configurable;
+import com.bylazar.telemetry.PanelsTelemetry;
+import com.bylazar.telemetry.TelemetryManager;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -16,19 +20,20 @@ public class Launcher extends BaseHardware {
 
     private DcMotorEx launcherMotor;
     private VoltageSensor battery;
+    private TelemetryManager telemetryM;
 
     // ---------------- TUNABLE CONSTANTS ----------------
     public static double LAUNCHER_RPM = 1700;
     public static int RPM_OFFSET = 0;                  // added to LAUNCHER_RPM (trim from Panels)
-    public static double RPM_TOLERANCE = 50;           // "at speed" window around the target RPM
+    public static double RPM_TOLERANCE = 100;           // "at speed" window around the target RPM
     public static double AT_SPEED_HOLD_SEC = 0.15;     // RPM must stay in tolerance this long
     public static double OFF_RPM_THRESHOLD = 50;       // |RPM| below this counts as stopped
 
     // ---------------- PID CONSTANTS ----------------
-    public static double LAUNCHER_KP = 0.0002;
-    public static double LAUNCHER_KI = 0.0;            // still unused
-    public static double LAUNCHER_KD = 0.0;
-    public static double LAUNCHER_KF = 1 / 6000.0;     // feedforward per RPM
+    public static double LAUNCHER_KP = 0.0009;
+    public static double LAUNCHER_KI = 0.00000005;            // still unused
+    public static double LAUNCHER_KD = 0.0000002;
+    public static double LAUNCHER_KF = 0.0004166672;     // feedforward per RPM
 
     private static final double TICKS_PER_REV = 28;    // motor-shaft encoder; change if geared
     private static final double MIN_POWER = -1.0;
@@ -51,12 +56,15 @@ public class Launcher extends BaseHardware {
     public void init() {
         launcherMotor = hardwareMap.get(DcMotorEx.class, MOTOR_NAME);
         battery = hardwareMap.voltageSensor.iterator().next();
+        launcherMotor.setDirection(DcMotorEx.Direction.REVERSE);
 
         launcherMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);   // our own PID; velocity still reads
         launcherMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
         resetState();
         pidTimer.reset();
+        telemetryM = PanelsTelemetry.INSTANCE.getTelemetry();
+        PanelsConfigurables.INSTANCE.refreshClass(this);
     }
 
     @Override
@@ -78,6 +86,9 @@ public class Launcher extends BaseHardware {
         telemetry.addData("Launcher State", launcherState);
         telemetry.addData("Launcher RPM", rpm);
         telemetry.addData("Launcher Target", targetRPM);
+        telemetryM.addData("Launcher State", launcherState);
+        telemetryM.addData("Launcher RPM", rpm);
+        telemetryM.addData("Launcher Target", targetRPM);
     }
 
     @Override

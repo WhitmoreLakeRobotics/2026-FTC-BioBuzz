@@ -13,7 +13,7 @@ import org.firstinspires.ftc.teamcode.OpModeStorage;
 
 // CHANGED: renamed so it doesn't clash with the Scrimmage TeleOp (two OpModes can't share a name).
 @TeleOp(name = "Comp TeleOp")
-public class Telop extends OpMode {
+public class  Telop extends OpMode {
 
     private static final String TAGTeleop = "8492-Teleop";
     Robot robot = new Robot();
@@ -101,7 +101,7 @@ public class Telop extends OpMode {
             robot.driveTrain.cmdTeleOp(
                     CommonLogic.joyStickMath(gamepad1.left_stick_y * -1),
                     CommonLogic.joyStickMath(gamepad1.left_stick_x * -1),
-                    CommonLogic.joyStickMath(gamepad1.right_stick_x),
+                    CommonLogic.joyStickMath(gamepad1.right_stick_x * -1),
                     driveSpeed);   // CHANGED: was robot.driveTrain.NORMALSPEED
         }
 
