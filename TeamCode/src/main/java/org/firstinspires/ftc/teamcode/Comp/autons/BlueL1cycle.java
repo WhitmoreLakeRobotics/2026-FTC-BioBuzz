@@ -15,6 +15,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Comp.Hardware.Robot;
 
 @Disabled
@@ -23,6 +24,7 @@ public class BlueL1cycle extends OpMode {
 
     Robot robot = new Robot();
     private TelemetryManager telemetryM;
+    public Telemetry telemetry = null;
 
     public stage currentstage = stage._00_unknown;
 

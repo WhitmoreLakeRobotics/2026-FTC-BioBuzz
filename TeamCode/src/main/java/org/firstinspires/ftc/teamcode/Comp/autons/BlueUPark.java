@@ -14,13 +14,15 @@ import com.pedropathing.paths.Path;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
+//import org.firstinspires.ftc.robotcore.external.Telemetry; VAM fixed auto
 import org.firstinspires.ftc.teamcode.Comp.Hardware.Robot;
 
 //starts in corner and goes to upper side park area blue
-@Autonomous(name = "BlueUPark", group = "Comp")
-public class BlueUPark extends OpMode  {
+@Autonomous(name = "BlueUParkTest", group = "Comp")
+public class BlueUPark  extends OpMode  {
     Robot robot = new Robot();
     private TelemetryManager telemetryM;
+    //public Telemetry telemetry = null; VAM fixed auto
 
 
 
@@ -51,11 +53,20 @@ public class BlueUPark extends OpMode  {
 
     @Override
     public void init() {
+        Scheduler.reset();
         telemetryM = PanelsTelemetry.INSTANCE.getTelemetry();
         robot.hardwareMap = hardwareMap;
         robot.telemetry = telemetry;
+        if (robot.telemetry ==null){
+            throw new IllegalStateException("BLUEPARK-CHECK-A: robot.telemetry is null before robot.init");//debug MJD
+        }
+
+        if (robot.telemetry ==null){
+            throw new IllegalStateException("BLUEPARK-CHECK-B: robot.telemetry is null before robot.init");//debug MJD
+        }
+
         robot.init();
-        Scheduler.reset();
+
         robot.driveTrain.cmdOpmodestartPose(startpose);
 
     }

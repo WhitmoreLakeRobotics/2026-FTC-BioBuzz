@@ -14,6 +14,7 @@ import com.pedropathing.paths.Path;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Comp.Hardware.Robot;
 
 //starts lower facing hive then Tries to launch then drives by garden to park on the lower
@@ -23,6 +24,7 @@ public class RedL1cycle_Park extends OpMode {
 
     Robot robot = new Robot();
     private TelemetryManager telemetryM;
+    public Telemetry telemetry = null;
     public static final PoseFactory pf = PoseFactory.degrees();
 
     public static Pose Startpose = pf.of(56, 10, 90);

@@ -159,7 +159,8 @@ follower.update();
         if (!field.getShouldUpdateCanvas()) return;
 
         // 1. Planned path (the path segment currently being followed), blue
-        if (follower.following()) {
+       /* if (follower.following()) {
+
             field.setStyle("blue", "blue", 0.5);
             Pose prev = follower.poseAt(0.0);
             for (int i = 1; i <= 20; i++) {
@@ -168,6 +169,25 @@ follower.update();
                 field.line(next.x(), next.y());
                 prev = next;
             }
+
+        }
+
+        */
+        //this is a test VAM
+        if (follower.following()) {
+            try {
+                field.setStyle("blue", "blue", 0.5);
+                Pose prev = follower.poseAt(0.0);
+                for (int i = 1; i <= 20; i++) {
+                    Pose next = follower.poseAt(i / 20.0);
+                    field.moveCursor(prev.x(), prev.y());
+                    field.line(next.x(), next.y());
+                    prev = next;
+                }
+            } catch (NullPointerException ignored){
+
+            }
+
         }
 
         // 2. Where the robot has actually been, red

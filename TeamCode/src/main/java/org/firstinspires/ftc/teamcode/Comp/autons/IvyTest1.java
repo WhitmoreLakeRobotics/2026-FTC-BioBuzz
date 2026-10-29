@@ -14,6 +14,7 @@ import com.pedropathing.paths.Path;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Comp.Hardware.Robot;
 
 @Autonomous(name = "IvyTest1", group = "Ivy")
@@ -22,6 +23,7 @@ public class IvyTest1 extends OpMode {
 
     Robot robot = new Robot();
     private TelemetryManager telemetryM;
+    public Telemetry telemetry = null;
 
 
 

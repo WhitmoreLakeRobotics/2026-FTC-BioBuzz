@@ -55,6 +55,7 @@ public class RedLPark extends OpMode {
     @Override
     public void init() {
         robot.hardwareMap = hardwareMap;
+       // robot.telemetry = telemetry;
         robot.init();
         Scheduler.reset();
         robot.driveTrain.cmdOpmodestartPose(startpose);
@@ -84,8 +85,8 @@ public class RedLPark extends OpMode {
 
         Scheduler.execute();
 
-        telemetry.addData("auto running", autoRoutine().isScheduled());
-        telemetry.update();
+       // telemetry.addData("auto running", autoRoutine().isScheduled());
+      //  telemetry.update();
 
     }
 

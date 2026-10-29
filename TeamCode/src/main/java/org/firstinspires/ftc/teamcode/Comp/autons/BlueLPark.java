@@ -24,12 +24,14 @@ import com.pedropathing.paths.Path;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
+//import org.firstinspires.ftc.robotcore.external.Telemetry; VAM fixed auto
 import org.firstinspires.ftc.teamcode.Comp.Hardware.Robot;
 @Autonomous(name = "BlueLPark",group = "comp")
 public class BlueLPark extends OpMode{
     Robot robot = new Robot();
     private final PoseFactory poseFactory = PoseFactory.degrees();
     private TelemetryManager telemetryM;
+   // public Telemetry telemetry = null; VAM fixed auto
 
 
 
@@ -46,17 +48,23 @@ public class BlueLPark extends OpMode{
         return curve(start, path1Control1, path1).linear(start, path1);
     }
 
+    private Command autoRoutine(){  //fixed auto
+        return sequential(
+                robot.driveTrain.cmdAtFollow(path1())
+        );
+    }
+
     private Command auto;
 
 
 
     @Override
     public void init() {
+        Scheduler.reset(); // VAM fixed auto
         telemetryM = PanelsTelemetry.INSTANCE.getTelemetry();
         robot.hardwareMap = hardwareMap;
         robot.telemetry = telemetry;
         robot.init();
-        Scheduler.reset();
         robot.driveTrain.cmdOpmodestartPose(start);
 
     }
@@ -72,6 +80,7 @@ public class BlueLPark extends OpMode{
     @Override
     public void start() {
         robot.start();
+        auto = autoRoutine(); //VAM fixes auto
         schedule(auto);
 
 

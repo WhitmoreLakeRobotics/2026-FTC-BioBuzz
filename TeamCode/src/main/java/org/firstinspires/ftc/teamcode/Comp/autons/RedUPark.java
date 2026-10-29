@@ -14,6 +14,7 @@ import com.pedropathing.paths.Path;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Comp.Hardware.Robot;
 
 //starts in corner and goes to upper side park area red
@@ -21,6 +22,7 @@ import org.firstinspires.ftc.teamcode.Comp.Hardware.Robot;
 public class RedUPark extends OpMode {
     Robot robot = new Robot();
     private TelemetryManager telemetryM;
+    public Telemetry telemetry = null;
 
 
 

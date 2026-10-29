@@ -23,17 +23,17 @@ public class Launcher extends BaseHardware {
     private TelemetryManager telemetryM;
 
     // ---------------- TUNABLE CONSTANTS ----------------
-    public static double LAUNCHER_RPM = 1700;
+    public static double LAUNCHER_RPM = 2055;//was 1700, 1955
     public static int RPM_OFFSET = 0;                  // added to LAUNCHER_RPM (trim from Panels)
     public static double RPM_TOLERANCE = 100;           // "at speed" window around the target RPM
     public static double AT_SPEED_HOLD_SEC = 0.15;     // RPM must stay in tolerance this long
     public static double OFF_RPM_THRESHOLD = 50;       // |RPM| below this counts as stopped
 
     // ---------------- PID CONSTANTS ----------------
-    public static double LAUNCHER_KP = 0.0009;
+    public static double LAUNCHER_KP = 0.00155; //was 0.00135
     public static double LAUNCHER_KI = 0.00000005;            // still unused
     public static double LAUNCHER_KD = 0.0000002;
-    public static double LAUNCHER_KF = 0.0004166672;     // feedforward per RPM
+    public static double LAUNCHER_KF = 0.0003187541;     // feedforward per RPM was 0.0004166672
 
     private static final double TICKS_PER_REV = 28;    // motor-shaft encoder; change if geared
     private static final double MIN_POWER = -1.0;
